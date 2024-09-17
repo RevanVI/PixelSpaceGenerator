@@ -1,8 +1,8 @@
-Pixel Space Backgrounds Godot 4
+#Pixel Space Backgrounds Godot 4
 
-Create amazing Parralax background for Your Game. Different objects can be seperated from the image to only Get the Image you need.
+###Create amazing Parralax background for Your Game. Different objects can be seperated from the image to only Get the Image you need.
 
-Changes Made to the Orignal:
+##Changes Made to the Orignal:
 
 1.  Ported To Godot v 4.3.stable
 2.  Static Typed all the Variables
