@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://dsbb0okoxwu3o"]
 
 [ext_resource type="PackedScene" uid="uid://c44u5g0iuf311" path="res://BackgroundGenerator/BackgroundGenerator.tscn" id="1"]
-[ext_resource type="Script" path="res://GUI/GUI.gd" id="2"]
+[ext_resource type="Script" uid="uid://b6m2t5ib4knds" path="res://GUI/GUI.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://cytukqpi1a1hq" path="res://GUI/SchemeSelectButton.tscn" id="3"]
 [ext_resource type="Theme" uid="uid://t7qc4m724rcq" path="res://GUI/Theme.tres" id="4"]
 [ext_resource type="Texture2D" uid="uid://dmj13e54cck1s" path="res://GUI/transparent.png" id="8"]
