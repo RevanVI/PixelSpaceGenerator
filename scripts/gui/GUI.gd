@@ -3,7 +3,7 @@ extends Control
 
 @onready var generator : Control = $SubViewport/BackgroundGenerator
 @onready var viewport : SubViewport = $SubViewport
-@onready var global_scheme : GradientTexture2D = preload("res://BackgroundGenerator/Colorscheme.tres")
+@onready var global_scheme : GradientTexture2D = preload("res://sprites/Colorscheme.tres")
 @onready var path : String = OS.get_system_dir(OS.SYSTEM_DIR_PICTURES)
 @onready var label_3: Label = $HBoxContainer/ColorRect/Settings/Label3
 
@@ -54,11 +54,7 @@ func export_image() -> void:
 	save_image(img)
 
 func save_image(img : Image) -> void:
-	if OS.get_name() == "HTML5" and OS.has_feature('JavaScript'):
-		var filesaver : Node = get_tree().root.get_node("/root/HTML5File")
-		filesaver.save_image(img, "Space Background")
-	else:
-		img.save_png(path + "/Space Background " + str(randi()%100) + ".png")
+	img.save_png(path + "/Space Background " + str(randi()%100) + ".png")
 
 func _on_SaveTimer_timeout() -> void:
 	export_image()

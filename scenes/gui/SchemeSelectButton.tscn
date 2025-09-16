@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=3 uid="uid://cytukqpi1a1hq"]
 
-[ext_resource type="Script" path="res://GUI/SchemeSelectButton.gd" id="1"]
-[ext_resource type="FontFile" uid="uid://bmo2s8s6mgunb" path="res://GUI/Kenney Mini.ttf" id="1_6sde6"]
+[ext_resource type="Script" uid="uid://dbirxo4axuqvb" path="res://scripts/gui/SchemeSelectButton.gd" id="1"]
+[ext_resource type="FontFile" uid="uid://bmo2s8s6mgunb" path="res://fonts/Kenney Mini.ttf" id="1_6sde6"]
+
 
 [node name="Button" type="Button"]
 custom_minimum_size = Vector2(440, 24)

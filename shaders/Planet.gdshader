@@ -1,11 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://c2pcy21xoga2l"]
-
-[ext_resource type="Texture2D" uid="uid://dctu01wei5sw0" path="res://BackgroundGenerator/100x100.png" id="1"]
-[ext_resource type="Texture2D" uid="uid://khlkd5x01wx0" path="res://BackgroundGenerator/Colorscheme.tres" id="2"]
-[ext_resource type="Script" uid="uid://cp82byh3s21a5" path="res://BackgroundGenerator/Planet.gd" id="3"]
-
-[sub_resource type="Shader" id="1"]
-code = "shader_type canvas_item;
+shader_type canvas_item;
 render_mode blend_mix, unshaded;
 
 uniform float size = 50.0;
@@ -126,19 +119,4 @@ void fragment() {
 	// apply alpha
 	float a = step(d_to_center, 0.5);
 	COLOR = vec4(col, a);
-}"
-
-[sub_resource type="ShaderMaterial" id="2"]
-resource_local_to_scene = true
-shader = SubResource("1")
-shader_parameter/size = 5.0
-shader_parameter/OCTAVES = 3
-shader_parameter/seed = 3.5
-shader_parameter/pixels = 100.0
-shader_parameter/colorscheme = ExtResource("2")
-shader_parameter/light_origin = Vector2(1, 0.5)
-
-[node name="Planet" type="Sprite2D"]
-material = SubResource("2")
-texture = ExtResource("1")
-script = ExtResource("3")
+}

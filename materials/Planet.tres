@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://c0le8xpg12qyt"]
+
+[ext_resource type="Shader" uid="uid://dfavydhaejgwb" path="res://shaders/Planet.gdshader" id="1_60bt7"]
+[ext_resource type="Texture2D" uid="uid://khlkd5x01wx0" path="res://sprites/Colorscheme.tres" id="2_gjwm1"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_60bt7")
+shader_parameter/size = 5.0
+shader_parameter/OCTAVES = 3
+shader_parameter/seed = 3.5
+shader_parameter/pixels = 100.0
+shader_parameter/colorscheme = ExtResource("2_gjwm1")
+shader_parameter/light_origin = Vector2(1, 0.5)

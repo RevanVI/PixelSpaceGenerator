@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://cdynvll6mcgih"]
+
+[ext_resource type="Material" uid="uid://cgummojc5lxgr" path="res://materials/BigStar.tres" id="1_j8m6l"]
+[ext_resource type="Texture2D" uid="uid://cbgow5ramimgg" path="res://sprites/stars-special.png" id="2_yj4pc"]
+[ext_resource type="Script" uid="uid://cjvmb12jmaqty" path="res://scripts/BigStar.gd" id="3_wvycl"]
+
+[node name="BigStar" type="Sprite2D"]
+material = ExtResource("1_j8m6l")
+texture = ExtResource("2_yj4pc")
+hframes = 6
+script = ExtResource("3_wvycl")

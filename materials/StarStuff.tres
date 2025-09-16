@@ -1,7 +1,8 @@
 [gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://pmaq6r6fbmt4"]
 
-[ext_resource type="Texture2D" uid="uid://khlkd5x01wx0" path="res://BackgroundGenerator/Colorscheme.tres" id="1"]
-[ext_resource type="Shader" path="res://BackgroundGenerator/StarStuff.gdshader" id="2"]
+[ext_resource type="Texture2D" uid="uid://khlkd5x01wx0" path="res://sprites/Colorscheme.tres" id="1"]
+[ext_resource type="Shader" uid="uid://b4k0cut1nduup" path="res://shaders/StarStuff.gdshader" id="2"]
+
 
 [resource]
 shader = ExtResource("2")

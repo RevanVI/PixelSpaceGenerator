@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://bmo2s8s6mgunb"
-path="res://.godot/imported/Kenney Mini.ttf-74ff03ffdefdeeb59f4bd6926d6cea5a.fontdata"
+path="res://.godot/imported/Kenney Mini.ttf-7e07372b7d2e719119d99587e44ddefb.fontdata"
 
 [deps]
 
-source_file="res://GUI/Kenney Mini.ttf"
-dest_files=["res://.godot/imported/Kenney Mini.ttf-74ff03ffdefdeeb59f4bd6926d6cea5a.fontdata"]
+source_file="res://fonts/Kenney Mini.ttf"
+dest_files=["res://.godot/imported/Kenney Mini.ttf-7e07372b7d2e719119d99587e44ddefb.fontdata"]
 
 [params]
 
@@ -21,8 +21,10 @@ msdf_pixel_range=8
 msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
+modulate_color_glyphs=false
 hinting=1
 subpixel_positioning=1
+keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null
 fallbacks=[]

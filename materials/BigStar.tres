@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://cgummojc5lxgr"]
+
+[ext_resource type="Shader" uid="uid://d0ljx6kap7a8l" path="res://shaders/BigStar.gdshader" id="1_qx5g3"]
+[ext_resource type="Texture2D" uid="uid://khlkd5x01wx0" path="res://sprites/Colorscheme.tres" id="2_br0n4"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_qx5g3")
+shader_parameter/colorscheme = ExtResource("2_br0n4")

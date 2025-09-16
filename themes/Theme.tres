@@ -1,9 +1,9 @@
 [gd_resource type="Theme" load_steps=20 format=3 uid="uid://t7qc4m724rcq"]
 
-[ext_resource type="Texture2D" uid="uid://cdav5ggg5hoc2" path="res://GUI/empty.png" id="1"]
-[ext_resource type="FontFile" uid="uid://bmo2s8s6mgunb" path="res://GUI/Kenney Mini.ttf" id="1_jl2h3"]
-[ext_resource type="Texture2D" uid="uid://b8ummlot2dfqn" path="res://GUI/grabber-highlight.png" id="2"]
-[ext_resource type="Texture2D" uid="uid://bweppkh5k6q13" path="res://GUI/grabber.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://cdav5ggg5hoc2" path="res://sprites/gui/empty.png" id="1"]
+[ext_resource type="FontFile" uid="uid://bmo2s8s6mgunb" path="res://fonts/Kenney Mini.ttf" id="1_jl2h3"]
+[ext_resource type="Texture2D" uid="uid://b8ummlot2dfqn" path="res://sprites/gui/grabber-highlight.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://bweppkh5k6q13" path="res://sprites/gui/grabber.png" id="3"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 bg_color = Color(0.305882, 0.286275, 0.372549, 1)
