@@ -48,7 +48,6 @@ offset_right = 0.0
 offset_bottom = 0.0
 
 [node name="Camera1" type="Camera2D" parent="SubViewport"]
-anchor_mode = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 0
