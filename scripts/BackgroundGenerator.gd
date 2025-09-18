@@ -1,7 +1,8 @@
 extends Control
+class_name BackgroundGenerator
 
 @onready var background : ColorRect = $CanvasLayer/Background
-@onready var starstuff : ColorRect = $StarStuff
+@onready var dust : ColorRect = $Dust
 @onready var nebulae : ColorRect = $Nebulae
 @onready var particles : GPUParticles2D = $StarParticles
 @onready var starcontainer : Node2D = $StarContainer
@@ -11,42 +12,31 @@ extends Control
 
 var should_tile : bool = false
 var reduce_background : bool = false
-var mirror_size : Vector2i = Vector2(200,200)
 
 @export var colorscheme: GradientTexture2D
 var planet_objects : Array = []
 var star_objects : Array = []
 
-#func _ready() -> void:
-	#OS.low_processor_usage_mode_sleep_usec = 10000
 
-func set_mirror_size(new : Vector2) -> void:
-	mirror_size = new
+func _ready() -> void:
+	dust.visible = true
+	nebulae.visible = true
+	particles.visible = true
+	starcontainer.visible = true
+	planetcontainer.visible = true
+	background.visible = true
 
-func toggle_tile() -> void:
-	should_tile = !should_tile
-	starstuff.material.set_shader_parameter("should_tile", should_tile)
-	nebulae.material.set_shader_parameter("should_tile", should_tile)
-	
-	_make_new_planets()
-	_make_new_stars()
-
-func toggle_reduce_background() -> void:
-	reduce_background = !reduce_background
-	starstuff.material.set_shader_parameter("reduce_background", reduce_background)
-	nebulae.material.set_shader_parameter("reduce_background", reduce_background)
 
 func generate_new() -> void:
-	starstuff.material.set_shader_parameter("seed", randf_range(1.0, 10.0))
-	starstuff.material.set_shader_parameter("pixels", max(size.x, size.y))
-	
 	var aspect : Vector2 = Vector2(1,1)
 	if size.x > size.y:
 		aspect = Vector2(size.x / size.y, 1.0)
 	else:
 		aspect = Vector2(1.0, size.y / size.x)
 	
-	starstuff.material.set_shader_parameter("uv_correct", aspect)
+	dust.material.set_shader_parameter("seed", randf_range(1.0, 10.0))
+	dust.material.set_shader_parameter("pixels", max(size.x, size.y))
+	dust.material.set_shader_parameter("uv_correct", aspect)
 	nebulae.material.set_shader_parameter("seed", randf_range(1.0, 10.0))
 	nebulae.material.set_shader_parameter("pixels", max(size.x, size.y))
 	nebulae.material.set_shader_parameter("uv_correct", aspect)
@@ -58,35 +48,17 @@ func generate_new() -> void:
 	particles.process_material.set_shader_parameter("emission_box_extents", Vector3(size.x * 0.5, size.y*0.5,1.0))
 	
 	var p_amount : int = max(size.x,size.y)
-	particles.amount = (p_amount)
+	particles.amount = p_amount
 	
 	$PauseParticles.start()
 	_make_new_planets()
 	_make_new_stars()
 
-func _make_new_stars() -> void:
-	for s : Sprite2D in star_objects:
-		s.queue_free()
-	star_objects = []
-	
-	var star_amount : int = int(max(size.x, size.y) / 20)
-	star_amount = max(star_amount, 1)
-	for i : int in randi()%star_amount:
-		_place_big_star()
-	
-func _make_new_planets() -> void:
-	for p : Sprite2D in planet_objects:
-		p.queue_free()
-	planet_objects = []
-
-	var planet_amount : int = randi_range(5,10) if size.x > 1500 else randi_range(2,5)#int(size.x * size.y) / 8000
-	for i : int in randi()%planet_amount:
-		_place_planet()
 
 func _set_new_colors(new_scheme : GradientTexture2D, new_background : Color) -> void:
 	colorscheme = new_scheme
 
-	starstuff.material.set_shader_parameter("colorscheme", colorscheme)
+	dust.material.set_shader_parameter("colorscheme", colorscheme)
 	nebulae.material.set_shader_parameter("colorscheme", colorscheme)
 	nebulae.material.set_shader_parameter("background_color", new_background)
 	
@@ -95,6 +67,17 @@ func _set_new_colors(new_scheme : GradientTexture2D, new_background : Color) -> 
 		p.material.set_shader_parameter("colorscheme", colorscheme)
 	for s : Sprite2D in star_objects:
 		s.material.set_shader_parameter("colorscheme", colorscheme)
+
+
+func _make_new_planets() -> void:
+	for p : Sprite2D in planet_objects:
+		p.queue_free()
+	planet_objects = []
+
+	var planet_amount : int = randi_range(5,10) if size.x > 1500 else randi_range(2,5)
+	for i : int in randi()%planet_amount:
+		_place_planet()
+
 
 func _place_planet() -> void:
 	var min_size : int = min(size.x, size.y)
@@ -113,6 +96,18 @@ func _place_planet() -> void:
 	planetcontainer.add_child(planet)
 	planet_objects.append(planet)
 
+
+func _make_new_stars() -> void:
+	for s : Sprite2D in star_objects:
+		s.queue_free()
+	star_objects = []
+	
+	var star_amount : int = int(max(size.x, size.y) / 20)
+	star_amount = max(star_amount, 1)
+	for i : int in randi()%star_amount:
+		_place_big_star()
+
+
 func _place_big_star() -> void:
 	var pos : Vector2 = Vector2()
 	if (should_tile):
@@ -126,26 +121,48 @@ func _place_big_star() -> void:
 	starcontainer.add_child(star)
 	star_objects.append(star)
 
+
 func _on_PauseParticles_timeout() -> void:
 	particles.speed_scale = 0.0
 	particles.emitting = false
+
 
 func set_background_color(c : Color) -> void:
 	background.color = c
 	nebulae.material.set_shader_parameter("background_color", c)
 
+
+func toggle_tile() -> void:
+	should_tile = !should_tile
+	dust.material.set_shader_parameter("should_tile", should_tile)
+	nebulae.material.set_shader_parameter("should_tile", should_tile)
+	
+	_make_new_planets()
+	_make_new_stars()
+
+
+func toggle_reduce_background() -> void:
+	reduce_background = !reduce_background
+	dust.material.set_shader_parameter("reduce_background", reduce_background)
+	nebulae.material.set_shader_parameter("reduce_background", reduce_background)
+
+
 func toggle_dust() -> void:
-	starstuff.visible = !starstuff.visible
+	dust.visible = !dust.visible
+
 
 func toggle_stars() -> void:
 	starcontainer.visible = !starcontainer.visible
 	particles.visible = !particles.visible
 
+
 func toggle_nebulae() -> void:
-	$Nebulae.visible = !$Nebulae.visible
+	nebulae.visible = !nebulae.visible
+
 
 func toggle_planets() -> void:
 	planetcontainer.visible = !planetcontainer.visible
 
+
 func toggle_transparancy() -> void:
-	$CanvasLayer/Background.visible = !$CanvasLayer/Background.visible
+	background.visible = !background.visible

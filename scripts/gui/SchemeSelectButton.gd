@@ -1,7 +1,7 @@
 extends Button
 
 @export var colorscheme: PackedColorArray
-@onready var colorbutton_scene : PackedScene = preload("res://GUI/ColorPickerButton.tscn")
+@onready var colorbutton_scene : PackedScene = preload("res://scenes/gui/ColorPickerButton.tscn")
 
 func _ready() -> void:
 	for i : int in colorscheme.size():

@@ -2,11 +2,10 @@
 
 [ext_resource type="Script" uid="uid://bxfia35xn3yu" path="res://scripts/BackgroundGenerator.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://khlkd5x01wx0" path="res://sprites/Colorscheme.tres" id="2"]
-[ext_resource type="Material" uid="uid://pmaq6r6fbmt4" path="res://materials/StarStuff.tres" id="3"]
+[ext_resource type="Material" uid="uid://pmaq6r6fbmt4" path="res://materials/Dust.tres" id="3"]
 [ext_resource type="Texture2D" uid="uid://d2hyg10v3laby" path="res://sprites/stars.png" id="4"]
 [ext_resource type="Material" uid="uid://c36q36b0kvj40" path="res://materials/StarParticles.tres" id="5"]
 [ext_resource type="Material" uid="uid://dak4fsfdown72" path="res://materials/Nebulae.tres" id="6"]
-
 
 [sub_resource type="CanvasItemMaterial" id="1"]
 particles_animation = true
@@ -34,7 +33,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0901961, 0.0901961, 0.0666667, 1)
 
-[node name="StarStuff" type="ColorRect" parent="."]
+[node name="Dust" type="ColorRect" parent="."]
 material = ExtResource("3")
 layout_mode = 0
 anchor_right = 1.0
@@ -45,8 +44,8 @@ material = SubResource("1")
 position = Vector2(50, 50)
 emitting = false
 amount = 100
-process_material = ExtResource("5")
 texture = ExtResource("4")
+process_material = ExtResource("5")
 
 [node name="Nebulae" type="ColorRect" parent="."]
 material = ExtResource("6")
