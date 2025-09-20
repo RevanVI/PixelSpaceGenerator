@@ -1,0 +1,66 @@
+[gd_scene load_steps=14 format=3 uid="uid://qdmbs7yst1l7"]
+
+[ext_resource type="Shader" uid="uid://ckf5504l536tf" path="res://shaders/debug/rand.gdshader" id="1_85gqx"]
+[ext_resource type="Shader" uid="uid://bfjv36i42fl5d" path="res://shaders/debug/noise.gdshader" id="2_2ij4d"]
+[ext_resource type="Shader" uid="uid://cuc8tkajjfiaj" path="res://shaders/debug/fbm.gdshader" id="3_lhoji"]
+[ext_resource type="Shader" uid="uid://cj8opwnqo0acv" path="res://shaders/debug/dither_grid.gdshader" id="4_datc5"]
+[ext_resource type="Shader" uid="uid://coir6u35aettj" path="res://shaders/debug/circle_noise.gdshader" id="5_jpukj"]
+[ext_resource type="Shader" uid="uid://bqo8rkwojrdvu" path="res://shaders/debug/spherify.gdshader" id="6_h7ble"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2ij4d"]
+shader = ExtResource("1_85gqx")
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_y8cfr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lhoji"]
+shader = ExtResource("2_2ij4d")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_datc5"]
+shader = ExtResource("3_lhoji")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jpukj"]
+shader = ExtResource("4_datc5")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h7ble"]
+shader = ExtResource("5_jpukj")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ex645"]
+shader = ExtResource("6_h7ble")
+
+[node name="ShaderDebug" type="Node2D"]
+
+[node name="rand" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_2ij4d")
+position = Vector2(88.00001, 71)
+scale = Vector2(100, 98.783)
+texture = SubResource("CanvasTexture_y8cfr")
+
+[node name="noise" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_lhoji")
+position = Vector2(240.99998, 70)
+scale = Vector2(100, 100)
+texture = SubResource("CanvasTexture_y8cfr")
+
+[node name="fbm" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_datc5")
+position = Vector2(395, 69)
+scale = Vector2(100, 100)
+texture = SubResource("CanvasTexture_y8cfr")
+
+[node name="dither_grid" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_jpukj")
+position = Vector2(558, 71)
+scale = Vector2(100, 100)
+texture = SubResource("CanvasTexture_y8cfr")
+
+[node name="circle_noise" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_h7ble")
+position = Vector2(722, 72)
+scale = Vector2(100, 100)
+texture = SubResource("CanvasTexture_y8cfr")
+
+[node name="spherify" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_ex645")
+position = Vector2(87, 203)
+scale = Vector2(100, 100)
+texture = SubResource("CanvasTexture_y8cfr")
