@@ -38,6 +38,17 @@ float fbm(vec2 coord, int octaves) {
 }
 
 
+float circleNoise(vec2 uv) {
+    float uv_y = floor(uv.y);
+    uv.x += uv_y*.31;
+    vec2 f = fract(uv);
+	float h = rand(vec2(floor(uv.x),floor(uv_y)));
+    float m = (length(f-0.25-(h*0.5)));
+    float r = h*0.25;
+    return smoothstep(0.0, r, m*0.75);
+}
+
+
 //simple dither checker
 bool dither_grid(vec2 uv, float grid_pixel_size) {
 	//calculate x coordinate offset for each row to create checker pattern

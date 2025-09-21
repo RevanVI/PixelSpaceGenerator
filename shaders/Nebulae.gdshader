@@ -14,15 +14,7 @@ uniform bool reduce_background = false;
 uniform vec2 uv_correct = vec2(1.0);
 
 
-float circleNoise(vec2 uv) {
-    float uv_y = floor(uv.y);
-    uv.x += uv_y*.31;
-    vec2 f = fract(uv);
-	float h = rand(vec2(floor(uv.x),floor(uv_y)));
-    float m = (length(f-0.25-(h*0.5)));
-    float r = h*0.25;
-    return smoothstep(0.0, r, m*0.75);
-}
+
 
 
 float cloud_alpha(vec2 uv) {
@@ -40,7 +32,7 @@ float cloud_alpha(vec2 uv) {
 void fragment() {
 	// pixelizing
 	vec2 uv = floor(UV * pixels) / pixels * uv_correct;
-	
+
 	// distance from center
 	float d =  distance(uv, vec2(0.5) * uv_correct) * 0.4;
 

@@ -12,24 +12,13 @@ uniform sampler2D colorscheme;
 uniform vec2 uv_correct = vec2(1.0);
 
 
-float circleNoise(vec2 uv) {
-    float uv_y = floor(uv.y);
-    uv.x += uv_y*.31;
-    vec2 f = fract(uv);
-	float h = rand(vec2(floor(uv.x),floor(uv_y)));
-    float m = (length(f-0.25-(h*0.5)));
-    float r = h*0.25;
-    return smoothstep(0.0, r, m*0.75);
-}
-
-
 float cloud_alpha(vec2 uv) {
 	float c_noise = 0.0;
 
 	// more iterations for more turbulence
 	int iters = 2;
 	for (int i = 0; i < iters; i++) {
-		c_noise += circleNoise(uv * 0.5 + (float(i+1)) + vec2(-0.3, 0.0));
+		c_noise += circleNoise(uv * 0.6 + (float(i+1)) + vec2(-0.3, -0.1));
 	}
 	float fbm = fbm(uv+c_noise, OCTAVES);
 
