@@ -18,9 +18,9 @@ float cloud_alpha(vec2 uv) {
 	// more iterations for more turbulence
 	int iters = 2;
 	for (int i = 0; i < iters; i++) {
-		c_noise += circleNoise(uv * 0.6 + (float(i+1)) + vec2(-0.3, -0.1));
+		c_noise += circleNoise(uv * 0.6 + (float(i+1)) + vec2(-0.3, -0.1), seed);
 	}
-	float fbm = fbm(uv+c_noise, OCTAVES);
+	float fbm = fbm(uv+c_noise, OCTAVES, seed);
 
 	return fbm;
 }
@@ -32,7 +32,7 @@ void fragment() {
 
 	// noise for the dust
 	float n_dust = cloud_alpha(uv * size);
-	float n_dust2 = fbm(uv * ceil(size * 0.2) - vec2(2,2), OCTAVES);
+	float n_dust2 = fbm(uv * ceil(size * 0.2) - vec2(2,2), OCTAVES, seed);
 	float n_dust_lerp = n_dust2 * n_dust;
 
 	// apply dithering
@@ -42,7 +42,7 @@ void fragment() {
 	}
 
 	// choose alpha value
-	float n_alpha = fbm(uv * ceil(size * 0.5) + vec2(2,2), OCTAVES);
+	float n_alpha = fbm(uv * ceil(size * 0.5) + vec2(2,2), OCTAVES, seed);
 	float a_dust = step(n_alpha, n_dust_lerp * 1.8);
 
 	// choose & apply colors

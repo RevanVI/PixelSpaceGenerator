@@ -23,7 +23,7 @@ vec2 spherify(vec2 uv) {
 void fragment() {
 	// pixelzing
 	vec2 uv = floor(UV * pixels) / pixels;
-	
+
 	// distance from center, to create a circle
 	float d_to_center = distance(uv, vec2(0.5));
 
@@ -32,22 +32,22 @@ void fragment() {
 	float d_to_light = distance(uv, light_origin);
 	// bit of contrast
 	d_to_light += pow(d_to_center * 3.0, 4.0) * 0.02;
-	
+
 	// noise for the planet
-	float n = fbm(uv * size, OCTAVES);
-	float n2 = fbm(uv * size + n*3.0, OCTAVES);
+	float n = fbm(uv * size, OCTAVES, seed);
+	float n2 = fbm(uv * size + n*3.0, OCTAVES, seed);
 	float mixed = n2 * d_to_light;
-	
+
 	// apply dithering
 	bool dith = dither_grid(UV, pixels);
 	if (dith) {
 		mixed *= 0.95;
 	}
-	
+
 	// choose and apply colors
 	float col_val = floor(mixed * 15.0) / 7.0;
 	vec3 col = texture(colorscheme, vec2(col_val, 0.0)).rgb;
-	
+
 	// apply alpha
 	float a = step(d_to_center, 0.5);
 	COLOR = vec4(col, a);

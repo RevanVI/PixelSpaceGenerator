@@ -1,17 +1,20 @@
-[gd_scene load_steps=8 format=3 uid="uid://c44u5g0iuf311"]
+[gd_scene load_steps=7 format=3 uid="uid://c44u5g0iuf311"]
 
 [ext_resource type="Script" uid="uid://bxfia35xn3yu" path="res://scripts/BackgroundGenerator.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://khlkd5x01wx0" path="res://sprites/Colorscheme.tres" id="2"]
 [ext_resource type="Material" uid="uid://pmaq6r6fbmt4" path="res://materials/Dust.tres" id="3"]
-[ext_resource type="Texture2D" uid="uid://d2hyg10v3laby" path="res://sprites/stars.png" id="4"]
-[ext_resource type="Material" uid="uid://c36q36b0kvj40" path="res://materials/StarParticles.tres" id="5"]
 [ext_resource type="Material" uid="uid://dak4fsfdown72" path="res://materials/Nebulae.tres" id="6"]
 
-[sub_resource type="CanvasItemMaterial" id="1"]
-particles_animation = true
-particles_anim_h_frames = 16
-particles_anim_v_frames = 1
-particles_anim_loop = false
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ncimm"]
+noise_type = 5
+frequency = 0.997
+fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_n454q"]
+width = 32
+height = 16
+generate_mipmaps = false
+noise = SubResource("FastNoiseLite_ncimm")
 
 [node name="BackgroundGenerator" type="Control"]
 custom_minimum_size = Vector2(100, 100)
@@ -20,6 +23,7 @@ anchors_preset = 0
 offset_right = -962.0
 offset_bottom = -500.0
 script = ExtResource("1")
+rand_texture = SubResource("NoiseTexture2D_n454q")
 colorscheme = ExtResource("2")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -39,14 +43,6 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="StarParticles" type="GPUParticles2D" parent="."]
-material = SubResource("1")
-position = Vector2(50, 50)
-emitting = false
-amount = 100
-texture = ExtResource("4")
-process_material = ExtResource("5")
-
 [node name="Nebulae" type="ColorRect" parent="."]
 material = ExtResource("6")
 layout_mode = 1
@@ -61,9 +57,3 @@ grow_vertical = 2
 [node name="StarContainer" type="Node2D" parent="."]
 
 [node name="PlanetContainer" type="Node2D" parent="."]
-
-[node name="PauseParticles" type="Timer" parent="."]
-wait_time = 0.5
-one_shot = true
-
-[connection signal="timeout" from="PauseParticles" to="." method="_on_PauseParticles_timeout"]

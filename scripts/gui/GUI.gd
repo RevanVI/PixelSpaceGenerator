@@ -6,12 +6,12 @@ extends Control
 @onready var global_scheme : GradientTexture2D = preload("res://sprites/Colorscheme.tres")
 @onready var path : String = OS.get_system_dir(OS.SYSTEM_DIR_PICTURES)
 @onready var export_path: Label = $HBoxContainer/OptionsColorRect/Settings/ExportPathLabel
+@onready var seed_box: SpinBox = $HBoxContainer/OptionsColorRect/Settings/HBoxContainer3/Seed
 
 @onready var enable_stars_toggle: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableStars
 @onready var enable_dust_toggle: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableDust
 @onready var enable_nebulae_toggle: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableNebulae
 @onready var enable_planets_toggle: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnablePlanets
-@onready var enable_tile_toggle: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableTile
 @onready var enable_reduce_background_toggle: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableReduceBackground
 @onready var enable_transparency: CheckBox = $HBoxContainer/OptionsColorRect/Settings/EnableTransparency
 
@@ -28,7 +28,6 @@ func _ready() -> void:
 	enable_dust_toggle.button_pressed = generator.dust.visible
 	enable_nebulae_toggle.button_pressed = generator.nebulae.visible
 	enable_planets_toggle.button_pressed = generator.planetcontainer.visible
-	enable_tile_toggle.button_pressed = generator.should_tile
 	enable_reduce_background_toggle.button_pressed = generator.reduce_background
 	enable_transparency.button_pressed = generator.background.visible
 
@@ -45,7 +44,7 @@ func _generate_new() -> void:
 	
 	await get_tree().process_frame
 	$HBoxContainer/RenderControl/MarginContainer/SubViewportTextureRect.size = Vector2(600,600)
-	generator.generate_new()
+	generator.generate_new(int(seed_box.value))
 
 
 func _on_NewButton_pressed() -> void:
@@ -99,10 +98,6 @@ func _on_EnableReduceBackground_pressed() -> void:
 	generator.toggle_reduce_background()
 
 
-func _on_EnableTile_pressed() -> void:
-	generator.toggle_tile()
-
-
 func _on_PixelsHeight_value_changed(value : int) -> void:
 	value = clamp(value, 100, 5000)
 	new_size.y = int(value)
@@ -116,3 +111,7 @@ func _on_PixelsWidth_value_changed(value : int) -> void:
 func _on_EnableTransparency_pressed() -> void:
 	generator.toggle_transparancy()
 	$HBoxContainer/RenderControl/BackgroundColor.visible = !$HBoxContainer/RenderControl/BackgroundColor.visible
+
+
+func _on_seed_button_pressed() -> void:
+	seed_box.value = randi_range(0, 999999)

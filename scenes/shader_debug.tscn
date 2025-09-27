@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://qdmbs7yst1l7"]
+[gd_scene load_steps=16 format=3 uid="uid://qdmbs7yst1l7"]
 
 [ext_resource type="Shader" uid="uid://ckf5504l536tf" path="res://shaders/debug/rand.gdshader" id="1_85gqx"]
 [ext_resource type="Shader" uid="uid://bfjv36i42fl5d" path="res://shaders/debug/noise.gdshader" id="2_2ij4d"]
@@ -6,6 +6,7 @@
 [ext_resource type="Shader" uid="uid://cj8opwnqo0acv" path="res://shaders/debug/dither_grid.gdshader" id="4_datc5"]
 [ext_resource type="Shader" uid="uid://coir6u35aettj" path="res://shaders/debug/circle_noise.gdshader" id="5_jpukj"]
 [ext_resource type="Shader" uid="uid://bqo8rkwojrdvu" path="res://shaders/debug/spherify.gdshader" id="6_h7ble"]
+[ext_resource type="Shader" uid="uid://bultac7n4ay1o" path="res://shaders/debug/noise_visual.tres" id="7_ex645"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2ij4d"]
 shader = ExtResource("1_85gqx")
@@ -26,6 +27,9 @@ shader = ExtResource("5_jpukj")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ex645"]
 shader = ExtResource("6_h7ble")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uo16h"]
+shader = ExtResource("7_ex645")
 
 [node name="ShaderDebug" type="Node2D"]
 
@@ -62,5 +66,11 @@ texture = SubResource("CanvasTexture_y8cfr")
 [node name="spherify" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_ex645")
 position = Vector2(87, 203)
+scale = Vector2(100, 100)
+texture = SubResource("CanvasTexture_y8cfr")
+
+[node name="noise2" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_uo16h")
+position = Vector2(240, 203)
 scale = Vector2(100, 100)
 texture = SubResource("CanvasTexture_y8cfr")

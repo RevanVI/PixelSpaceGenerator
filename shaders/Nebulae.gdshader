@@ -14,18 +14,15 @@ uniform bool reduce_background = false;
 uniform vec2 uv_correct = vec2(1.0);
 
 
-
-
-
 float cloud_alpha(vec2 uv) {
 	float c_noise = 0.0;
 
 	// more iterations for more turbulence
 	int iters = 2;
 	for (int i = 0; i < iters; i++) {
-		c_noise += circleNoise(uv * 0.5 + float(i+1) + vec2(-0.3, 0.0));
+		c_noise += circleNoise(uv * 0.5 + float(i+1) + vec2(-0.3, 0.0), seed);
 	}
-	float fbm = fbm(uv+c_noise, OCTAVES);
+	float fbm = fbm(uv+c_noise, OCTAVES, seed);
 	return fbm;
 }
 
@@ -38,7 +35,7 @@ void fragment() {
 
 	// noise for the inside of the nebulae
 	float n = cloud_alpha(uv * size);
-	float n2 = fbm(uv * size + vec2(1, 1), OCTAVES);
+	float n2 = fbm(uv * size + vec2(1, 1), OCTAVES, seed);
 	float n_dust_lerp = n2 * n * n;
 
 	// apply dithering
