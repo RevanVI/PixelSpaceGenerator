@@ -10,7 +10,6 @@ class_name BackgroundGenerator
 @onready var big_star_scene : PackedScene = preload("res://scenes/BigStar.tscn")
 @export var rand_texture: NoiseTexture2D
 
-var reduce_background : bool = false
 @export var rseed: int = 1234567
 var random_image: Image = null
 
@@ -142,12 +141,6 @@ func set_background_color(c : Color) -> void:
 	nebulae.material.set_shader_parameter("background_color", c)
 
 
-func toggle_reduce_background() -> void:
-	reduce_background = !reduce_background
-	dust.material.set_shader_parameter("reduce_background", reduce_background)
-	nebulae.material.set_shader_parameter("reduce_background", reduce_background)
-
-
 func toggle_dust() -> void:
 	dust.visible = !dust.visible
 
@@ -166,3 +159,12 @@ func toggle_planets() -> void:
 
 func toggle_transparancy() -> void:
 	background.visible = !background.visible
+
+
+func set_brightness(value: float = 1.0) -> void:
+	nebulae.material.set_shader_parameter("brightness", value)
+	dust.material.set_shader_parameter("brightness", value)
+	for pl: Planet in planet_objects:
+		pl.set_brightness(value)
+	for st: Star in star_objects:
+		st.set_brightness(value)

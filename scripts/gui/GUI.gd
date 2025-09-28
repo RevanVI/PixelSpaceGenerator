@@ -12,8 +12,8 @@ extends Control
 @onready var enable_dust_toggle: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableDust
 @onready var enable_nebulae_toggle: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableNebulae
 @onready var enable_planets_toggle: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnablePlanets
-@onready var enable_reduce_background_toggle: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableReduceBackground
-@onready var enable_transparency: CheckBox = $HBoxContainer/OptionsColorRect/Settings/EnableTransparency
+@onready var enable_transparency: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableTransparency
+@onready var brightness_slider: HSlider = $HBoxContainer/OptionsColorRect/Settings/BrightnessSlider
 
 var new_size : Vector2i = Vector2i(200,200)
 
@@ -28,8 +28,7 @@ func _ready() -> void:
 	enable_dust_toggle.button_pressed = generator.dust.visible
 	enable_nebulae_toggle.button_pressed = generator.nebulae.visible
 	enable_planets_toggle.button_pressed = generator.planetcontainer.visible
-	enable_reduce_background_toggle.button_pressed = generator.reduce_background
-	enable_transparency.button_pressed = generator.background.visible
+	enable_transparency.button_pressed = !generator.background.visible
 
 	_generate_new()
 	export_path.text += path
@@ -94,10 +93,6 @@ func _on_EnablePlanets_pressed() -> void:
 	generator.toggle_planets()
 
 
-func _on_EnableReduceBackground_pressed() -> void:
-	generator.toggle_reduce_background()
-
-
 func _on_PixelsHeight_value_changed(value : int) -> void:
 	value = clamp(value, 100, 5000)
 	new_size.y = int(value)
@@ -115,3 +110,7 @@ func _on_EnableTransparency_pressed() -> void:
 
 func _on_seed_button_pressed() -> void:
 	seed_box.value = randi_range(0, 999999)
+
+
+func _on_brightness_slider_value_changed(value: float) -> void:
+	generator.set_brightness(brightness_slider.value)

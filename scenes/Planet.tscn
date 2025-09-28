@@ -13,6 +13,7 @@ shader_parameter/OCTAVES = 3
 shader_parameter/seed = 3.3190001101525
 shader_parameter/pixels = 100.0
 shader_parameter/colorscheme = ExtResource("2")
+shader_parameter/brightness = 1.0
 shader_parameter/light_origin = Vector2(0, 0)
 
 [node name="Planet" type="Sprite2D"]

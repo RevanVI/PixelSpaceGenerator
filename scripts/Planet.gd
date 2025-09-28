@@ -38,3 +38,6 @@ func set_random_values(random_image: Image, planet_id: int) -> void:
 												PLANET_VALUES_COUNT).r
 	material.set_shader_parameter("seed", _seed)
 
+
+func set_brightness(value: float = 1.0) -> void:
+	material.set_shader_parameter("brightness", value)

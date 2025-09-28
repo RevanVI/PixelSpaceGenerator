@@ -8,6 +8,7 @@ uniform int OCTAVES : hint_range(0, 20, 1);
 uniform float seed: hint_range(1, 10);
 uniform float pixels = 100.0;
 uniform sampler2D colorscheme;
+uniform float brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
 uniform vec2 light_origin;
 
 
@@ -45,7 +46,8 @@ void fragment() {
 	}
 
 	// choose and apply colors
-	float col_val = floor(mixed * 15.0) / 7.0;
+	mixed = pow(mixed, 1.0 / brightness) * brightness;
+	float col_val = floor(mixed * 14.0) / 7.0;
 	vec3 col = texture(colorscheme, vec2(col_val, 0.0)).rgb;
 
 	// apply alpha

@@ -10,7 +10,7 @@ uniform float seed: hint_range(1, 10);
 uniform float pixels = 100.0;
 uniform sampler2D colorscheme;
 uniform vec4 background_color : source_color;
-uniform bool reduce_background = false;
+uniform float brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
 uniform vec2 uv_correct = vec2(1.0);
 
 
@@ -50,14 +50,12 @@ void fragment() {
 	float a2 = step(n2, 0.115 + d);
 
 	// choose colors
-	if (reduce_background) {
-		n_dust_lerp = pow(n_dust_lerp, 1.2) * 0.7;
-	}
+	n_dust_lerp = pow(n_dust_lerp, 1.0 / brightness) * brightness;
 	float col_value = 0.0;
 	if (a2 > a) {
-		col_value = floor(n_dust_lerp * 38.0) / 7.0;
+		col_value = floor(n_dust_lerp * 40.0) / 7.0;
 	} else {
-		col_value = floor(n_dust_lerp * 16.0) / 7.0;
+		col_value = floor(n_dust_lerp * 18.0) / 7.0;
 	}
 
 	// apply colors
