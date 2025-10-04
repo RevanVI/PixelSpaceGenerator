@@ -8,7 +8,7 @@ const PLANET_RAND_RANGE: int = 8
 
 const PLANET_LIGHT_X: int = 0
 const PLANET_LIGHT_Y: int = 1
-const PLANET_SIZE: int = 2
+const PLANET_SEED_MOD: int = 2
 const PLANET_CLOUD: int = 3
 const PLANET_ROTATION: int = 4
 const PLANET_VALUES_COUNT: int = 5 #count of values calculated per planet
@@ -27,15 +27,19 @@ func set_random_values(random_image: Image, planet_id: int, iseed: int) -> void:
 
 	_random_image = random_image
 
+	var planet_val: int = planet_id * PLANET_VALUES_COUNT;
+	
 	#generate two noise textures for variation
 	var noise_tex_1: NoiseTexture3D = material.get_shader_parameter("noise3d")
 	var noise_tex_2: NoiseTexture3D = material.get_shader_parameter("noise3d2")
-	noise_tex_1.noise.seed = iseed
+	var seed_mod: float = random_image.get_pixel(planet_val + PLANET_SEED_MOD, PLANET_RAND_RANGE).r 
+	noise_tex_1.noise.seed = iseed * seed_mod
 	await noise_tex_1.changed
-	noise_tex_2.noise.seed = iseed
+	noise_tex_2.noise.seed = iseed * seed_mod
 	await noise_tex_2.changed
 
-	var planet_val: int = planet_id * PLANET_VALUES_COUNT;
+	material.set_shader_parameter("seed", iseed)
+	
 	var light_x: float = random_image.get_pixel(planet_val + PLANET_LIGHT_X, PLANET_RAND_RANGE).r
 	var light_y: float = random_image.get_pixel(planet_val + PLANET_LIGHT_Y, PLANET_RAND_RANGE).r
 	material.set_shader_parameter("light_origin", Vector2(light_x, light_y))
@@ -48,7 +52,7 @@ func set_random_values(random_image: Image, planet_id: int, iseed: int) -> void:
 	material.set_shader_parameter("clouds", clouds > 0.8)
 
 	var planet_rotation : float = random_image.get_pixel(planet_val + PLANET_ROTATION, PLANET_RAND_RANGE).r
-	material.set_shader_parameter("angle_x", planet_rotation)
+	material.set_shader_parameter("angles", [planet_rotation, 0.0, 0.0])
 
 	show()
 
