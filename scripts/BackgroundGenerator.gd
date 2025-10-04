@@ -103,7 +103,7 @@ func _place_planet(planet_id: int) -> void:
 	var planet: Planet = planet_scene.instantiate()
 	planet.scale = _scale
 	planet.position = pos
-	planet.set_random_values(random_image, planet_id)
+	planet.set_random_values(random_image, planet_id, rseed)
 	planetcontainer.add_child(planet)
 	planet_objects.append(planet)
 
