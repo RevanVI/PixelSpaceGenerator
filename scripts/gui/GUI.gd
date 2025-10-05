@@ -13,6 +13,7 @@ extends Control
 @onready var enable_nebulae_toggle: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableNebulae
 @onready var enable_planets_toggle: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnablePlanets
 @onready var enable_transparency: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableTransparency
+@onready var enable_lighting: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableLighting
 @onready var brightness_slider: HSlider = $HBoxContainer/OptionsColorRect/Settings/BrightnessSlider
 
 var new_size : Vector2i = Vector2i(200,200)
@@ -29,6 +30,7 @@ func _ready() -> void:
 	enable_nebulae_toggle.button_pressed = generator.nebulae.visible
 	enable_planets_toggle.button_pressed = generator.planetcontainer.visible
 	enable_transparency.button_pressed = !generator.background.visible
+	enable_lighting.button_pressed = generator._lighting_enabled
 
 	_generate_new()
 	export_path.text += path
@@ -114,3 +116,8 @@ func _on_seed_button_pressed() -> void:
 
 func _on_brightness_slider_value_changed(value: float) -> void:
 	generator.set_brightness(brightness_slider.value)
+
+
+func _on_enable_lighting_toggled(toggled_on: bool) -> void:
+	generator.toggle_lighting(toggled_on)
+
