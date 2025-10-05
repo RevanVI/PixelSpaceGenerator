@@ -6,7 +6,7 @@ render_mode blend_mix;
 uniform float size = 50.0;
 uniform int OCTAVES : hint_range(0, 20, 1);
 uniform float seed: hint_range(1, 10);
-uniform float pixels = 100.0;
+uniform float pixels = 200.0;
 uniform float brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
 uniform sampler2D colorscheme;
 uniform vec2 uv_correct = vec2(1.0);

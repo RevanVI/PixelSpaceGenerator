@@ -15,14 +15,15 @@ const PLANET_VALUES_COUNT: int = 5 #count of values calculated per planet
 
 
 func _ready() -> void:
-	var _pixels : int = int(scale.x*256)
-	_pixels = clamp(_pixels, 128, 2048)
+	#100 is size of stub texture for planet
+	var _pixels : int = int(scale.x*100)
+	_pixels = clamp(_pixels, 40, 2048)
 	material.set_shader_parameter("pixels", _pixels)
 
 
 func set_random_values(random_image: Image, planet_id: int, iseed: int) -> void:
-	var _pixels : int = int(scale.x*256)
-	_pixels = clamp(_pixels, 128, 2048)
+	var _pixels : int = int(scale.x* 100)
+	_pixels = clamp(_pixels, 40, 2048)
 	material.set_shader_parameter("pixels", _pixels)
 
 	_random_image = random_image
@@ -40,13 +41,16 @@ func set_random_values(random_image: Image, planet_id: int, iseed: int) -> void:
 
 	material.set_shader_parameter("seed", iseed)
 	
-	var light_x: float = random_image.get_pixel(planet_val + PLANET_LIGHT_X, PLANET_RAND_RANGE).r
-	var light_y: float = random_image.get_pixel(planet_val + PLANET_LIGHT_Y, PLANET_RAND_RANGE).r
-	material.set_shader_parameter("light_origin", Vector2(light_x, light_y))
-
-	#planet size already randomized in generator so no need do it here again.
-	#var radius: float = max(random_image.get_pixel(planet_val + PLANET_SIZE, PLANET_RAND_RANGE).r * 0.5, 0.3)
-	#material.set_shader_parameter("radius" , radius)
+	var light_x: float = clamp(
+						random_image.get_pixel(planet_val + PLANET_LIGHT_X, PLANET_RAND_RANGE).r,
+						0.2,
+						0.8) * 2.0 - 1.0;
+	var light_y: float = clamp(
+						random_image.get_pixel(planet_val + PLANET_LIGHT_Y, PLANET_RAND_RANGE).r,
+						0.2,
+						0.8) * 2.0 - 1.0;
+	var light_z: float = light_y * 0.5  + 0.5;
+	material.set_shader_parameter("light_dir", Vector3(light_x, light_y, light_z))
 
 	var clouds: float = random_image.get_pixel(planet_val + PLANET_CLOUD, PLANET_RAND_RANGE).r
 	material.set_shader_parameter("clouds", clouds > 0.8)
@@ -59,3 +63,7 @@ func set_random_values(random_image: Image, planet_id: int, iseed: int) -> void:
 
 func set_brightness(value: float = 1.0) -> void:
 	material.set_shader_parameter("brightness", value)
+
+
+func set_lighting(value: bool) -> void:
+	material.set_shader_parameter("light_enabled", value)

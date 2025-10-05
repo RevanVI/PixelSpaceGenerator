@@ -17,6 +17,8 @@ var random_image: Image = null
 var stars : Array[Star] = []
 var planets: Array[Planet] = []
 
+var _lighting_enabled: bool = true
+
 #planet generator constants
 const PLANET_COUNT_MAX: int = 5
 const PLANET_RAND_RANGE: int = 1
@@ -167,6 +169,12 @@ func toggle_planets() -> void:
 
 func toggle_transparancy() -> void:
 	background.visible = !background.visible
+
+
+func toggle_lighting(value: bool) -> void:
+	_lighting_enabled = value
+	for p: Planet in planets:
+		p.set_lighting(_lighting_enabled)
 
 
 func set_brightness(value: float = 1.0) -> void:

@@ -7,7 +7,10 @@ uniform float seed = 123.0;
 uniform float pixels = 200.0;
 uniform sampler2D colorscheme;
 uniform float brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
-uniform vec2 light_origin;
+uniform bool light_enabled = true;
+uniform vec3 light_dir = vec3(1.0, -0.5, 0.3);
+uniform float light_strenght: hint_range(0.0, 4.0, 0.05) = 3.0;
+uniform float light_noise_strenght = 0.15;
 uniform vec3 angles = vec3(0.0, 0.0, 0.0);
 
 uniform sampler3D noise3d;
@@ -66,29 +69,43 @@ void fragment() {
 
 	// distance from center
 	float d_to_center = distance(uv, vec2(0.5));
-	float d_to_light = distance(uv, light_origin);
-	d_to_light += pow(d_to_center * 3.0, 4.0) * 0.02;
-
-	COLOR = vec4(0.0);
+	
+	COLOR = vec4(texture(colorscheme, vec2(0.0)).rgb, 0.0);
 	if (d_to_center <= radius) {
 		vec3 sphere = sphere_coord(uv, radius, angles);
 		
-		//combine two different noises for more variations
 		//basic form
 		float noise_val = texture(noise3d, sphere).r * 0.4;
 		//landmasses
 		float noise_val_2 = texture(noise3d2, sphere).r;
 		noise_val_2 = step(0.45, noise_val_2) * noise_val_2;
-		noise_val += noise_val_2 * 0.5;
-		//light one side for more contast 
-		noise_val *= d_to_light;
+		noise_val += noise_val_2 * 0.4;
+		
+		//calculate light
+		float light = 1.0;
+		if (light_enabled) {
+			//calc new sphere point without rotation 
+			//so lighting is consistent regardless of planet rotation
+			sphere = sphere_coord(uv, radius, vec3(0.0));
+			light = dot(normalize(sphere * 2.0 - 1.0), 
+							normalize(light_dir));
+			//smooth straight light steps with noise
+			//landscape noise looks good enough 
+			//but could use anything really
+			//clamp it so there is no negative values
+			light = clamp(light + (noise_val - 0.45) * light_noise_strenght, 
+							0.0, 1.0);
+			light *= light_strenght;
+		}
 		
 		// apply dithering
 		bool dith = dither_grid(UV, pixels);
 		if (dith) {
+			light *= 0.9;
 			noise_val *= 0.95;
 		}
-
+		
+		noise_val *= light;
 		noise_val = pow(noise_val, 1.0 / brightness) * brightness;
 		float col_val = floor(noise_val * 14.0) / 7.0;
 		vec3 col = texture(colorscheme, vec2(col_val, 0.0)).rgb;
@@ -102,15 +119,25 @@ void fragment() {
 		float n = fbm(sphere.xy * 4.0, 6, seed);
 		float n2 = fbm(sphere.xy * 4.0 + n*2.0 + angles.x + angles.y, 6, seed);
 		
+		//calculate light
+		float light = 1.0;
+		if (light_enabled) {
+			light = dot(normalize(sphere * 2.0 - 1.0), 
+							normalize(light_dir));
+			light = clamp(light + (n2 - 0.5) * light_noise_strenght, 
+							0.0, 1.0);
+			light *= light_strenght;
+		}
+		
 		bool dith = dither_grid(UV, pixels);
 		if (dith) {
+			light *= 0.9;
 			n2 *= 0.955;
 		}
 		//make clouds more blocky by reducing color palette
-		n2 = floor(n2 * 8.0) / 8.0;
+		n2 = floor(n2 * 6.0) / 6.0;
 		float cloud = step(0.5, n2);
-		n2 *= cloud;
-		n2 *= d_to_light;
+		n2 *= cloud * light;
 		COLOR += vec4(vec3(n2), cloud);
 	}
 }
