@@ -140,4 +140,26 @@ void fragment() {
 		n2 *= cloud * light;
 		COLOR += vec4(vec3(n2), cloud);
 	}
+	
+	if (clouds && d_to_center > radius) {
+		float atm_radius = radius * 1.1;
+		int bands = 3;
+		vec4 atm = vec4(vec3(0.0), 0.0);
+		vec3 base_color = texture(colorscheme, vec2(1.0, 0.0)).rgb;
+		for (int i = bands; i >= 1; --i) {
+			float rad = radius + (atm_radius - radius) / 
+						float(bands) * float(i);
+			if (d_to_center < rad) {
+				atm = vec4(base_color / float(i), 1.0);
+			}
+		}
+		
+		if (light_enabled) {
+			vec3 sphere = sphere_coord(uv, atm_radius, vec3(0.0));
+			float light = dot(normalize(sphere * 2.0 - 1.0), 
+							normalize(light_dir)) * light_strenght;
+			atm *= light;
+		}
+		COLOR += atm;
+	}
 }

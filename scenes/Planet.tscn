@@ -45,7 +45,7 @@ shader_parameter/angles = Vector3(0, 0, 0)
 shader_parameter/noise3d = SubResource("NoiseTexture3D_sskfm")
 shader_parameter/noise3d2 = SubResource("NoiseTexture3D_2svr8")
 shader_parameter/clouds = true
-shader_parameter/radius = 0.5
+shader_parameter/radius = 0.45000001485523
 
 [node name="Planet" type="Sprite2D"]
 material = SubResource("ShaderMaterial_l2a12")
