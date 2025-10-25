@@ -22,11 +22,11 @@ func _ready() -> void:
 func generate_new(iseed: int) -> void:
 	background_generator.generate_new(iseed, false)
 	rand_generator.seed = iseed
-	_make_system_star()
-	_make_new_planets()
+	make_system_star()
+	make_new_planets()
 
 
-func _make_system_star() -> void:
+func make_system_star() -> void:
 	if star != null:
 		star.queue_free()
 	star = planet_scene.instantiate()
@@ -35,11 +35,10 @@ func _make_system_star() -> void:
 	star.position = Vector2(0, 0.5 * size.y)
 	var rand_size: float = min(size.x, size.y) * rand_generator.randf_range(0.15, 1.2)
 	star.scale = Vector2(1,1)*(rand_size * 0.004)
-	var sun_seed: int = rand_generator.randi()
-	star.set_values(6, sun_seed)
+	star.set_values(6, rand_generator.randi())
 
 
-func _make_new_planets() -> void:
+func make_new_planets() -> void:
 	for planet: Planet in planets:
 		planetcontainer.return_object(planet)
 		planets = []
@@ -47,23 +46,21 @@ func _make_new_planets() -> void:
 	var planet_amount: int = int(rand_generator.randi() % (PLANET_COUNT_MAX + 1));
 	print(planet_amount)
 	for i: int in range(planet_amount):
-		_place_planet(i, planet_amount)
+		place_planet(i, planet_amount)
 
 
-func _place_planet(planet_id: int, planet_amount: int) -> void:
-	var min_size: int = min(size.x, size.y)
-	var random_size: float = rand_generator.randf() + 0.15    
-	var _scale: Vector2 = Vector2(1,1)*(0.5 * random_size * min_size * 0.004)
+func place_planet(planet_id: int, planet_amount: int) -> void:
+	var rand_size: float = min(size.x, size.y) * rand_generator.randf_range(0.15, 1.15)
+	var planet_scale: Vector2 = Vector2(1,1)*(0.5 * rand_size * 0.004)
 	
 	var radius: float = 0.3 + (1.0 - 0.2) / planet_amount * planet_id
 	var pos: Vector2 = Vector2(int(radius * size.x), int(0.5 * size.y))
 	
 	var planet: Planet = planetcontainer.get_object()
 	planets.append(planet)
-	planet.scale = _scale
+	planet.scale = planet_scale
 	planet.position = pos
-	var pseed: int = rand_generator.randi()
-	planet.set_values(planet_id, pseed)
+	planet.set_values(planet_id, rand_generator.randi())
 	planet.set_light_dir((star.position - planet.position).normalized())
 
 	#make moons here

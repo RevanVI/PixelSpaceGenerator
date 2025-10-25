@@ -9,7 +9,7 @@ func _ready() -> void:
 	rand_generator = RandomNumberGenerator.new()
 
 
-func set_random_values(star_id: int, iseed: int) -> void:
+func set_values(star_id: int, iseed: int) -> void:
 	rand_generator.seed = iseed
 
 	frame = rand_generator.randi_range(0, hframes - 1)

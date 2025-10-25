@@ -10,7 +10,6 @@ class_name BackgroundGenerator
 @onready var planet_scene : PackedScene = preload("res://scenes/Planet.tscn")
 @onready var big_star_scene : PackedScene = preload("res://scenes/BigStar.tscn")
 
-@export var rseed: int = 1234567
 var rand_generator: RandomNumberGenerator
 
 @export var colorscheme: GradientTexture2D
@@ -42,12 +41,11 @@ func generate_new(iseed: int, generate_planets: bool = true) -> void:
 	else:
 		aspect = Vector2(1.0, size.y / size.x)
 	
-	rseed = iseed
-	rand_generator.seed = rseed
-	dust.material.set_shader_parameter("seed", rseed)
+	rand_generator.seed = iseed
+	dust.material.set_shader_parameter("seed", iseed)
 	dust.material.set_shader_parameter("pixels", max(size.x, size.y))
 	dust.material.set_shader_parameter("uv_correct", aspect)
-	nebulae.material.set_shader_parameter("seed", rseed)
+	nebulae.material.set_shader_parameter("seed", iseed)
 	nebulae.material.set_shader_parameter("pixels", max(size.x, size.y))
 	nebulae.material.set_shader_parameter("uv_correct", aspect)
 	
@@ -80,17 +78,15 @@ func _make_new_planets() -> void:
 
 
 func _place_planet(planet_id: int) -> void:
-	var min_size: int = min(size.x, size.y)
-	var random_size: float = rand_generator.randf_range(0.15, 1)
+	var random_size: float = min(size.x, size.y) * rand_generator.randf_range(0.15, 1)
+	var planet_scale: Vector2 = Vector2(1,1)*(0.7 * random_size * 0.004)
 	var rand_x: float = rand_generator.randf()
 	var rand_y: float = rand_generator.randf()
-
-	var _scale: Vector2 = Vector2(1,1)*(0.7 * random_size * min_size * 0.004)
 	var pos: Vector2 = Vector2(int(rand_x * size.x), int(rand_y * size.y))
 	
 	var planet: Planet = planetcontainer.get_object()
 	planets.append(planet)
-	planet.scale = _scale
+	planet.scale = planet_scale
 	planet.position = pos
 	var pseed: int = rand_generator.randi()
 	planet.set_values(planet_id, pseed)
@@ -106,8 +102,7 @@ func _make_new_stars() -> void:
 		starcontainer.return_object(s)
 	stars = []
 	
-	var star_amount: int = calc_stars_count()
-	star_amount = int(star_amount * rand_generator.randf())
+	var star_amount: int = int(calc_stars_count() * rand_generator.randf())
 	for i: int in star_amount:
 		_place_big_star(i)
 
@@ -121,7 +116,7 @@ func _place_big_star(star_id: int) -> void:
 	stars.append(star)
 	star.position = pos
 	var sseed: int = rand_generator.randi()
-	star.set_random_values(star_id, sseed)
+	star.set_values(star_id, sseed)
 	star.show()
 	
 
