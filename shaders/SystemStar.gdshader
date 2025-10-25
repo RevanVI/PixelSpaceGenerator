@@ -6,6 +6,7 @@ render_mode blend_mix, unshaded;
 uniform float seed = 123.0;
 uniform float pixels = 200.0;
 uniform sampler2D colorscheme;
+uniform float brightness_mod: hint_range(0.5, 2.0, 0.01) = 1.0;
 uniform float brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
 uniform vec3 angles = vec3(0.0, 0.0, 0.0);
 
@@ -79,7 +80,8 @@ void fragment() {
 			noise_val *= 0.95;
 		}
 		
-		noise_val = pow(noise_val, 1.0 / brightness) * brightness;
+		float final_brightness = brightness * brightness_mod;
+		noise_val = pow(noise_val, 1.0 / final_brightness) * final_brightness;
 		float col_val = floor(noise_val * 14.0) / 7.0;
 		vec3 col = texture(colorscheme, vec2(col_val, 0.0)).rgb;
 		COLOR = vec4(col, 1.0);
@@ -89,6 +91,11 @@ void fragment() {
 		int bands = 4;
 		vec4 atm = vec4(vec3(0.0), 0.0);
 		vec3 base_color = texture(colorscheme, vec2(1.0, 0.0)).rgb;
+		float final_brightness = brightness * brightness_mod;
+		base_color.r = pow(base_color.r, 1.0 / final_brightness) * final_brightness;
+		base_color.g = pow(base_color.g, 1.0 / final_brightness) * final_brightness;
+		base_color.b = pow(base_color.b, 1.0 / final_brightness) * final_brightness;
+		
 		for (int i = bands; i >= 1; --i) {
 			float rad = radius + (atm_radius - radius) / 
 						float(bands) * float(i);

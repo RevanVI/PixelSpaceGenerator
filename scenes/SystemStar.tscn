@@ -1,9 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://qy3a25j2732h"]
+[gd_scene load_steps=14 format=3 uid="uid://qy3a25j2732h"]
 
 [ext_resource type="Texture2D" uid="uid://dctu01wei5sw0" path="res://sprites/100x100.png" id="1_6lw82"]
 [ext_resource type="Shader" uid="uid://b37rdd2phtnkr" path="res://shaders/SystemStar.gdshader" id="1_my8ps"]
-[ext_resource type="Texture2D" uid="uid://khlkd5x01wx0" path="res://sprites/Colorscheme.tres" id="2_dhd3v"]
 [ext_resource type="Script" uid="uid://beki8h1qaeycd" path="res://scripts/system_star.gd" id="2_elyem"]
+[ext_resource type="Texture2D" uid="uid://psmxvtatwhu3" path="res://sprites/StarRed.tres" id="2_my8ps"]
+[ext_resource type="Texture2D" uid="uid://cl4d5d8h7idd" path="res://sprites/StarBlue.tres" id="5_opoxg"]
+[ext_resource type="Texture2D" uid="uid://clt3aym4536rt" path="res://sprites/StarWhite.tres" id="6_ic7tb"]
+[ext_resource type="Texture2D" uid="uid://vedm0ahjhmsr" path="res://sprites/StarYellow.tres" id="7_h885y"]
+[ext_resource type="Texture2D" uid="uid://ch1qn2pap3sf3" path="res://sprites/StarOrange.tres" id="8_5hl3b"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_my8ps"]
 resource_local_to_scene = true
@@ -32,10 +36,12 @@ seamless = true
 seamless_blend_skirt = 0.276
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nqiqp"]
+resource_local_to_scene = true
 shader = ExtResource("1_my8ps")
 shader_parameter/seed = 123.0
 shader_parameter/pixels = 100.0
-shader_parameter/colorscheme = ExtResource("2_dhd3v")
+shader_parameter/colorscheme = ExtResource("2_my8ps")
+shader_parameter/brightness_mod = 1.0
 shader_parameter/brightness = 1.0
 shader_parameter/angles = Vector3(0, 0, 0)
 shader_parameter/noise3d = SubResource("NoiseTexture3D_dhd3v")
@@ -46,3 +52,10 @@ shader_parameter/radius = 0.42300001357273
 material = SubResource("ShaderMaterial_nqiqp")
 texture = ExtResource("1_6lw82")
 script = ExtResource("2_elyem")
+star_type = Dictionary[String, GradientTexture2D]({
+"Blue": ExtResource("5_opoxg"),
+"Orange": ExtResource("8_5hl3b"),
+"Red": ExtResource("2_my8ps"),
+"White": ExtResource("6_ic7tb"),
+"Yellow": ExtResource("7_h885y")
+})
