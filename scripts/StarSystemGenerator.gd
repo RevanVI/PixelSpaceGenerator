@@ -5,9 +5,10 @@ class_name StarSystemGenerator
 @onready var background_generator: BackgroundGenerator = $BackgroundGenerator
 @onready var planetcontainer : ObjectPool = $PlanetContainer
 @onready var planet_scene : PackedScene = preload("res://scenes/Planet.tscn")
+@onready var system_star_scene : PackedScene = preload("res://scenes/SystemStar.tscn")
 
 var planets: Array[Planet] = []
-var star: Planet
+var star: SystemStar
 var rand_generator: RandomNumberGenerator
 
 #planet generator constants
@@ -23,22 +24,23 @@ func generate_new(iseed: int) -> void:
 	background_generator.generate_new(iseed, false)
 	rand_generator.seed = iseed
 	make_system_star()
-	make_new_planets()
+	make_planets()
 
 
 func make_system_star() -> void:
-	if star != null:
-		star.queue_free()
-	star = planet_scene.instantiate()
-	add_child(star)
+	if star == null:
+		star = system_star_scene.instantiate()
+		add_child(star)
 
-	star.position = Vector2(0, 0.5 * size.y)
-	var rand_size: float = min(size.x, size.y) * rand_generator.randf_range(0.15, 1.2)
-	star.scale = Vector2(1,1)*(rand_size * 0.004)
-	star.set_values(6, rand_generator.randi())
+	star.hide()
+	var rand_size: float = min(size.x, size.y) * rand_generator.randf_range(0.4, 0.8) * 0.01
+	var star_radius: float = 0.5 * rand_size * star.texture.get_height()
+	star.position = Vector2(-0.33 * star_radius, 0.5 * size.y)
+	star.scale = Vector2(1, 1) * rand_size
+	star.set_values(rand_generator.randi())
 
 
-func make_new_planets() -> void:
+func make_planets() -> void:
 	for planet: Planet in planets:
 		planetcontainer.return_object(planet)
 		planets = []

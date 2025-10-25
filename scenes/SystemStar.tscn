@@ -1,0 +1,48 @@
+[gd_scene load_steps=10 format=3 uid="uid://qy3a25j2732h"]
+
+[ext_resource type="Texture2D" uid="uid://dctu01wei5sw0" path="res://sprites/100x100.png" id="1_6lw82"]
+[ext_resource type="Shader" uid="uid://b37rdd2phtnkr" path="res://shaders/SystemStar.gdshader" id="1_my8ps"]
+[ext_resource type="Texture2D" uid="uid://khlkd5x01wx0" path="res://sprites/Colorscheme.tres" id="2_dhd3v"]
+[ext_resource type="Script" uid="uid://beki8h1qaeycd" path="res://scripts/system_star.gd" id="2_elyem"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_my8ps"]
+resource_local_to_scene = true
+noise_type = 2
+frequency = 0.0605
+domain_warp_fractal_lacunarity = 5.265
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_dhd3v"]
+resource_local_to_scene = true
+noise = SubResource("FastNoiseLite_my8ps")
+seamless = true
+seamless_blend_skirt = 0.35
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_nqiqp"]
+resource_local_to_scene = true
+noise_type = 2
+frequency = 0.203
+fractal_octaves = 4
+domain_warp_amplitude = 11.63
+domain_warp_fractal_lacunarity = 3.085
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_tdwcm"]
+resource_local_to_scene = true
+noise = SubResource("FastNoiseLite_nqiqp")
+seamless = true
+seamless_blend_skirt = 0.276
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nqiqp"]
+shader = ExtResource("1_my8ps")
+shader_parameter/seed = 123.0
+shader_parameter/pixels = 100.0
+shader_parameter/colorscheme = ExtResource("2_dhd3v")
+shader_parameter/brightness = 1.0
+shader_parameter/angles = Vector3(0, 0, 0)
+shader_parameter/noise3d = SubResource("NoiseTexture3D_dhd3v")
+shader_parameter/noise3d2 = SubResource("NoiseTexture3D_tdwcm")
+shader_parameter/radius = 0.42300001357273
+
+[node name="SystemStar" type="Sprite2D"]
+material = SubResource("ShaderMaterial_nqiqp")
+texture = ExtResource("1_6lw82")
+script = ExtResource("2_elyem")
