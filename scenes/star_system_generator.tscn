@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bs3887pshh4c3"]
+
+[ext_resource type="Script" uid="uid://cwq4wkgbnlge5" path="res://scripts/StarSystemGenerator.gd" id="1_3rxsl"]
+[ext_resource type="PackedScene" uid="uid://c44u5g0iuf311" path="res://scenes/BackgroundGenerator.tscn" id="1_ejbn0"]
+[ext_resource type="Script" uid="uid://cgjc7a1d2cyuk" path="res://scripts/object_pool.gd" id="3_71n3f"]
+
+[node name="StarSystemGenerator" type="Control"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 500.0
+offset_bottom = 500.0
+script = ExtResource("1_3rxsl")
+
+[node name="BackgroundGenerator" parent="." instance=ExtResource("1_ejbn0")]
+layout_mode = 0
+offset_right = 500.0
+offset_bottom = 500.0
+
+[node name="PlanetContainer" type="Node2D" parent="."]
+script = ExtResource("3_71n3f")

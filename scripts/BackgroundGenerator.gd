@@ -51,7 +51,7 @@ func _ready() -> void:
 	starcontainer.init(big_star_scene, calc_stars_count(), ObjectPool.OBJECT_POOL_MODE.GROWING_SIZE)
 
 
-func generate_new(iseed: int) -> void:
+func generate_new(iseed: int, generate_planets: bool = true) -> void:
 	var aspect: Vector2 = Vector2(1,1)
 	if size.x > size.y:
 		aspect = Vector2(size.x / size.y, 1.0)
@@ -69,7 +69,8 @@ func generate_new(iseed: int) -> void:
 	nebulae.material.set_shader_parameter("pixels", max(size.x, size.y))
 	nebulae.material.set_shader_parameter("uv_correct", aspect)
 	
-	_make_new_planets()
+	if (generate_planets):
+		_make_new_planets()
 	_make_new_stars()
 
 
