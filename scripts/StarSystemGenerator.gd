@@ -7,6 +7,7 @@ class_name StarSystemGenerator
 @onready var planet_scene : PackedScene = preload("res://scenes/Planet.tscn")
 
 var planets: Array[Planet] = []
+var star: Planet
 var rand_generator: RandomNumberGenerator
 
 #planet generator constants
@@ -21,12 +22,21 @@ func _ready() -> void:
 func generate_new(iseed: int) -> void:
 	background_generator.generate_new(iseed, false)
 	rand_generator.seed = iseed
-	_make_system_star(iseed)
+	_make_system_star()
 	_make_new_planets()
 
 
-func _make_system_star(iseed: int) -> void:
-	pass
+func _make_system_star() -> void:
+	if star != null:
+		star.queue_free()
+	star = planet_scene.instantiate()
+	add_child(star)
+
+	star.position = Vector2(0, 0.5 * size.y)
+	var rand_size: float = min(size.x, size.y) * rand_generator.randf_range(0.15, 1.2)
+	star.scale = Vector2(1,1)*(rand_size * 0.004)
+	var sun_seed: int = rand_generator.randi()
+	star.set_values(6, sun_seed)
 
 
 func _make_new_planets() -> void:
@@ -43,16 +53,17 @@ func _make_new_planets() -> void:
 func _place_planet(planet_id: int, planet_amount: int) -> void:
 	var min_size: int = min(size.x, size.y)
 	var random_size: float = rand_generator.randf() + 0.15    
-
 	var _scale: Vector2 = Vector2(1,1)*(0.5 * random_size * min_size * 0.004)
-	var radius: float = 0.2 + (1.0 - 0.2) / planet_amount * planet_id
-
+	
+	var radius: float = 0.3 + (1.0 - 0.2) / planet_amount * planet_id
 	var pos: Vector2 = Vector2(int(radius * size.x), int(0.5 * size.y))
 	
 	var planet: Planet = planetcontainer.get_object()
 	planets.append(planet)
 	planet.scale = _scale
 	planet.position = pos
-	planet.show()
+	var pseed: int = rand_generator.randi()
+	planet.set_values(planet_id, pseed)
+	planet.set_light_dir((star.position - planet.position).normalized())
 
 	#make moons here

@@ -1,21 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://c44u5g0iuf311"]
+[gd_scene load_steps=6 format=3 uid="uid://c44u5g0iuf311"]
 
 [ext_resource type="Script" uid="uid://bxfia35xn3yu" path="res://scripts/BackgroundGenerator.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://khlkd5x01wx0" path="res://sprites/Colorscheme.tres" id="2"]
 [ext_resource type="Material" uid="uid://pmaq6r6fbmt4" path="res://materials/Dust.tres" id="3"]
 [ext_resource type="Script" uid="uid://cgjc7a1d2cyuk" path="res://scripts/object_pool.gd" id="5_n454q"]
 [ext_resource type="Material" uid="uid://dak4fsfdown72" path="res://materials/Nebulae.tres" id="6"]
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_ncimm"]
-noise_type = 5
-frequency = 0.997
-fractal_type = 0
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_n454q"]
-width = 32
-height = 16
-generate_mipmaps = false
-noise = SubResource("FastNoiseLite_ncimm")
 
 [node name="BackgroundGenerator" type="Control"]
 custom_minimum_size = Vector2(100, 100)
@@ -24,7 +13,6 @@ anchors_preset = 0
 offset_right = -962.0
 offset_bottom = -500.0
 script = ExtResource("1")
-rand_texture = SubResource("NoiseTexture2D_n454q")
 colorscheme = ExtResource("2")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]

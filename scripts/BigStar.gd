@@ -1,20 +1,19 @@
 extends Sprite2D
 class_name Star
 
-#per star indexes
-const STAR_FRAME: int = 0
-const STAR_BRIGHTNESS: int = 1
-const STAR_VALUES_COUNT: int = 2 #count of values calculated per star
+
+var rand_generator: RandomNumberGenerator
 
 
-func set_random_values(random_image: Image, star_id: int) -> void:
-	var rand_row: int = (star_id * STAR_VALUES_COUNT + STAR_FRAME) / random_image.get_width()
-	var rand_col: int = (star_id * STAR_VALUES_COUNT + STAR_FRAME) % random_image.get_width()
-	frame = int(random_image.get_pixel(rand_col, rand_row).r * (hframes - 1))
+func _ready() -> void:
+	rand_generator = RandomNumberGenerator.new()
 
-	rand_row = (star_id * STAR_VALUES_COUNT + STAR_BRIGHTNESS) / random_image.get_width()
-	rand_col = (star_id * STAR_VALUES_COUNT + STAR_BRIGHTNESS) % random_image.get_width()
-	var brightness: float = random_image.get_pixel(rand_col, rand_row).r
+
+func set_random_values(star_id: int, iseed: int) -> void:
+	rand_generator.seed = iseed
+
+	frame = rand_generator.randi_range(0, hframes - 1)
+	var brightness: float = rand_generator.randf()
 	material.set_shader_parameter("brightness_rand", brightness)
 
 
