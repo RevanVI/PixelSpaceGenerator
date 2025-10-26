@@ -11,6 +11,9 @@ var planets: Array[Planet] = []
 var star: SystemStar
 var rand_generator: RandomNumberGenerator
 
+var lighting_enabled: bool = true
+var brightness: float = 1.0
+
 #planet generator constants
 const PLANET_COUNT_MAX: int = 5
 
@@ -66,3 +69,61 @@ func place_planet(planet_id: int, planet_amount: int) -> void:
 	planet.set_light_dir((star.position - planet.position).normalized())
 
 	#make moons here
+
+
+func set_render_size(new_size: Vector2) -> void:
+	custom_minimum_size = new_size
+	size = new_size
+	background_generator.set_render_size(new_size)
+
+
+#visual settings
+func get_current_settings() -> VisualSettings:
+	var current_settings: VisualSettings = VisualSettings.new()
+	current_settings.background_color = background_generator.background.color
+	current_settings.dust_enabled = background_generator.dust.visible
+	current_settings.nebulae_enabled = background_generator.nebulae.visible
+	current_settings.background_stars_enabled = background_generator.starcontainer.visible
+	current_settings.planets_enabled = planetcontainer.visible
+	current_settings.planet_lighting_enabled = lighting_enabled
+	current_settings.transparancy_enabled = !background_generator.background.visible
+	current_settings.brightness = brightness
+	return current_settings
+
+
+func set_background_color(c : Color) -> void:
+	background_generator.set_background_color(c)
+
+
+func toggle_dust() -> void:
+	background_generator.toggle_dust()
+
+
+func toggle_background_stars() -> void:
+	background_generator.toggle_background_stars()
+
+
+func toggle_nebulae() -> void:
+	background_generator.toggle_nebulae()
+
+
+func toggle_planets() -> void:
+	planetcontainer.visible = !planetcontainer.visible
+
+
+func toggle_transparancy() -> void:
+	background_generator.toggle_transparancy()
+
+
+func toggle_lighting(value: bool) -> void:
+	lighting_enabled = value
+	for p: Planet in planets:
+		p.set_lighting(lighting_enabled)
+
+
+func set_brightness(value: float = 1.0) -> void:
+	brightness = value
+	background_generator.set_brightness(value)
+	for pl: Planet in planets:
+		pl.set_brightness(value)
+	star.set_brightness(value)

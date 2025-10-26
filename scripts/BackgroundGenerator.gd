@@ -16,7 +16,8 @@ var rand_generator: RandomNumberGenerator
 var stars : Array[Star] = []
 var planets: Array[Planet] = []
 
-var _lighting_enabled: bool = true
+var lighting_enabled: bool = true
+var brightness: float = 1.0
 
 #planet generator constants
 const PLANET_COUNT_MAX: int = 5
@@ -120,6 +121,24 @@ func _place_big_star(star_id: int) -> void:
 	star.show()
 	
 
+func set_render_size(new_size: Vector2) -> void:
+	custom_minimum_size = new_size
+	size = new_size
+
+
+#visual settings
+func get_current_settings() -> VisualSettings:
+	var current_settings: VisualSettings = VisualSettings.new()
+	current_settings.background_color = background.color
+	current_settings.dust_enabled = dust.visible
+	current_settings.nebulae_enabled = nebulae.visible
+	current_settings.background_stars_enabled = starcontainer.visible
+	current_settings.planets_enabled = planetcontainer.visible
+	current_settings.planet_lighting_enabled = lighting_enabled
+	current_settings.transparancy_enabled = !background.visible
+	current_settings.brightness = brightness
+	return current_settings
+
 
 func set_background_color(c : Color) -> void:
 	background.color = c
@@ -130,7 +149,7 @@ func toggle_dust() -> void:
 	dust.visible = !dust.visible
 
 
-func toggle_stars() -> void:
+func toggle_background_stars() -> void:
 	starcontainer.visible = !starcontainer.visible
 
 
@@ -147,12 +166,13 @@ func toggle_transparancy() -> void:
 
 
 func toggle_lighting(value: bool) -> void:
-	_lighting_enabled = value
+	lighting_enabled = value
 	for p: Planet in planets:
-		p.set_lighting(_lighting_enabled)
+		p.set_lighting(lighting_enabled)
 
 
 func set_brightness(value: float = 1.0) -> void:
+	brightness = value
 	nebulae.material.set_shader_parameter("brightness", value)
 	dust.material.set_shader_parameter("brightness", value)
 	for pl: Planet in planets:
