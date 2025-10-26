@@ -58,18 +58,20 @@ func place_planet(planet_id: int, planet_amount: int) -> void:
 	var planet: Planet = planetcontainer.get_object()
 	planets.append(planet)
 	
-	var rand_size: float = min(size.x, size.y) * rand_generator.randf_range(0.15, 1.15) * 0.002
+	var rand_size: float = min(size.x, size.y) * rand_generator.randf_range(0.15, 1.0) * 0.002 
 	planet.scale = Vector2(1, 1) * rand_size
 
 	# basic idea - divide free space on equal parts and place each planet randomly inside its part
 	# global offsets from ystem start and system edge
-	var min_limit: float = 0.3
+	var min_limit: float = 0.25
 	var max_limit: float = 0.9
 	# calculate planet radius relative to generator size and move max and min radiuses to avoid planet intersections
 	var planet_rel_rad: float = 0.5 * rand_size * planet.texture.get_height() / size.x
 	var radius_low: float = min_limit + (max_limit - min_limit) / planet_amount * planet_id + planet_rel_rad
 	var radius_high: float = min_limit + (max_limit - min_limit) / planet_amount * (planet_id + 1) - planet_rel_rad
 	var radius: float = rand_generator.randf_range(radius_low, radius_high)
+	print("radius_res: " + str(planet_rel_rad) + "; radius_low = " + str(radius_low) + 
+		"; radius_high = " + str(radius_high) + "; radius = " + str(radius))
 	planet.position = Vector2(int(radius * size.x), int(0.5 * size.y))
 
 	planet.set_values(planet_id, rand_generator.randi())
