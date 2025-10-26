@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="SpaceBackground"
-run/main_scene="res://scenes/gui/GUIBackgroundGenerator.tscn"
+config/name="PixelSpaceGenerator"
+run/main_scene="uid://ceiuhjftbb23n"
 config/features=PackedStringArray("4.5")
 config/icon="res://icon.png"
 

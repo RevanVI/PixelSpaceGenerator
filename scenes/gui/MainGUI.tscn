@@ -1,0 +1,84 @@
+[gd_scene load_steps=6 format=3 uid="uid://ceiuhjftbb23n"]
+
+[ext_resource type="Script" uid="uid://dywdyrr81impg" path="res://scripts/gui/main_gui.gd" id="1_3vhpy"]
+[ext_resource type="Theme" uid="uid://t7qc4m724rcq" path="res://themes/Theme.tres" id="1_m1x1q"]
+[ext_resource type="PackedScene" uid="uid://dsbb0okoxwu3o" path="res://scenes/gui/GUIBackgroundGenerator.tscn" id="2_3vhpy"]
+[ext_resource type="PackedScene" uid="uid://3rpabicjy07h" path="res://scenes/gui/GUISystemGenerator.tscn" id="3_m1x1q"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_3vhpy"]
+color = Color(0.21561998, 0.3198798, 0.67780745, 1)
+grow_begin = 0.0
+grow_end = 0.0
+thickness = 4
+
+[node name="MainGui" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_m1x1q")
+script = ExtResource("1_3vhpy")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Menu" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/Menu"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.03137255, 0.078431375, 0.11764706, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Menu/ColorRect"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_right = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Menu/ColorRect/HBoxContainer"]
+layout_mode = 2
+text = "Mode: "
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/Menu/ColorRect/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_m1x1q")
+selected = 0
+item_count = 2
+popup/item_0/text = "Background"
+popup/item_0/id = 0
+popup/item_1/text = "System"
+popup/item_1/id = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_3vhpy")
+
+[node name="Modes" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BackgroundGUI" parent="VBoxContainer/Modes" instance=ExtResource("2_3vhpy")]
+layout_mode = 2
+
+[node name="SystemGUI" parent="VBoxContainer/Modes" instance=ExtResource("3_m1x1q")]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[connection signal="item_selected" from="VBoxContainer/Menu/ColorRect/HBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
