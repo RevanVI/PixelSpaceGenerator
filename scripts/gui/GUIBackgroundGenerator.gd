@@ -24,22 +24,27 @@ func _ready() -> void:
 	OS.low_processor_usage_mode = true
 	OS.request_permissions()
 
-	#setup toggles with defaul values
-	enable_stars_toggle.button_pressed = generator.dust.visible
-	enable_dust_toggle.button_pressed = generator.dust.visible
-	enable_nebulae_toggle.button_pressed = generator.nebulae.visible
-	enable_planets_toggle.button_pressed = generator.planetcontainer.visible
-	enable_transparency.button_pressed = !generator.background.visible
-	enable_lighting.button_pressed = generator._lighting_enabled
-
+	set_active_settings()
+	
 	_generate_new()
 	export_path.text += path
 
 
+func set_active_settings() -> void:
+	var current_settings: VisualSettings = generator.get_current_settings()
+	enable_stars_toggle.button_pressed = current_settings.background_stars_enabled
+	enable_dust_toggle.button_pressed = current_settings.dust_enabled
+	enable_nebulae_toggle.button_pressed = current_settings.nebulae_enabled
+	enable_planets_toggle.button_pressed = current_settings.planets_enabled
+	enable_transparency.button_pressed = current_settings.transparancy_enabled
+	enable_lighting.button_pressed = current_settings.planet_lighting_enabled
+	brightness_slider.value = current_settings.brightness
+
+
+#generation
 func _generate_new() -> void:
 	viewport.size = new_size
-	generator.custom_minimum_size = new_size
-	generator.size = new_size
+	generator.set_render_size(new_size)
 	$SubViewport/Camera1.zoom = Vector2(1.0, 1.0)
 	$SubViewport/Camera1.offset = new_size * 0.5
 	
@@ -48,10 +53,25 @@ func _generate_new() -> void:
 	generator.generate_new(int(seed_box.value))
 
 
+func _on_seed_button_pressed() -> void:
+	seed_box.value = randi_range(0, 999999)
+
+
 func _on_NewButton_pressed() -> void:
 	_generate_new()
 
 
+func _on_PixelsHeight_value_changed(value : int) -> void:
+	value = clamp(value, 100, 5000)
+	new_size.y = int(value)
+
+
+func _on_PixelsWidth_value_changed(value : int) -> void:
+	value = clamp(value, 100, 5000)
+	new_size.x = int(value)
+
+
+#save image
 func _on_ExportButton_pressed() -> void:
 	$SaveTimer.start()
 
@@ -74,13 +94,14 @@ func _on_SaveTimer_timeout() -> void:
 	export_image()
 
 
+#visual settings signals
 func select_colorscheme(scheme : PackedColorArray) -> void:
 	generator.set_background_color(scheme[0])
 	global_scheme.gradient.colors = scheme.slice(1,8)
 
 
 func _on_EnableStars_pressed() -> void:
-	generator.toggle_stars()
+	generator.toggle_background_stars()
 
 
 func _on_EnableDust_pressed() -> void:
@@ -95,23 +116,9 @@ func _on_EnablePlanets_pressed() -> void:
 	generator.toggle_planets()
 
 
-func _on_PixelsHeight_value_changed(value : int) -> void:
-	value = clamp(value, 100, 5000)
-	new_size.y = int(value)
-
-
-func _on_PixelsWidth_value_changed(value : int) -> void:
-	value = clamp(value, 100, 5000)
-	new_size.x = int(value)
-
-
 func _on_EnableTransparency_pressed() -> void:
 	generator.toggle_transparancy()
 	$HBoxContainer/RenderControl/BackgroundColor.visible = !$HBoxContainer/RenderControl/BackgroundColor.visible
-
-
-func _on_seed_button_pressed() -> void:
-	seed_box.value = randi_range(0, 999999)
 
 
 func _on_brightness_slider_value_changed(value: float) -> void:
@@ -120,4 +127,3 @@ func _on_brightness_slider_value_changed(value: float) -> void:
 
 func _on_enable_lighting_toggled(toggled_on: bool) -> void:
 	generator.toggle_lighting(toggled_on)
-
