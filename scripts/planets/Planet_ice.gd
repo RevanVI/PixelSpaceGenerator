@@ -1,0 +1,2 @@
+extends PlanetBase
+class_name PlanetIce

@@ -4,10 +4,13 @@ class_name StarSystemGenerator
 
 @onready var background_generator: BackgroundGenerator = $BackgroundGenerator
 @onready var planetcontainer : ObjectPool = $PlanetContainer
-@onready var planet_scene : PackedScene = preload("res://scenes/Planet.tscn")
 @onready var system_star_scene : PackedScene = preload("res://scenes/SystemStar.tscn")
 
-var planets: Array[Planet] = []
+
+@export var planet_types: Dictionary[PlanetBase.PlanetType, PackedScene]
+
+
+var planets: Array[PlanetBase] = []
 var star: SystemStar
 var rand_generator: RandomNumberGenerator
 
@@ -20,7 +23,7 @@ const PLANET_COUNT_MAX: int = 5
 
 func _ready() -> void:
 	rand_generator = RandomNumberGenerator.new()
-	planetcontainer.init(planet_scene, PLANET_COUNT_MAX)
+	#planetcontainer.init(planet_scene, PLANET_COUNT_MAX)
 
 
 func generate_new(iseed: int) -> void:
@@ -44,8 +47,9 @@ func make_system_star() -> void:
 
 
 func make_planets() -> void:
-	for planet: Planet in planets:
-		planetcontainer.return_object(planet)
+	for planet: PlanetBase in planets:
+		planet.queue_free()
+		#planetcontainer.return_object(planet)
 		planets = []
 
 	var planet_amount: int = int(rand_generator.randi() % (PLANET_COUNT_MAX + 1));
@@ -55,14 +59,17 @@ func make_planets() -> void:
 
 
 func place_planet(planet_id: int, planet_amount: int) -> void:
-	var planet: Planet = planetcontainer.get_object()
+	# choose planet type
+	var planet_type: PlanetBase.PlanetType = rand_generator.randi_range(0, PlanetBase.PlanetType.keys().size() - 1)	as PlanetBase.PlanetType
+	var planet: PlanetBase = planet_types[planet_type].instantiate()
+	planetcontainer.add_child(planet)
 	planets.append(planet)
 	
 	var rand_size: float = min(size.x, size.y) * rand_generator.randf_range(0.15, 1.15) * 0.002
 	planet.scale = Vector2(1, 1) * rand_size
 
 	# basic idea - divide free space on equal parts and place each planet randomly inside its part
-	# global offsets from ystem start and system edge
+	# global offsets from system start and edge
 	var min_limit: float = 0.3
 	var max_limit: float = 0.9
 	# calculate planet radius relative to generator size and move max and min radiuses to avoid planet intersections
@@ -124,13 +131,13 @@ func toggle_transparancy() -> void:
 
 func toggle_lighting(value: bool) -> void:
 	lighting_enabled = value
-	for p: Planet in planets:
+	for p: PlanetBase in planets:
 		p.set_lighting(lighting_enabled)
 
 
 func set_brightness(value: float = 1.0) -> void:
 	brightness = value
 	background_generator.set_brightness(value)
-	for pl: Planet in planets:
+	for pl: PlanetBase in planets:
 		pl.set_brightness(value)
 	star.set_brightness(value)

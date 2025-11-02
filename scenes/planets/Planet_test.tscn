@@ -1,0 +1,52 @@
+[gd_scene load_steps=9 format=3 uid="uid://bg3yaayjsbw0s"]
+
+[ext_resource type="Shader" uid="uid://d254323flhejp" path="res://shaders/planet_base.gdshader" id="1_62qir"]
+[ext_resource type="Texture2D" uid="uid://dctu01wei5sw0" path="res://sprites/100x100.png" id="2_spvks"]
+[ext_resource type="Script" uid="uid://dm16r5iv1mu22" path="res://scripts/planets/Planet_common.gd" id="3_pj2ij"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2ucv6"]
+resource_local_to_scene = true
+noise_type = 0
+seed = 335
+frequency = 0.0254
+domain_warp_fractal_lacunarity = 5.265
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_sskfm"]
+resource_local_to_scene = true
+noise = SubResource("FastNoiseLite_2ucv6")
+seamless = true
+seamless_blend_skirt = 0.35
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_aueoi"]
+resource_local_to_scene = true
+noise_type = 5
+frequency = 0.0227
+fractal_octaves = 4
+fractal_gain = 0.885
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_2svr8"]
+resource_local_to_scene = true
+noise = SubResource("FastNoiseLite_aueoi")
+seamless = true
+seamless_blend_skirt = 0.247
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xjndt"]
+resource_local_to_scene = true
+shader = ExtResource("1_62qir")
+shader_parameter/seed = 122.45
+shader_parameter/pixels = 100.0
+shader_parameter/radius = 0.45000001485523
+shader_parameter/angles = Vector3(0, 0, 0)
+shader_parameter/brightness = 1.0
+shader_parameter/noise3d = SubResource("NoiseTexture3D_sskfm")
+shader_parameter/noise3d2 = SubResource("NoiseTexture3D_2svr8")
+shader_parameter/clouds = false
+shader_parameter/light_enabled = false
+shader_parameter/light_dir = Vector3(1, -0.5, 0.3)
+shader_parameter/light_strenght = 1.60000002384192
+shader_parameter/light_noise_strenght = 0.15
+
+[node name="Planet" type="Sprite2D"]
+material = SubResource("ShaderMaterial_xjndt")
+texture = ExtResource("2_spvks")
+script = ExtResource("3_pj2ij")

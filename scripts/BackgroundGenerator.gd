@@ -7,14 +7,14 @@ class_name BackgroundGenerator
 @onready var nebulae : ColorRect = $Nebulae
 @onready var starcontainer : ObjectPool = $StarContainer
 @onready var planetcontainer : ObjectPool = $PlanetContainer
-@onready var planet_scene : PackedScene = preload("res://scenes/Planet.tscn")
+@onready var planet_scene : PackedScene = preload("res://scenes/planets/Planet_common.tscn")
 @onready var big_star_scene : PackedScene = preload("res://scenes/BigStar.tscn")
 
 var rand_generator: RandomNumberGenerator
 
 @export var colorscheme: GradientTexture2D
 var stars : Array[Star] = []
-var planets: Array[Planet] = []
+var planets: Array[PlanetBase] = []
 
 var lighting_enabled: bool = true
 var brightness: float = 1.0
@@ -69,8 +69,8 @@ func _set_new_colors(new_scheme : GradientTexture2D, new_background : Color) -> 
 
 
 func _make_new_planets() -> void:
-	for planet: Planet in planets:
-		planetcontainer.return_object(planet)
+	for planet: PlanetBase in planets:
+		planet.queue_free()
 	planets = []
 
 	var planet_amount: int = rand_generator.randi_range(0, PLANET_COUNT_MAX)
@@ -85,7 +85,8 @@ func _place_planet(planet_id: int) -> void:
 	var rand_y: float = rand_generator.randf()
 	var pos: Vector2 = Vector2(int(rand_x * size.x), int(rand_y * size.y))
 	
-	var planet: Planet = planetcontainer.get_object()
+	var planet: PlanetBase = planet_scene.instantiate()
+	planetcontainer.add_child(planet)
 	planets.append(planet)
 	planet.scale = planet_scale
 	planet.position = pos
@@ -167,7 +168,7 @@ func toggle_transparancy() -> void:
 
 func toggle_lighting(value: bool) -> void:
 	lighting_enabled = value
-	for p: Planet in planets:
+	for p: PlanetBase in planets:
 		p.set_lighting(lighting_enabled)
 
 
@@ -175,7 +176,7 @@ func set_brightness(value: float = 1.0) -> void:
 	brightness = value
 	nebulae.material.set_shader_parameter("brightness", value)
 	dust.material.set_shader_parameter("brightness", value)
-	for pl: Planet in planets:
+	for pl: PlanetBase in planets:
 		pl.set_brightness(value)
 	for st: Star in stars:
 		st.set_brightness(value)

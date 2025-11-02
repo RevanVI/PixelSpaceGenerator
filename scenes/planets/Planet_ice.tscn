@@ -1,0 +1,71 @@
+[gd_scene load_steps=13 format=3 uid="uid://brjw15ql033cn"]
+
+[ext_resource type="Shader" uid="uid://d254323flhejp" path="res://shaders/planet_base.gdshader" id="1_anxbh"]
+[ext_resource type="Texture2D" uid="uid://dctu01wei5sw0" path="res://sprites/100x100.png" id="2_6yqi0"]
+[ext_resource type="Script" uid="uid://dm16r5iv1mu22" path="res://scripts/planets/Planet_common.gd" id="3_h6ncc"]
+
+[sub_resource type="Gradient" id="Gradient_0s5if"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.20769231, 0.42564103, 0.7589744)
+colors = PackedColorArray(0.19032872, 0.17494148, 0.1976954, 1, 0.7212958, 0.75968945, 0.7253844, 1, 0.7228525, 0.7904491, 0.8575295, 1, 0.82805777, 0.88616526, 0.9444556, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_io4qm"]
+gradient = SubResource("Gradient_0s5if")
+
+[sub_resource type="Gradient" id="Gradient_rg3is"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.2948718, 0.54615384, 0.86923075)
+colors = PackedColorArray(0.11577504, 0.096703, 0.15764192, 1, 0.09057114, 0.26289263, 0.41672075, 1, 0.32504153, 0.5469072, 0.72783065, 1, 0.62904686, 0.79688233, 0.8989128, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8lqpq"]
+gradient = SubResource("Gradient_rg3is")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2ucv6"]
+resource_local_to_scene = true
+noise_type = 5
+frequency = 0.0293
+domain_warp_fractal_lacunarity = 5.265
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_sskfm"]
+resource_local_to_scene = true
+noise = SubResource("FastNoiseLite_2ucv6")
+seamless = true
+seamless_blend_skirt = 0.35
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_aueoi"]
+resource_local_to_scene = true
+noise_type = 2
+frequency = 0.0246
+fractal_octaves = 4
+fractal_gain = 0.885
+cellular_distance_function = 1
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_2svr8"]
+resource_local_to_scene = true
+noise = SubResource("FastNoiseLite_aueoi")
+seamless = true
+seamless_blend_skirt = 0.247
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_anxbh"]
+resource_local_to_scene = true
+shader = ExtResource("1_anxbh")
+shader_parameter/seed = 123.0
+shader_parameter/pixels = 100.0
+shader_parameter/radius = 0.45000001485523
+shader_parameter/angles = Vector3(0, -32.685, 0)
+shader_parameter/colors_1 = SubResource("GradientTexture2D_io4qm")
+shader_parameter/colors_2 = SubResource("GradientTexture2D_8lqpq")
+shader_parameter/brightness = 1.0
+shader_parameter/noise3d = SubResource("NoiseTexture3D_sskfm")
+shader_parameter/noise3d2 = SubResource("NoiseTexture3D_2svr8")
+shader_parameter/clouds = false
+shader_parameter/light_enabled = true
+shader_parameter/light_dir = Vector3(1, -1.245, 2.205)
+shader_parameter/light_strenght = 2.10000003129252
+shader_parameter/light_noise_strenght = 0.15
+
+[node name="Planet" type="Sprite2D"]
+material = SubResource("ShaderMaterial_anxbh")
+texture = ExtResource("2_6yqi0")
+script = ExtResource("3_h6ncc")
+cloud_threshold = 0.85

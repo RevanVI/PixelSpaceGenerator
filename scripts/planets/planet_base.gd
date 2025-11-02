@@ -1,8 +1,17 @@
 extends Sprite2D
-class_name Planet
+class_name PlanetBase
+
+
+enum PlanetType {
+    COMMON = 0,
+    ICE = 1,
+    BARREN = 2,
+}
 
 
 var rand_generator: RandomNumberGenerator
+@export var planet_type: PlanetType
+@export_range(0.0, 1.0) var cloud_threshold: float = 0.8;
 
 
 func _ready() -> void:
@@ -30,7 +39,7 @@ func set_values(planet_id: int, iseed: int) -> void:
 	await noise_tex_2.changed
 
 	var clouds: float = rand_generator.randf()
-	material.set_shader_parameter("clouds", clouds > 0.8)
+	material.set_shader_parameter("clouds", clouds > cloud_threshold)
 
 	var planet_rotation : float = rand_generator.randf()
 	material.set_shader_parameter("angles", [planet_rotation, 0.0, 0.0])
@@ -54,3 +63,8 @@ func calc_pixel_size() -> int:
 	var pixels: int = int(scale.x * texture.get_height())
 	pixels = clamp(pixels, 40, 2048)
 	return pixels
+
+
+func set_colors(colors1: PackedColorArray, colors2: PackedColorArray) -> void:
+	material.set_shader_parameter("colors_1", colors1)
+	material.set_shader_parameter("colors_2", colors2)
