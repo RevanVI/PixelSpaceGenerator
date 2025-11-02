@@ -79,6 +79,5 @@ layout_mode = 2
 [node name="SystemGUI" parent="VBoxContainer/Modes" instance=ExtResource("3_m1x1q")]
 visible = false
 layout_mode = 2
-size_flags_vertical = 3
 
 [connection signal="item_selected" from="VBoxContainer/Menu/ColorRect/HBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]

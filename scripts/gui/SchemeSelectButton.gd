@@ -1,4 +1,8 @@
 extends Button
+class_name SchemeSelectButton
+
+
+signal scheme_selected(colorScheme: PackedColorArray)
 
 
 @export var colorscheme: PackedColorArray
@@ -17,8 +21,8 @@ func _ready() -> void:
 
 func _on_color_changed(color : Color, index : int) -> void:
 	colorscheme[index] = color
-	get_tree().root.get_node("GUI").select_colorscheme(colorscheme)
+	scheme_selected.emit(colorscheme)
 
 
 func _on_Button_pressed() -> void:
-	get_tree().root.get_node("GUI").select_colorscheme(colorscheme)
+	scheme_selected.emit(colorscheme)

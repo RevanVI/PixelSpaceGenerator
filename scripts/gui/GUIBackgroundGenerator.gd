@@ -4,9 +4,9 @@ extends Control
 @onready var generator : BackgroundGenerator = $SubViewport/BackgroundGenerator
 @onready var viewport : SubViewport = $SubViewport
 @onready var global_scheme : GradientTexture2D = preload("res://sprites/Colorscheme.tres")
-@onready var path : String = OS.get_system_dir(OS.SYSTEM_DIR_PICTURES)
 @onready var export_path: Label = $HBoxContainer/OptionsColorRect/Settings/ExportPathLabel
 @onready var seed_box: SpinBox = $HBoxContainer/OptionsColorRect/Settings/HBoxContainer3/Seed
+@onready var color_scheme_container: Node = $HBoxContainer/OptionsColorRect/Settings/ColorShemesContainer/ColorSchemesVerticalContainer
 
 @onready var enable_stars_toggle: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableStars
 @onready var enable_dust_toggle: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableDust
@@ -15,6 +15,9 @@ extends Control
 @onready var enable_transparency: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableTransparency
 @onready var enable_lighting: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableLighting
 @onready var brightness_slider: HSlider = $HBoxContainer/OptionsColorRect/Settings/BrightnessSlider
+@onready var brightness_value: Label = $HBoxContainer/OptionsColorRect/Settings/HBoxContainer5/BrightnessValue
+@onready var viewportBackground: ColorRect = $HBoxContainer/RenderControl/ViewportBackground
+
 
 var new_size : Vector2i = Vector2i(200,200)
 
@@ -23,11 +26,11 @@ func _ready() -> void:
 	randomize()
 	OS.low_processor_usage_mode = true
 	OS.request_permissions()
-
 	set_active_settings()
-	
+	for i: SchemeSelectButton in color_scheme_container.get_children():
+		i.scheme_selected.connect(select_colorscheme)
 	_generate_new()
-	export_path.text += path
+	export_path.text += SaveSystem.GetSavePath()
 
 
 func set_active_settings() -> void:
@@ -49,7 +52,6 @@ func _generate_new() -> void:
 	$SubViewport/Camera1.offset = new_size * 0.5
 	
 	await get_tree().process_frame
-	$HBoxContainer/RenderControl/MarginContainer/SubViewportTextureRect.size = Vector2(600,600)
 	generator.generate_new(int(seed_box.value))
 
 
@@ -57,7 +59,12 @@ func _on_seed_button_pressed() -> void:
 	seed_box.value = randi_range(0, 999999)
 
 
-func _on_NewButton_pressed() -> void:
+func _on_reset_button_pressed() -> void:
+	_generate_new()
+
+
+func _on_generate_button_pressed() -> void:
+	_on_seed_button_pressed()
 	_generate_new()
 
 
@@ -76,22 +83,16 @@ func _on_ExportButton_pressed() -> void:
 	$SaveTimer.start()
 
 
+func _on_SaveTimer_timeout() -> void:
+	export_image()
+
+
 func export_image() -> void:
 	var img : Image
 	img = Image.create(new_size.x, new_size.y, false, Image.FORMAT_RGBA8)
 	var viewport_img : Image = viewport.get_texture().get_image()
 	img.blit_rect(viewport_img, Rect2(0,0,new_size.x,new_size.y), Vector2(0,0))
-	save_image(img)
-
-
-func save_image(img : Image) -> void:
-	var date: String = Time.get_datetime_string_from_system(false, true)
-	date = date.replace_chars(" -:", "_".unicode_at(0))
-	img.save_png(path + "/SpaceBackground_" + str(date) + ".png")
-
-
-func _on_SaveTimer_timeout() -> void:
-	export_image()
+	SaveSystem.SaveImage(img, "BackgroundGenerator")
 
 
 #visual settings signals
@@ -118,11 +119,12 @@ func _on_EnablePlanets_pressed() -> void:
 
 func _on_EnableTransparency_pressed() -> void:
 	generator.toggle_transparancy()
-	$HBoxContainer/RenderControl/BackgroundColor.visible = !$HBoxContainer/RenderControl/BackgroundColor.visible
+	viewportBackground.visible = !viewportBackground.visible
 
 
 func _on_brightness_slider_value_changed(value: float) -> void:
 	generator.set_brightness(brightness_slider.value)
+	brightness_value.text = str(value)
 
 
 func _on_enable_lighting_toggled(toggled_on: bool) -> void:
