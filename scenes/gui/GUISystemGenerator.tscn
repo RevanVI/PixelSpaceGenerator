@@ -338,6 +338,12 @@ theme_override_styles/hover_pressed = SubResource("3")
 button_pressed = true
 text = "lighting"
 
+[node name="UseRandomColors" type="CheckBox" parent="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer"]
+layout_mode = 2
+theme_override_styles/hover_pressed = SubResource("3")
+button_pressed = true
+text = "random colors"
+
 [node name="Spacer5" type="Control" parent="HBoxContainer/OptionsColorRect/Settings"]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
@@ -392,6 +398,7 @@ one_shot = true
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnablePlanets" to="." method="_on_EnablePlanets_pressed"]
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableTransparency" to="." method="_on_EnableTransparency_pressed"]
 [connection signal="toggled" from="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableLighting" to="." method="_on_enable_lighting_toggled"]
+[connection signal="toggled" from="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/UseRandomColors" to="." method="_on_use_random_colors_toggled"]
 [connection signal="value_changed" from="HBoxContainer/OptionsColorRect/Settings/BrightnessSlider" to="." method="_on_brightness_slider_value_changed"]
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/ExportButton" to="." method="_on_ExportButton_pressed"]
 [connection signal="timeout" from="SaveTimer" to="." method="_on_SaveTimer_timeout"]

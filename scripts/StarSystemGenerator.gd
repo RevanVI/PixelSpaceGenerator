@@ -16,6 +16,7 @@ var rand_generator: RandomNumberGenerator
 
 var lighting_enabled: bool = true
 var brightness: float = 1.0
+var use_random_colors: bool = false
 
 #planet generator constants
 const PLANET_COUNT_MAX: int = 5
@@ -79,7 +80,7 @@ func place_planet(planet_id: int, planet_amount: int) -> void:
 	var radius: float = rand_generator.randf_range(radius_low, radius_high)
 	planet.position = Vector2(int(radius * size.x), int(0.5 * size.y))
 
-	planet.set_values(planet_id, rand_generator.randi())
+	planet.set_values(planet_id, rand_generator.randi(), use_random_colors)
 	planet.set_light_dir((star.position - planet.position).normalized())
 
 	#make moons here
@@ -102,6 +103,7 @@ func get_current_settings() -> VisualSettings:
 	current_settings.planet_lighting_enabled = lighting_enabled
 	current_settings.transparancy_enabled = !background_generator.background.visible
 	current_settings.brightness = brightness
+	current_settings.use_random_colors = use_random_colors
 	return current_settings
 
 
@@ -141,3 +143,9 @@ func set_brightness(value: float = 1.0) -> void:
 	for pl: PlanetBase in planets:
 		pl.set_brightness(value)
 	star.set_brightness(value)
+
+
+func set_use_random_colors(value: bool = false) -> void:
+	use_random_colors = value
+	for pl: PlanetBase in planets:
+		pl.set_use_random_colors(value)	

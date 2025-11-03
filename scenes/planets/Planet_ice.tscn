@@ -2,22 +2,26 @@
 
 [ext_resource type="Shader" uid="uid://d254323flhejp" path="res://shaders/planet_base.gdshader" id="1_anxbh"]
 [ext_resource type="Texture2D" uid="uid://dctu01wei5sw0" path="res://sprites/100x100.png" id="2_6yqi0"]
-[ext_resource type="Script" uid="uid://dm16r5iv1mu22" path="res://scripts/planets/Planet_common.gd" id="3_h6ncc"]
+[ext_resource type="Script" uid="uid://cnc6uxnxq0vw8" path="res://scripts/planets/Planet_ice.gd" id="3_anxbh"]
 
 [sub_resource type="Gradient" id="Gradient_0s5if"]
+resource_local_to_scene = true
 interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.20769231, 0.42564103, 0.7589744)
-colors = PackedColorArray(0.19032872, 0.17494148, 0.1976954, 1, 0.7212958, 0.75968945, 0.7253844, 1, 0.7228525, 0.7904491, 0.8575295, 1, 0.82805777, 0.88616526, 0.9444556, 1)
+offsets = PackedFloat32Array(0, 0.25384617, 0.6666667)
+colors = PackedColorArray(0.19032872, 0.17494148, 0.1976954, 1, 0.7228525, 0.7904491, 0.8575295, 1, 0.82805777, 0.88616526, 0.9444556, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_io4qm"]
+resource_local_to_scene = true
 gradient = SubResource("Gradient_0s5if")
 
 [sub_resource type="Gradient" id="Gradient_rg3is"]
+resource_local_to_scene = true
 interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.2948718, 0.54615384, 0.86923075)
+offsets = PackedFloat32Array(0, 0.2948718, 0.5435898, 0.8820513)
 colors = PackedColorArray(0.11577504, 0.096703, 0.15764192, 1, 0.09057114, 0.26289263, 0.41672075, 1, 0.32504153, 0.5469072, 0.72783065, 1, 0.62904686, 0.79688233, 0.8989128, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_8lqpq"]
+resource_local_to_scene = true
 gradient = SubResource("Gradient_rg3is")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_2ucv6"]
@@ -62,10 +66,11 @@ shader_parameter/clouds = false
 shader_parameter/light_enabled = true
 shader_parameter/light_dir = Vector3(1, -1.245, 2.205)
 shader_parameter/light_strenght = 2.10000003129252
-shader_parameter/light_noise_strenght = 0.15
+shader_parameter/light_noise_strenght = 0.1
 
 [node name="Planet" type="Sprite2D"]
 material = SubResource("ShaderMaterial_anxbh")
 texture = ExtResource("2_6yqi0")
-script = ExtResource("3_h6ncc")
+script = ExtResource("3_anxbh")
+default_colors = PackedColorArray(0.1882353, 0.17254902, 0.19607843, 1, 0.72156864, 0.7882353, 0.85490197, 1, 0.827451, 0.88235295, 0.9411765, 1, 0.11372549, 0.09411765, 0.15686275, 1, 0.09019608, 0.2627451, 0.41568628, 1, 0.32156864, 0.54509807, 0.7254902, 1, 0.627451, 0.79607844, 0.8980392, 1)
 cloud_threshold = 0.85

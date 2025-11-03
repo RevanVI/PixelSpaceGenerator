@@ -1,0 +1,163 @@
+[gd_scene load_steps=12 format=3 uid="uid://dx01hki8oabg5"]
+
+[ext_resource type="Script" uid="uid://deyq6amxn35tp" path="res://scripts/debug/color_generation_debug.gd" id="1_adx2c"]
+[ext_resource type="Shader" uid="uid://dex7k67orhngt" path="res://shaders/debug/color_generation_debug.gdshader" id="2_s12qh"]
+
+[sub_resource type="Gradient" id="Gradient_adx2c"]
+offsets = PackedFloat32Array(0, 0.17324561, 0.36622807, 0.54385966, 0.7434211, 0.9298246)
+colors = PackedColorArray(0.7147338, 0.6803091, 0.15157217, 1, 0.10218302, 0.9172288, 0.71060735, 1, 0.12186838, 0.99970126, 0.9987833, 1, 0.74250466, 0.8971974, 0.64548093, 1, 0.97773707, 0.6476615, 0.10507753, 1, 0.45371926, 0.34346512, 0.07257847, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_s12qh"]
+gradient = SubResource("Gradient_adx2c")
+
+[sub_resource type="Gradient" id="Gradient_s12qh"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.16885965, 0.3399123, 0.51754385, 0.7017544, 0.8618421)
+colors = PackedColorArray(0.7147338, 0.6803091, 0.15157217, 1, 0.10218302, 0.9172288, 0.71060735, 1, 0.12186838, 0.99970126, 0.9987833, 1, 0.74250466, 0.8971974, 0.64548093, 1, 0.97773707, 0.6476615, 0.10507753, 1, 0.45371926, 0.34346512, 0.07257847, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_i2h0u"]
+gradient = SubResource("Gradient_s12qh")
+
+[sub_resource type="Gradient" id="Gradient_i2h0u"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.16885965, 0.3399123, 0.51754385, 0.7017544, 0.8618421)
+colors = PackedColorArray(0.80031365, 0.7762164, 0.40610054, 1, 0.37152812, 0.9420602, 0.79742515, 1, 0.38530788, 0.9997909, 0.9991483, 1, 0.8197533, 0.9280382, 0.75183666, 1, 0.98441595, 0.7533631, 0.3735543, 1, 0.6176035, 0.5404256, 0.35080492, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_s1ak4"]
+gradient = SubResource("Gradient_i2h0u")
+
+[sub_resource type="Gradient" id="Gradient_5mlgy"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.16885965, 0.3399123, 0.51754385, 0.7017544, 0.8618421)
+colors = PackedColorArray(0.50031364, 0.47621638, 0.106100515, 1, 0.071528114, 0.64206016, 0.49742514, 1, 0.08530787, 0.6997909, 0.6991483, 1, 0.5197533, 0.62803817, 0.45183665, 1, 0.68441594, 0.45336306, 0.07355427, 1, 0.31760347, 0.24042559, 0.050804928, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_l77at"]
+gradient = SubResource("Gradient_5mlgy")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i2h0u"]
+shader = ExtResource("2_s12qh")
+shader_parameter/a = Vector3(0.5, 0.5, 0.5)
+shader_parameter/b = Vector3(0.5, 0.5, 0.5)
+shader_parameter/c = Vector3(1.0859526, 0.49221107, 0.96002245)
+shader_parameter/d = Vector3(1.1799488, 0.80912733, 0.6276091)
+
+[node name="ColorGenerationDebug" type="Node2D" node_paths=PackedStringArray("linear_gradien_tex", "contant_gradien_tex", "lightened_contant_gradien_tex", "darkened_contant_gradien_tex", "shader_linear_tex")]
+script = ExtResource("1_adx2c")
+linear_gradien_tex = NodePath("Control/ColorRect/VBoxContainer/LinearGradientHBox/LinearGradientTex")
+contant_gradien_tex = NodePath("Control/ColorRect/VBoxContainer/ConstantGradientHBox/ConstantGradientTex")
+lightened_contant_gradien_tex = NodePath("Control/ColorRect/VBoxContainer/LightenedConstantGradientHBox/LightenedConstantGradientTex")
+darkened_contant_gradien_tex = NodePath("Control/ColorRect/VBoxContainer/DarkenedConstantGradientHBox/DarkenedConstantGradientTex")
+shader_linear_tex = NodePath("Control/ColorRect/VBoxContainer/ShaderLinearHBox/ShaderLinearTex")
+a = Color(0.5, 0.5, 0.5, 1)
+b = Color(0.5, 0.5, 0.5, 1)
+c = Color(1.0859526, 0.49221107, 0.96002245, 1)
+d = Color(1.1799488, 0.80912733, 0.6276091, 1)
+output_colors = PackedColorArray(0.7147338, 0.6803091, 0.15157217, 1, 0.10218302, 0.9172288, 0.71060735, 1, 0.12186838, 0.99970126, 0.9987833, 1, 0.74250466, 0.8971974, 0.64548093, 1, 0.97773707, 0.6476615, 0.10507753, 1, 0.45371926, 0.34346512, 0.07257847, 1)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 311.0
+offset_bottom = 261.0
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 134.0
+offset_bottom = 41.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.38422897, 0.38422897, 0.38422894, 1)
+
+[node name="Generate" type="Button" parent="Control/ColorRect"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 16.0
+offset_right = 94.0
+offset_bottom = 47.0
+text = "Generate"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/ColorRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.272
+anchor_bottom = 0.272
+offset_left = 10.0
+
+[node name="LinearGradientHBox" type="HBoxContainer" parent="Control/ColorRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/ColorRect/VBoxContainer/LinearGradientHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Linear gradient"
+
+[node name="LinearGradientTex" type="TextureRect" parent="Control/ColorRect/VBoxContainer/LinearGradientHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = SubResource("GradientTexture1D_s12qh")
+
+[node name="ConstantGradientHBox" type="HBoxContainer" parent="Control/ColorRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/ColorRect/VBoxContainer/ConstantGradientHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Constant gradient"
+
+[node name="ConstantGradientTex" type="TextureRect" parent="Control/ColorRect/VBoxContainer/ConstantGradientHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = SubResource("GradientTexture1D_i2h0u")
+
+[node name="LightenedConstantGradientHBox" type="HBoxContainer" parent="Control/ColorRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/ColorRect/VBoxContainer/LightenedConstantGradientHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Lightened Constant "
+
+[node name="LightenedConstantGradientTex" type="TextureRect" parent="Control/ColorRect/VBoxContainer/LightenedConstantGradientHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = SubResource("GradientTexture1D_s1ak4")
+
+[node name="DarkenedConstantGradientHBox" type="HBoxContainer" parent="Control/ColorRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/ColorRect/VBoxContainer/DarkenedConstantGradientHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Darkened constant"
+
+[node name="DarkenedConstantGradientTex" type="TextureRect" parent="Control/ColorRect/VBoxContainer/DarkenedConstantGradientHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = SubResource("GradientTexture1D_l77at")
+
+[node name="ShaderLinearHBox" type="HBoxContainer" parent="Control/ColorRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/ColorRect/VBoxContainer/ShaderLinearHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Shader linear"
+
+[node name="ShaderLinearTex" type="TextureRect" parent="Control/ColorRect/VBoxContainer/ShaderLinearHBox"]
+material = SubResource("ShaderMaterial_i2h0u")
+layout_mode = 2
+size_flags_horizontal = 3
+texture = SubResource("GradientTexture1D_s12qh")
+
+[node name="Label" type="Label" parent="Control/ColorRect"]
+layout_mode = 0
+offset_left = 248.0
+offset_top = 20.0
+offset_right = 288.0
+offset_bottom = 43.0
+text = "0"
+
+[connection signal="pressed" from="Control/ColorRect/Generate" to="." method="_on_generate_pressed"]

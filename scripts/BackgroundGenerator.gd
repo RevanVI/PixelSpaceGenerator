@@ -91,7 +91,7 @@ func _place_planet(planet_id: int) -> void:
 	planet.scale = planet_scale
 	planet.position = pos
 	var pseed: int = rand_generator.randi()
-	planet.set_values(planet_id, pseed)
+	planet.set_values(planet_id, pseed, false)
 
 
 func calc_stars_count() -> int:

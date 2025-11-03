@@ -16,6 +16,7 @@ extends Control
 @onready var enable_lighting: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableLighting
 @onready var brightness_slider: HSlider = $HBoxContainer/OptionsColorRect/Settings/BrightnessSlider
 @onready var brightness_value: Label = $HBoxContainer/OptionsColorRect/Settings/HBoxContainer5/BrightnessValue
+@onready var use_random_colors: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/UseRandomColors
 @onready var viewportBackground: ColorRect = $HBoxContainer/RenderControl/ViewportBackground
 
 
@@ -43,6 +44,7 @@ func set_active_settings() -> void:
 	enable_transparency.button_pressed = current_settings.transparancy_enabled
 	enable_lighting.button_pressed = current_settings.planet_lighting_enabled
 	brightness_slider.value = current_settings.brightness
+	use_random_colors.button_pressed = current_settings.use_random_colors
 
 
 #generation
@@ -130,3 +132,7 @@ func _on_brightness_slider_value_changed(value: float) -> void:
 
 func _on_enable_lighting_toggled(toggled_on: bool) -> void:
 	generator.toggle_lighting(toggled_on)
+
+
+func _on_use_random_colors_toggled(toggled_on: bool) -> void:
+	generator.set_use_random_colors(toggled_on)
