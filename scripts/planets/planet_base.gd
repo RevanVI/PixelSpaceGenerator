@@ -6,6 +6,7 @@ enum PlanetType {
 	COMMON = 0,
 	ICE = 1,
 	BARREN = 2,
+	LAVA = 3,
 }
 
 
