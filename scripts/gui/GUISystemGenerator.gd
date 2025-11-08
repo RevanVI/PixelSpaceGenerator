@@ -3,7 +3,6 @@ extends Control
 
 @onready var generator : StarSystemGenerator = $SubViewport/StarSystemGenerator
 @onready var viewport : SubViewport = $SubViewport
-@onready var global_scheme : GradientTexture2D = preload("res://sprites/Colorscheme.tres")
 @onready var export_path: Label = $HBoxContainer/OptionsColorRect/Settings/ExportPathLabel
 @onready var seed_box: SpinBox = $HBoxContainer/OptionsColorRect/Settings/HBoxContainer3/Seed
 @onready var color_scheme_container: Node = $HBoxContainer/OptionsColorRect/Settings/ColorShemesContainer/ColorSchemesVerticalContainer
@@ -44,7 +43,7 @@ func set_active_settings() -> void:
 	enable_transparency.button_pressed = current_settings.transparancy_enabled
 	enable_lighting.button_pressed = current_settings.planet_lighting_enabled
 	brightness_slider.value = current_settings.brightness
-	use_random_colors.button_pressed = current_settings.use_random_colors
+	#use_random_colors.button_pressed = current_settings.use_random_colors
 
 
 #generation
@@ -100,8 +99,7 @@ func export_image() -> void:
 
 #visible setiings signals
 func select_colorscheme(scheme : PackedColorArray) -> void:
-	generator.set_background_color(scheme[0])
-	global_scheme.gradient.colors = scheme.slice(1,8)
+	generator.update_color_palette(scheme)
 
 
 func _on_EnableStars_pressed() -> void:

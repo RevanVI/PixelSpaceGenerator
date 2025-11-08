@@ -8,7 +8,7 @@ uniform int OCTAVES : hint_range(0, 20, 1);
 uniform float seed: hint_range(1, 10);
 uniform float pixels = 200.0;
 uniform float brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
-uniform sampler2D colorscheme;
+uniform sampler2D palette;
 uniform vec2 uv_correct = vec2(1.0);
 
 
@@ -50,6 +50,6 @@ void fragment() {
 	n_dust_lerp = pow(n_dust_lerp, brightness) * brightness;
 
 	float col_value = floor(n_dust_lerp) / 7.0;
-	vec3 col = texture(colorscheme, vec2(col_value, 0.0)).rgb;
+	vec3 col = texture(palette, vec2(col_value, 0.0)).rgb;
 	COLOR = vec4(col, a_dust);
 }

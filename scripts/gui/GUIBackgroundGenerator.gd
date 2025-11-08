@@ -3,7 +3,6 @@ extends Control
 
 @onready var generator : BackgroundGenerator = $SubViewport/BackgroundGenerator
 @onready var viewport : SubViewport = $SubViewport
-@onready var global_scheme : GradientTexture2D = preload("res://sprites/Colorscheme.tres")
 @onready var export_path: Label = $HBoxContainer/OptionsColorRect/Settings/ExportPathLabel
 @onready var seed_box: SpinBox = $HBoxContainer/OptionsColorRect/Settings/HBoxContainer3/Seed
 @onready var color_scheme_container: Node = $HBoxContainer/OptionsColorRect/Settings/ColorShemesContainer/ColorSchemesVerticalContainer
@@ -97,8 +96,7 @@ func export_image() -> void:
 
 #visual settings signals
 func select_colorscheme(scheme : PackedColorArray) -> void:
-	generator.set_background_color(scheme[0])
-	global_scheme.gradient.colors = scheme.slice(1,8)
+	generator.update_color_palette(scheme)
 
 
 func _on_EnableStars_pressed() -> void:

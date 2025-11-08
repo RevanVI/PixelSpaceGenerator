@@ -2,13 +2,20 @@ extends Control
 class_name StarSystemGenerator
 
 
+
+
 @onready var background_generator: BackgroundGenerator = $BackgroundGenerator
 @onready var planetcontainer : ObjectPool = $PlanetContainer
 @onready var system_star_scene : PackedScene = preload("res://scenes/SystemStar.tscn")
 
 
 @export var planet_types: Dictionary[PlanetBase.PlanetType, PackedScene]
-
+@export var color_mode: ColorHelpers.COLOR_MODE = ColorHelpers.COLOR_MODE.PREDETERMINED:
+	set(value): 
+		color_mode = value
+		set_color_mode(value)
+	
+@export var color_palette: GradientTexture2D
 
 var planets: Array[PlanetBase] = []
 var star: SystemStar
@@ -16,7 +23,6 @@ var rand_generator: RandomNumberGenerator
 
 var lighting_enabled: bool = true
 var brightness: float = 1.0
-var use_random_colors: bool = false
 
 #planet generator constants
 const PLANET_COUNT_MAX: int = 5
@@ -24,6 +30,7 @@ const PLANET_COUNT_MAX: int = 5
 
 func _ready() -> void:
 	rand_generator = RandomNumberGenerator.new()
+	background_generator.color_mode = color_mode
 	#planetcontainer.init(planet_scene, PLANET_COUNT_MAX)
 
 
@@ -80,7 +87,7 @@ func place_planet(planet_id: int, planet_amount: int) -> void:
 	var radius: float = rand_generator.randf_range(radius_low, radius_high)
 	planet.position = Vector2(int(radius * size.x), int(0.5 * size.y))
 
-	planet.set_values(planet_id, rand_generator.randi(), use_random_colors)
+	planet.set_values(planet_id, rand_generator.randi(), color_mode, color_palette)
 	planet.set_light_dir((star.position - planet.position).normalized())
 
 	#make moons here
@@ -103,12 +110,8 @@ func get_current_settings() -> VisualSettings:
 	current_settings.planet_lighting_enabled = lighting_enabled
 	current_settings.transparancy_enabled = !background_generator.background.visible
 	current_settings.brightness = brightness
-	current_settings.use_random_colors = use_random_colors
+	current_settings.color_mode = color_mode
 	return current_settings
-
-
-func set_background_color(c : Color) -> void:
-	background_generator.set_background_color(c)
 
 
 func toggle_dust() -> void:
@@ -145,7 +148,16 @@ func set_brightness(value: float = 1.0) -> void:
 	star.set_brightness(value)
 
 
-func set_use_random_colors(value: bool = false) -> void:
-	use_random_colors = value
+# Colors methods
+func set_color_mode(mode: ColorHelpers.COLOR_MODE) -> void:
+	background_generator.set_color_mode(mode)
 	for pl: PlanetBase in planets:
-		pl.set_use_random_colors(value)	
+		pl.set_color_mode(mode)	
+
+
+func update_color_palette(scheme: PackedColorArray) -> void:
+	print("StarSystemGenerator update_color_palette")
+	color_palette.gradient.colors = scheme.slice(0,8)
+	background_generator.update_color_palette(scheme)
+	if color_mode == ColorHelpers.COLOR_MODE.PALETTE:
+		set_color_mode(color_mode)

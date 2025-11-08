@@ -13,11 +13,14 @@ enum PlanetType {
 var planet_id: int
 var rand_generator: RandomNumberGenerator
 @export var planet_type: PlanetType
+@export_range(0.0, 1.0) var cloud_threshold: float = 0.8;
+#Color parameters
 @export var default_colors: PackedColorArray
 var colors_1: PackedColorArray
 var colors_2: PackedColorArray
-var use_random_colors: bool = false
-@export_range(0.0, 1.0) var cloud_threshold: float = 0.8;
+var color_palette: GradientTexture2D
+var color_mode: ColorHelpers.COLOR_MODE
+
 
 
 func _ready() -> void:
@@ -25,7 +28,7 @@ func _ready() -> void:
 	rand_generator = RandomNumberGenerator.new()
 
 
-func set_values(iplanet_id: int, iseed: int, iuse_random_colors: bool) -> void:
+func set_values(iplanet_id: int, iseed: int, icolor_mode: ColorHelpers.COLOR_MODE, palette: GradientTexture2D) -> void:
 	print("Planet id " + str(iplanet_id) + " set_values start, seed: " + str(iseed))
 
 	planet_id = iplanet_id
@@ -52,10 +55,10 @@ func set_values(iplanet_id: int, iseed: int, iuse_random_colors: bool) -> void:
 	var planet_rotation : float = rand_generator.randf()
 	material.set_shader_parameter("angles", [planet_rotation, 0.0, 0.0])
 
-	use_random_colors = iuse_random_colors
+	color_palette = palette
+	color_mode = icolor_mode
 	randomize_colors()	
-	if use_random_colors:
-		set_colors(colors_1, colors_2)
+	set_color_mode(color_mode)
 	show()
 	print("Planet id " + str(planet_id) + " set_values end")
 
@@ -78,23 +81,39 @@ func calc_pixel_size() -> int:
 	return pixels
 
 
+# Colors methods
+func set_color_mode(mode: ColorHelpers.COLOR_MODE) -> void:
+	print("Planet id " + str(planet_id) + " set_color_mode " + str(mode))
+	color_mode = mode
+	if mode == ColorHelpers.COLOR_MODE.PALETTE:
+		var points_1: PackedFloat32Array = material.get_shader_parameter("colors_1").gradient.offsets
+		var palette_colors_1: PackedColorArray = []
+		for i: float in points_1:
+			var color: Color = color_palette.gradient.sample(i)
+			palette_colors_1.append(color)
+
+		var points_2: PackedFloat32Array = material.get_shader_parameter("colors_2").gradient.offsets
+		var palette_colors_2: PackedColorArray = []
+		for i: float in points_2:
+			var color: Color = color_palette.gradient.sample(i)
+			palette_colors_2.append(color)
+
+		set_colors(palette_colors_1, palette_colors_2)
+	elif mode == ColorHelpers.COLOR_MODE.PREDETERMINED:
+		var count_points_1: int = material.get_shader_parameter("colors_1").gradient.get_point_count()
+		var count_points_2: int = material.get_shader_parameter("colors_2").gradient.get_point_count()
+		assert(default_colors.size() >= (count_points_1 + count_points_2))
+		set_colors(default_colors.slice(0, count_points_1), default_colors.slice(count_points_1, count_points_1 + count_points_2))
+	else: 
+		set_colors(colors_1, colors_2)
+
+
 func set_colors(colors1: PackedColorArray, colors2: PackedColorArray) -> void:
 	print("Planet id " + str(planet_id) + " set_colors")
 	var tex: GradientTexture2D = material.get_shader_parameter("colors_1")
 	tex.gradient.colors = colors1
 	tex = material.get_shader_parameter("colors_2")
 	tex.gradient.colors = colors2
-
-
-func set_use_random_colors(value: bool) -> void:
-	print("Planet id " + str(planet_id) + " set_use_random_color " + str(value))
-	if value:
-		set_colors(colors_1, colors_2)
-	else:
-		var count_points_1: int = material.get_shader_parameter("colors_1").gradient.get_point_count()
-		var count_points_2: int = material.get_shader_parameter("colors_2").gradient.get_point_count()
-		assert(default_colors.size() >= (count_points_1 + count_points_2))
-		set_colors(default_colors.slice(0, count_points_1), default_colors.slice(count_points_1, count_points_1 + count_points_2))
 
 
 func generate_new_colors(count: int) -> PackedColorArray:
