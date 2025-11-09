@@ -11,7 +11,7 @@ func randomize_colors() -> void:
 		var col: Color = colors[0].darkened(0.6)
 		col = col.lightened(i / 4.0)
 		new_colors.append(col)
-	colors_1 = new_colors
+	rand_colors_1 = new_colors
 	
 	new_colors = PackedColorArray()
 	for i: int in 4:
@@ -19,4 +19,4 @@ func randomize_colors() -> void:
 		col.h = col.h + (1.0 - i / 4.0) * 0.1
 		col = col.lightened(i / 4.0)
 		new_colors.append(col)
-	colors_2 = new_colors
+	rand_colors_2 = new_colors

@@ -6,7 +6,7 @@ var rand_generator: RandomNumberGenerator
 
 @export var star_type: Dictionary[String, GradientTexture2D]
 var color_mode: ColorHelpers.COLOR_MODE
-var predetermined_color: GradientTexture2D
+var defined_colors: GradientTexture2D
 var rand_colors: PackedColorArray
 var color_palette: GradientTexture2D
 
@@ -22,8 +22,8 @@ func set_values(iseed: int, icolor_mode: ColorHelpers.COLOR_MODE, ipalette: Grad
 	material.set_shader_parameter("pixels", calc_pixel_size())
 
 	var star_type_ind: int = rand_generator.randi_range(0, star_type.size() - 1)
-	predetermined_color = star_type.values()[star_type_ind]
-	material.set_shader_parameter("defined_colors", predetermined_color)
+	defined_colors = star_type.values()[star_type_ind]
+	material.set_shader_parameter("defined_colors", defined_colors)
 
 	var brightness_mod: float = rand_generator.randf_range(0.85, 1.2)
 	material.set_shader_parameter("brightness_mod", brightness_mod)
@@ -66,7 +66,7 @@ func set_color_mode(mode: ColorHelpers.COLOR_MODE) -> void:
 			palette_colors_1.append(color)
 		material.set_shader_parameter("use_defined_colors", false)
 		set_colors(palette_colors_1)
-	elif mode == ColorHelpers.COLOR_MODE.PREDETERMINED:
+	elif mode == ColorHelpers.COLOR_MODE.DEFINED:
 		material.set_shader_parameter("use_defined_colors", true)
 	else: 
 		material.set_shader_parameter("use_defined_colors", false)

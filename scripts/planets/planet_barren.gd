@@ -12,7 +12,7 @@ func randomize_colors() -> void:
 		var col: Color = colors[0].darkened(0.5)
 		col = col.lightened(i / 4.0)
 		new_colors.append(col)
-	colors_1 = new_colors
+	rand_colors_1 = new_colors
 	
 	# craters. Using darker colors and shift hue a little bit
 	new_colors = PackedColorArray()
@@ -21,4 +21,4 @@ func randomize_colors() -> void:
 		col.h = col.h + (1.0 - i / 3.0) * 0.1
 		col = col.lightened(i / 4.0)
 		new_colors.append(col)
-	colors_2 = new_colors
+	rand_colors_2 = new_colors

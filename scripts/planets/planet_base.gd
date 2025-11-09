@@ -15,9 +15,9 @@ var rand_generator: RandomNumberGenerator
 @export var planet_type: PlanetType
 @export_range(0.0, 1.0) var cloud_threshold: float = 0.8;
 #Color parameters
-@export var default_colors: PackedColorArray
-var colors_1: PackedColorArray
-var colors_2: PackedColorArray
+@export var defined_colors: PackedColorArray
+var rand_colors_1: PackedColorArray
+var rand_colors_2: PackedColorArray
 var color_palette: GradientTexture2D
 var color_mode: ColorHelpers.COLOR_MODE
 
@@ -57,7 +57,7 @@ func set_values(iplanet_id: int, iseed: int, icolor_mode: ColorHelpers.COLOR_MOD
 
 	color_palette = palette
 	randomize_colors()	
-	set_color_mode(color_mode)
+	set_color_mode(icolor_mode)
 	show()
 	print("Planet id " + str(planet_id) + " set_values end")
 
@@ -98,13 +98,13 @@ func set_color_mode(mode: ColorHelpers.COLOR_MODE) -> void:
 			palette_colors_2.append(color)
 
 		set_colors(palette_colors_1, palette_colors_2)
-	elif mode == ColorHelpers.COLOR_MODE.PREDETERMINED:
+	elif mode == ColorHelpers.COLOR_MODE.DEFINED:
 		var count_points_1: int = material.get_shader_parameter("colors_1").gradient.get_point_count()
 		var count_points_2: int = material.get_shader_parameter("colors_2").gradient.get_point_count()
-		assert(default_colors.size() >= (count_points_1 + count_points_2))
-		set_colors(default_colors.slice(0, count_points_1), default_colors.slice(count_points_1, count_points_1 + count_points_2))
+		assert(defined_colors.size() >= (count_points_1 + count_points_2))
+		set_colors(defined_colors.slice(0, count_points_1), defined_colors.slice(count_points_1, count_points_1 + count_points_2))
 	else: 
-		set_colors(colors_1, colors_2)
+		set_colors(rand_colors_1, rand_colors_2)
 
 
 func set_colors(colors1: PackedColorArray, colors2: PackedColorArray) -> void:
@@ -120,5 +120,5 @@ func set_colors(colors1: PackedColorArray, colors2: PackedColorArray) -> void:
 func randomize_colors() -> void:
 	print("Planet id " + str(planet_id) + " randomize_colors ")
 	var colors: PackedColorArray = ColorHelpers.generate_new_colors(8, rand_generator)
-	colors_1 = colors.slice(0, 4)
-	colors_2 = colors.slice(4, 8)
+	rand_colors_1 = colors.slice(0, 4)
+	rand_colors_2 = colors.slice(4, 8)

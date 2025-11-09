@@ -10,7 +10,7 @@ class_name StarSystemGenerator
 
 
 @export var planet_types: Dictionary[PlanetBase.PlanetType, PackedScene]
-@export var color_mode: ColorHelpers.COLOR_MODE = ColorHelpers.COLOR_MODE.PREDETERMINED:
+@export var color_mode: ColorHelpers.COLOR_MODE = ColorHelpers.COLOR_MODE.DEFINED:
 	set(value): 
 		color_mode = value
 		set_color_mode(value)
