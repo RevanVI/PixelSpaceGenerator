@@ -4,7 +4,7 @@ class_name PlanetIce
 
 func randomize_colors() -> void:
 	print("Planet id " + str(planet_id) + " randomize_colors")
-	var colors: PackedColorArray = generate_new_colors(6)
+	var colors: PackedColorArray = ColorHelpers.generate_new_colors(6, rand_generator)
 
 	var new_colors: PackedColorArray = PackedColorArray()
 	for i: int  in 3:

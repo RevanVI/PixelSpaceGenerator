@@ -4,7 +4,7 @@ class_name PlanetBarren
 
 func randomize_colors() -> void:
 	print("Planet id " + str(planet_id) + " randomize_colors")
-	var colors: PackedColorArray = generate_new_colors(4)
+	var colors: PackedColorArray = ColorHelpers.generate_new_colors(4, rand_generator)
 
 	# base surface
 	var new_colors: PackedColorArray = PackedColorArray()

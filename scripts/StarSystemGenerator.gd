@@ -51,7 +51,7 @@ func make_system_star() -> void:
 	var star_radius: float = 0.5 * rand_size * star.texture.get_height()
 	star.position = Vector2(-0.33 * star_radius, 0.5 * size.y)
 	star.scale = Vector2(1, 1) * rand_size
-	star.set_values(rand_generator.randi())
+	star.set_values(rand_generator.randi(), color_mode, color_palette)
 
 
 func make_planets() -> void:
@@ -150,7 +150,8 @@ func set_brightness(value: float = 1.0) -> void:
 
 # Colors methods
 func set_color_mode(mode: ColorHelpers.COLOR_MODE) -> void:
-	background_generator.set_color_mode(mode)
+	background_generator.color_mode = mode
+	star.set_color_mode(mode)
 	for pl: PlanetBase in planets:
 		pl.set_color_mode(mode)	
 

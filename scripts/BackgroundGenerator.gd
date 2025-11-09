@@ -25,8 +25,7 @@ var brightness: float = 1.0
 		set_color_mode(value)
 @export var color_palette: GradientTexture2D
 @export var default_colors: PackedColorArray
-var colors_1: PackedColorArray
-var colors_2: PackedColorArray
+var random_colors: PackedColorArray
 # texture for stars in background. We can have a really many of stars so share it
 @export var star_palette: GradientTexture2D
 
@@ -61,7 +60,7 @@ func generate_new(iseed: int, generate_planets: bool = true) -> void:
 	nebulae.material.set_shader_parameter("pixels", max(size.x, size.y))
 	nebulae.material.set_shader_parameter("uv_correct", aspect)
 	
-	# radomize_colors()
+	randomize_colors()
 	set_color_mode(color_mode)
 
 	if (generate_planets):
@@ -186,8 +185,7 @@ func set_color_mode(mode: ColorHelpers.COLOR_MODE) -> void:
 	elif mode == ColorHelpers.COLOR_MODE.PREDETERMINED:
 		set_colors(default_colors)
 	else:
-		print("random") 
-		#set_colors(colors_1, colors_2)
+		set_colors(random_colors)
 
 
 func update_color_palette(scheme: PackedColorArray) -> void:
@@ -209,3 +207,15 @@ func set_colors(colors: PackedColorArray) -> void:
 
 	for p : Sprite2D in planets:
 		p.material.set_shader_parameter("colorscheme", color_palette)
+
+
+func randomize_colors() -> void:
+	print("BackgroundGenerator randomize_colors")
+	var colors: PackedColorArray = ColorHelpers.generate_new_colors(8, rand_generator)
+
+	var new_colors: PackedColorArray = PackedColorArray()
+	for i: int in 8:
+		var col: Color = colors[0].darkened(0.6)
+		col = col.lightened(i / 8.0)
+		new_colors.append(col)
+	random_colors = new_colors

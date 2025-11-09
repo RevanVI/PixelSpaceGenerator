@@ -5,7 +5,9 @@ render_mode blend_mix, unshaded;
 
 uniform float seed = 123.0;
 uniform float pixels = 200.0;
-uniform sampler2D colorscheme;
+uniform bool use_defined_colors = true;
+uniform sampler2D defined_colors;
+uniform sampler2D palette;
 uniform float brightness_mod: hint_range(0.5, 2.0, 0.01) = 1.0;
 uniform float brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
 uniform vec3 angles = vec3(0.0, 0.0, 0.0);
@@ -59,6 +61,19 @@ vec3 sphere_coord(vec2 uv, float r, vec3 ang) {
 }
 
 
+vec3 get_color(vec2 coords) {
+	vec3 color = vec3(0.0);
+	if (use_defined_colors) {
+		color = texture(defined_colors, coords).rgb;
+	}
+		
+	else {
+		color = texture(palette, coords).rgb;
+	}
+	return color;
+}
+
+
 void fragment() {
 	// pixelzing
 	vec2 uv = floor(UV * pixels) / pixels;
@@ -66,7 +81,7 @@ void fragment() {
 	// distance from center
 	float d_to_center = distance(uv, vec2(0.5));
 	
-	COLOR = vec4(texture(colorscheme, vec2(0.0)).rgb, 0.0);
+	COLOR = vec4(get_color(vec2(0.0)), 0.0);
 	if (d_to_center <= radius) {
 		vec3 sphere = sphere_coord(uv, radius, angles);
 		
@@ -83,14 +98,14 @@ void fragment() {
 		float final_brightness = brightness * brightness_mod;
 		noise_val = pow(noise_val, 1.0 / final_brightness) * final_brightness;
 		float col_val = floor(noise_val * 14.0) / 7.0;
-		vec3 col = texture(colorscheme, vec2(col_val, 0.0)).rgb;
+		vec3 col = get_color(vec2(col_val, 0.0));
 		COLOR = vec4(col, 1.0);
 	}
 	if (d_to_center > radius) {
 		float atm_radius = radius * 1.1;
 		int bands = 4;
 		vec4 atm = vec4(vec3(0.0), 0.0);
-		vec3 base_color = texture(colorscheme, vec2(1.0, 0.0)).rgb;
+		vec3 base_color = get_color(vec2(1.0, 0.0));
 		float final_brightness = brightness * brightness_mod;
 		base_color.r = pow(base_color.r, 1.0 / final_brightness) * final_brightness;
 		base_color.g = pow(base_color.g, 1.0 / final_brightness) * final_brightness;

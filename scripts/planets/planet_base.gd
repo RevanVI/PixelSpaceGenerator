@@ -56,7 +56,6 @@ func set_values(iplanet_id: int, iseed: int, icolor_mode: ColorHelpers.COLOR_MOD
 	material.set_shader_parameter("angles", [planet_rotation, 0.0, 0.0])
 
 	color_palette = palette
-	color_mode = icolor_mode
 	randomize_colors()	
 	set_color_mode(color_mode)
 	show()
@@ -116,40 +115,10 @@ func set_colors(colors1: PackedColorArray, colors2: PackedColorArray) -> void:
 	tex.gradient.colors = colors2
 
 
-func generate_new_colors(count: int) -> PackedColorArray:
-	# Simple color palette generation based on https://iquilezles.org/articles/palettes/
-
-	# Use planet rand generator for colors too for now.
-	# It gives consistency between generations (seed remains the same)
-	# but user cannot randomly generate colors
-	var a: Vector3 = Vector3(0.5, 0.5, 0.5)
-	var b: Vector3 = Vector3(0.5, 0.5, 0.5)
-	var c: Vector3 = Vector3(
-		rand_generator.randf_range(0.4, 1.5), 
-		rand_generator.randf_range(0.4, 1.5), 
-		rand_generator.randf_range(0.4, 1.5))
-	var d: Vector3 = Vector3(
-		rand_generator.randf_range(0.4, 1.2), 
-		rand_generator.randf_range(0.4, 1.2), 
-		rand_generator.randf_range(0.4, 1.2))
-	
-	var colors: PackedColorArray = PackedColorArray()
-
-	count = max(count, 1)
-	for i: int in range(0, count):
-		var modif: float = i / max(count - 1.0, 1.0)
-		var x: float =  a.x + b.x * cos(6.28 * (c.x * modif + d.x))
-		var y: float =  a.y + b.y * cos(6.28 * (c.y * modif + d.y))
-		var z: float =  a.z + b.z * cos(6.28 * (c.z * modif + d.z))
-		colors.append(Color(x, y, z))
-	
-	return colors
-
-
 # Generate random color for planet. 
 # Should be overriden for different planet types
 func randomize_colors() -> void:
 	print("Planet id " + str(planet_id) + " randomize_colors ")
-	var colors: PackedColorArray = generate_new_colors(8)
+	var colors: PackedColorArray = ColorHelpers.generate_new_colors(8, rand_generator)
 	colors_1 = colors.slice(0, 4)
 	colors_2 = colors.slice(4, 8)
