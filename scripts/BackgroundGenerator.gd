@@ -90,8 +90,8 @@ func _place_planet(planet_id: int) -> void:
 	planets.append(planet)
 	planet.scale = planet_scale
 	planet.position = pos
-	#var pseed: int = rand_generator.randi()
-	#planet.set_values(planet_id, pseed, false)
+	var pseed: int = rand_generator.randi()
+	planet.set_values(planet_id, pseed, color_mode, color_palette)
 
 
 func calc_stars_count() -> int:
@@ -204,7 +204,8 @@ func set_colors(colors: PackedColorArray) -> void:
 	tex.gradient.colors = colors
 	tex = nebulae.material.get_shader_parameter("palette")
 	tex.gradient.colors = colors
-	nebulae.material.set_shader_parameter("background_color", colors.slice(0, 1))
+	nebulae.material.set_shader_parameter("background_color", colors.slice(0, 1)[0])
+	background.color = colors.slice(0, 1)[0]
 	star_palette.gradient.colors = colors.slice(0, 8)
 
 
