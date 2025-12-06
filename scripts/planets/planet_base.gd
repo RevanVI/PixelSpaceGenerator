@@ -7,6 +7,7 @@ enum PlanetType {
 	ICE = 1,
 	BARREN = 2,
 	LAVA = 3,
+	GAS_LAYERED = 4,
 }
 
 

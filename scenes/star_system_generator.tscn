@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bs3887pshh4c3"]
+[gd_scene load_steps=15 format=3 uid="uid://bs3887pshh4c3"]
 
 [ext_resource type="Script" uid="uid://cwq4wkgbnlge5" path="res://scripts/StarSystemGenerator.gd" id="1_3rxsl"]
 [ext_resource type="PackedScene" uid="uid://c44u5g0iuf311" path="res://scenes/BackgroundGenerator.tscn" id="1_ejbn0"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://brjw15ql033cn" path="res://scenes/planets/Planet_ice.tscn" id="3_eipdn"]
 [ext_resource type="PackedScene" uid="uid://basdyd5js0buu" path="res://scenes/planets/Planet_barren.tscn" id="4_gu62f"]
 [ext_resource type="PackedScene" uid="uid://b8m8sokdy2o1h" path="res://scenes/planets/Planet_lava.tscn" id="5_eipdn"]
+[ext_resource type="PackedScene" uid="uid://dft7qb48id2hk" path="res://scenes/planets/Planet_gas_layered.tscn" id="5_gu62f"]
 
 [sub_resource type="Gradient" id="1"]
 resource_local_to_scene = true
@@ -49,7 +50,8 @@ planet_types = Dictionary[int, PackedScene]({
 0: ExtResource("2_y4phi"),
 1: ExtResource("3_eipdn"),
 2: ExtResource("4_gu62f"),
-3: ExtResource("5_eipdn")
+3: ExtResource("5_eipdn"),
+4: ExtResource("5_gu62f")
 })
 color_palette = SubResource("GradientTexture2D_ncimm")
 
