@@ -1,10 +1,20 @@
-[gd_scene load_steps=12 format=3 uid="uid://3rpabicjy07h"]
+[gd_scene load_steps=14 format=3 uid="uid://3rpabicjy07h"]
 
 [ext_resource type="Theme" uid="uid://t7qc4m724rcq" path="res://themes/Theme.tres" id="1_lgu5b"]
 [ext_resource type="Script" uid="uid://btqnomrwvmsvg" path="res://scripts/gui/GUISystemGenerator.gd" id="2_lgu5b"]
 [ext_resource type="PackedScene" uid="uid://bs3887pshh4c3" path="res://scenes/star_system_generator.tscn" id="3_lgu5b"]
 [ext_resource type="Texture2D" uid="uid://dmj13e54cck1s" path="res://sprites/gui/transparent.png" id="4_rmy1q"]
 [ext_resource type="PackedScene" uid="uid://cytukqpi1a1hq" path="res://scenes/gui/SchemeSelectButton.tscn" id="5_bacxw"]
+
+[sub_resource type="Gradient" id="Gradient_lgu5b"]
+resource_local_to_scene = true
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.12371134, 0.28006873, 0.43127146, 0.58247423, 0.73195875, 0.857, 1)
+colors = PackedColorArray(0.12549, 0.133333, 0.0823529, 1, 0.227451, 0.156863, 0.00784314, 1, 0.588235, 0.235294, 0.235294, 1, 0.792157, 0.352941, 0.180392, 1, 1, 0.470588, 0.192157, 1, 0.952941, 0.6, 0.286275, 1, 0.921569, 0.760784, 0.458824, 1, 0.87451, 0.843137, 0.521569, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cyt77"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_lgu5b")
 
 [sub_resource type="ViewportTexture" id="1"]
 viewport_path = NodePath("SubViewport")
@@ -47,6 +57,7 @@ size = Vector2i(5000, 5000)
 [node name="StarSystemGenerator" parent="SubViewport" instance=ExtResource("3_lgu5b")]
 offset_right = 100.0
 offset_bottom = 100.0
+color_palette = SubResource("GradientTexture2D_cyt77")
 
 [node name="Camera1" type="Camera2D" parent="SubViewport"]
 
@@ -194,6 +205,27 @@ text = "New seed"
 [node name="Spacer2" type="Control" parent="HBoxContainer/OptionsColorRect/Settings"]
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
+
+[node name="ColorModeContainer" type="HBoxContainer" parent="HBoxContainer/OptionsColorRect/Settings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/OptionsColorRect/Settings/ColorModeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "color mode:"
+
+[node name="ColorModeOptionButton" type="OptionButton" parent="HBoxContainer/OptionsColorRect/Settings/ColorModeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+selected = 0
+item_count = 3
+popup/item_0/text = "defined"
+popup/item_0/id = 0
+popup/item_1/text = "palette"
+popup/item_1/id = 1
+popup/item_2/text = "random"
+popup/item_2/id = 2
 
 [node name="Label2" type="Label" parent="HBoxContainer/OptionsColorRect/Settings"]
 layout_mode = 2
@@ -386,6 +418,7 @@ one_shot = true
 [connection signal="value_changed" from="HBoxContainer/OptionsColorRect/Settings/HBoxContainer/PixelsWidth" to="." method="_on_PixelsWidth_value_changed"]
 [connection signal="value_changed" from="HBoxContainer/OptionsColorRect/Settings/HBoxContainer2/PixelsHeight" to="." method="_on_PixelsHeight_value_changed"]
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/HBoxContainer3/SeedButton" to="." method="_on_seed_button_pressed"]
+[connection signal="item_selected" from="HBoxContainer/OptionsColorRect/Settings/ColorModeContainer/ColorModeOptionButton" to="." method="_on_color_mode_option_button_item_selected"]
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableStars" to="." method="_on_EnableStars_pressed"]
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableDust" to="." method="_on_EnableDust_pressed"]
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableNebulae" to="." method="_on_EnableNebulae_pressed"]

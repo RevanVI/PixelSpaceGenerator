@@ -7,17 +7,27 @@ class_name BackgroundGenerator
 @onready var nebulae : ColorRect = $Nebulae
 @onready var starcontainer : ObjectPool = $StarContainer
 @onready var planetcontainer : ObjectPool = $PlanetContainer
-@onready var planet_scene : PackedScene = preload("res://scenes/Planet.tscn")
+@onready var planet_scene : PackedScene = preload("res://scenes/planets/Planet_common.tscn")
 @onready var big_star_scene : PackedScene = preload("res://scenes/BigStar.tscn")
 
 var rand_generator: RandomNumberGenerator
 
-@export var colorscheme: GradientTexture2D
 var stars : Array[Star] = []
-var planets: Array[Planet] = []
+var planets: Array[PlanetBase] = []
 
 var lighting_enabled: bool = true
 var brightness: float = 1.0
+
+# color parameters
+@export var color_mode: ColorHelpers.COLOR_MODE = ColorHelpers.COLOR_MODE.DEFINED:
+	set(value): 
+		color_mode = value
+		set_color_mode(value)
+@export var color_palette: GradientTexture2D
+@export var defined_colors: PackedColorArray
+var rand_colors: PackedColorArray
+# texture for stars in background. We can have a really many of stars so share it
+@export var star_palette: GradientTexture2D
 
 #planet generator constants
 const PLANET_COUNT_MAX: int = 5
@@ -50,27 +60,17 @@ func generate_new(iseed: int, generate_planets: bool = true) -> void:
 	nebulae.material.set_shader_parameter("pixels", max(size.x, size.y))
 	nebulae.material.set_shader_parameter("uv_correct", aspect)
 	
+	randomize_colors()
+	set_color_mode(color_mode)
+
 	if (generate_planets):
 		_make_new_planets()
 	_make_new_stars()
 
 
-func _set_new_colors(new_scheme : GradientTexture2D, new_background : Color) -> void:
-	colorscheme = new_scheme
-
-	dust.material.set_shader_parameter("colorscheme", colorscheme)
-	nebulae.material.set_shader_parameter("colorscheme", colorscheme)
-	nebulae.material.set_shader_parameter("background_color", new_background)
-	
-	for p : Sprite2D in planets:
-		p.material.set_shader_parameter("colorscheme", colorscheme)
-	for s : Sprite2D in stars:
-		s.material.set_shader_parameter("colorscheme", colorscheme)
-
-
 func _make_new_planets() -> void:
-	for planet: Planet in planets:
-		planetcontainer.return_object(planet)
+	for planet: PlanetBase in planets:
+		planet.queue_free()
 	planets = []
 
 	var planet_amount: int = rand_generator.randi_range(0, PLANET_COUNT_MAX)
@@ -85,12 +85,13 @@ func _place_planet(planet_id: int) -> void:
 	var rand_y: float = rand_generator.randf()
 	var pos: Vector2 = Vector2(int(rand_x * size.x), int(rand_y * size.y))
 	
-	var planet: Planet = planetcontainer.get_object()
+	var planet: PlanetBase = planet_scene.instantiate()
+	planetcontainer.add_child(planet)
 	planets.append(planet)
 	planet.scale = planet_scale
 	planet.position = pos
 	var pseed: int = rand_generator.randi()
-	planet.set_values(planet_id, pseed)
+	planet.set_values(planet_id, pseed, color_mode, color_palette)
 
 
 func calc_stars_count() -> int:
@@ -117,7 +118,7 @@ func _place_big_star(star_id: int) -> void:
 	stars.append(star)
 	star.position = pos
 	var sseed: int = rand_generator.randi()
-	star.set_values(star_id, sseed)
+	star.set_values(star_id, sseed, star_palette)
 	star.show()
 	
 
@@ -138,11 +139,6 @@ func get_current_settings() -> VisualSettings:
 	current_settings.transparancy_enabled = !background.visible
 	current_settings.brightness = brightness
 	return current_settings
-
-
-func set_background_color(c : Color) -> void:
-	background.color = c
-	nebulae.material.set_shader_parameter("background_color", c)
 
 
 func toggle_dust() -> void:
@@ -167,7 +163,7 @@ func toggle_transparancy() -> void:
 
 func toggle_lighting(value: bool) -> void:
 	lighting_enabled = value
-	for p: Planet in planets:
+	for p: PlanetBase in planets:
 		p.set_lighting(lighting_enabled)
 
 
@@ -175,7 +171,51 @@ func set_brightness(value: float = 1.0) -> void:
 	brightness = value
 	nebulae.material.set_shader_parameter("brightness", value)
 	dust.material.set_shader_parameter("brightness", value)
-	for pl: Planet in planets:
+	for pl: PlanetBase in planets:
 		pl.set_brightness(value)
 	for st: Star in stars:
 		st.set_brightness(value)
+
+
+# Colors methods
+func set_color_mode(mode: ColorHelpers.COLOR_MODE) -> void:
+	print("BackgroundGenerator set_color_mode " + str(mode))
+	if mode == ColorHelpers.COLOR_MODE.PALETTE:
+		set_colors(color_palette.gradient.colors)
+	elif mode == ColorHelpers.COLOR_MODE.DEFINED:
+		set_colors(defined_colors)
+	else: # mode == ColorHelpers.COLOR_MODE.RANDOM
+		set_colors(rand_colors)
+	
+	for pl: PlanetBase in planets:
+		pl.set_color_mode(mode)
+
+
+func update_color_palette(scheme: PackedColorArray) -> void:
+	print("BackgroundGenerator update_color_palette")
+	color_palette.gradient.colors = scheme.slice(0,8)
+	if color_mode == ColorHelpers.COLOR_MODE.PALETTE:
+		set_color_mode(color_mode)
+
+
+func set_colors(colors: PackedColorArray) -> void:
+	print("BackgroundGenerator set_colors")
+	var tex: GradientTexture2D = dust.material.get_shader_parameter("palette")
+	tex.gradient.colors = colors
+	tex = nebulae.material.get_shader_parameter("palette")
+	tex.gradient.colors = colors
+	nebulae.material.set_shader_parameter("background_color", colors.slice(0, 1)[0])
+	background.color = colors.slice(0, 1)[0]
+	star_palette.gradient.colors = colors.slice(0, 8)
+
+
+func randomize_colors() -> void:
+	print("BackgroundGenerator randomize_colors")
+	var colors: PackedColorArray = ColorHelpers.generate_new_colors(8, rand_generator)
+
+	var new_colors: PackedColorArray = PackedColorArray()
+	for i: int in 8:
+		var col: Color = colors[0].darkened(0.6)
+		col = col.lightened(i / 8.0)
+		new_colors.append(col)
+	rand_colors = new_colors

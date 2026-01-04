@@ -1,0 +1,128 @@
+[gd_scene load_steps=25 format=3 uid="uid://b8m8sokdy2o1h"]
+
+[ext_resource type="Shader" uid="uid://0jorx3y7b5qg" path="res://shaders/planet_lava.gdshader" id="1_u2qb2"]
+[ext_resource type="Texture2D" uid="uid://dctu01wei5sw0" path="res://sprites/100x100.png" id="2_p61m3"]
+[ext_resource type="Script" uid="uid://s065vn3ojm8v" path="res://scripts/planets/planet_lava.gd" id="3_u2qb2"]
+[ext_resource type="Script" uid="uid://d2y6vfr1mvc1w" path="res://scripts/data/color_data.gd" id="4_2cq0o"]
+[ext_resource type="Script" uid="uid://dd20hylgwymld" path="res://scripts/data/color_data_array.gd" id="5_kf68w"]
+
+[sub_resource type="Gradient" id="Gradient_0s5if"]
+resource_local_to_scene = true
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.2769231, 0.7205128)
+colors = PackedColorArray(0.16551375, 0.15162346, 0.17216289, 1, 0.2643424, 0.20341897, 0.18935612, 1, 0.50513935, 0.35399225, 0.24799982, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_io4qm"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_0s5if")
+
+[sub_resource type="Gradient" id="Gradient_rg3is"]
+resource_local_to_scene = true
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.2820513, 0.56153846, 0.86923075)
+colors = PackedColorArray(0.20122, 0.057796493, 6.016344e-09, 1, 0.5446041, 0.18083462, 0.1638596, 1, 0.789272, 0.28192267, 0, 1, 1, 0.5497877, 0.09989833, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8lqpq"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_rg3is")
+
+[sub_resource type="Gradient" id="Gradient_u2qb2"]
+resource_local_to_scene = true
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.2769231, 0.7205128)
+colors = PackedColorArray(0.16551375, 0.15162346, 0.17216289, 1, 0.2643424, 0.20341897, 0.18935612, 1, 0.50513935, 0.35399225, 0.24799982, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_p61m3"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_u2qb2")
+
+[sub_resource type="Gradient" id="Gradient_2cq0o"]
+resource_local_to_scene = true
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.2820513, 0.56153846, 0.86923075)
+colors = PackedColorArray(0.20122, 0.057796493, 6.016344e-09, 1, 0.5446041, 0.18083462, 0.1638596, 1, 0.789272, 0.28192267, 0, 1, 1, 0.5497877, 0.09989833, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kf68w"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_2cq0o")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2ucv6"]
+resource_local_to_scene = true
+noise_type = 5
+frequency = 0.0282
+domain_warp_fractal_lacunarity = 5.265
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_sskfm"]
+resource_local_to_scene = true
+noise = SubResource("FastNoiseLite_2ucv6")
+seamless = true
+seamless_blend_skirt = 0.35
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_aueoi"]
+resource_local_to_scene = true
+noise_type = 2
+frequency = 0.0355
+fractal_octaves = 4
+fractal_gain = 0.9
+cellular_distance_function = 1
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_2svr8"]
+resource_local_to_scene = true
+noise = SubResource("FastNoiseLite_aueoi")
+seamless = true
+seamless_blend_skirt = 0.247
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p61m3"]
+resource_local_to_scene = true
+shader = ExtResource("1_u2qb2")
+shader_parameter/seed = 123.0
+shader_parameter/pixels = 100.0
+shader_parameter/radius = 0.45000001485523
+shader_parameter/angles = Vector3(0, 5.015, 0)
+shader_parameter/use_defined_colors = true
+shader_parameter/defined_colors_1 = SubResource("GradientTexture2D_p61m3")
+shader_parameter/defined_colors_2 = SubResource("GradientTexture2D_kf68w")
+shader_parameter/colors_1 = SubResource("GradientTexture2D_io4qm")
+shader_parameter/colors_2 = SubResource("GradientTexture2D_8lqpq")
+shader_parameter/brightness = 1.0
+shader_parameter/noise3d = SubResource("NoiseTexture3D_sskfm")
+shader_parameter/noise3d2 = SubResource("NoiseTexture3D_2svr8")
+shader_parameter/clouds = true
+shader_parameter/light_enabled = true
+shader_parameter/light_dir = Vector3(0.715, -0.24, 0.865)
+shader_parameter/light_strenght = 2.30000003427276
+shader_parameter/light_noise_strenght = 0.1
+
+[sub_resource type="Gradient" id="Gradient_130yd"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.2769231, 0.7205128)
+colors = PackedColorArray(0.16551375, 0.15162346, 0.17216289, 1, 0.2643424, 0.20341897, 0.18935612, 1, 0.50513935, 0.35399225, 0.24799982, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fk0tt"]
+gradient = SubResource("Gradient_130yd")
+
+[sub_resource type="Gradient" id="Gradient_7203g"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.2820513, 0.56153846, 0.86923075)
+colors = PackedColorArray(0.20122, 0.057796493, 6.016344e-09, 1, 0.5446041, 0.18083462, 0.1638596, 1, 0.789272, 0.28192267, 0, 1, 1, 0.5497877, 0.09989833, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4rwwd"]
+gradient = SubResource("Gradient_7203g")
+
+[sub_resource type="Resource" id="Resource_5rkyw"]
+script = ExtResource("4_2cq0o")
+colors_1 = SubResource("GradientTexture2D_fk0tt")
+colors_2 = SubResource("GradientTexture2D_4rwwd")
+metadata/_custom_type_script = "uid://d2y6vfr1mvc1w"
+
+[sub_resource type="Resource" id="Resource_hd52j"]
+script = ExtResource("5_kf68w")
+data = Array[ExtResource("4_2cq0o")]([SubResource("Resource_5rkyw")])
+metadata/_custom_type_script = "uid://dd20hylgwymld"
+
+[node name="Planet" type="Sprite2D"]
+material = SubResource("ShaderMaterial_p61m3")
+texture = ExtResource("2_p61m3")
+script = ExtResource("3_u2qb2")
+planet_type = 3
+defined_colors = SubResource("Resource_hd52j")
