@@ -134,3 +134,7 @@ func _on_enable_lighting_toggled(toggled_on: bool) -> void:
 
 func _on_use_random_colors_toggled(toggled_on: bool) -> void:
 	generator.set_use_random_colors(toggled_on)
+
+
+func _on_color_mode_option_button_item_selected(index: int) -> void:
+	generator.color_mode = index

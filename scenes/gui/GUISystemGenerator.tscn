@@ -206,6 +206,27 @@ text = "New seed"
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 
+[node name="ColorModeContainer" type="HBoxContainer" parent="HBoxContainer/OptionsColorRect/Settings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/OptionsColorRect/Settings/ColorModeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "color mode:"
+
+[node name="ColorModeOptionButton" type="OptionButton" parent="HBoxContainer/OptionsColorRect/Settings/ColorModeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+selected = 0
+item_count = 3
+popup/item_0/text = "defined"
+popup/item_0/id = 0
+popup/item_1/text = "palette"
+popup/item_1/id = 1
+popup/item_2/text = "random"
+popup/item_2/id = 2
+
 [node name="Label2" type="Label" parent="HBoxContainer/OptionsColorRect/Settings"]
 layout_mode = 2
 text = "colorscheme:"
@@ -349,12 +370,6 @@ theme_override_styles/hover_pressed = SubResource("3")
 button_pressed = true
 text = "lighting"
 
-[node name="UseRandomColors" type="CheckBox" parent="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer"]
-layout_mode = 2
-theme_override_styles/hover_pressed = SubResource("3")
-button_pressed = true
-text = "random colors"
-
 [node name="Spacer5" type="Control" parent="HBoxContainer/OptionsColorRect/Settings"]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
@@ -403,6 +418,7 @@ one_shot = true
 [connection signal="value_changed" from="HBoxContainer/OptionsColorRect/Settings/HBoxContainer/PixelsWidth" to="." method="_on_PixelsWidth_value_changed"]
 [connection signal="value_changed" from="HBoxContainer/OptionsColorRect/Settings/HBoxContainer2/PixelsHeight" to="." method="_on_PixelsHeight_value_changed"]
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/HBoxContainer3/SeedButton" to="." method="_on_seed_button_pressed"]
+[connection signal="item_selected" from="HBoxContainer/OptionsColorRect/Settings/ColorModeContainer/ColorModeOptionButton" to="." method="_on_color_mode_option_button_item_selected"]
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableStars" to="." method="_on_EnableStars_pressed"]
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableDust" to="." method="_on_EnableDust_pressed"]
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableNebulae" to="." method="_on_EnableNebulae_pressed"]
