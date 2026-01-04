@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://dft7qb48id2hk"]
+[gd_scene load_steps=21 format=3 uid="uid://dft7qb48id2hk"]
 
 [ext_resource type="Shader" uid="uid://c2p0ppv6b5buk" path="res://shaders/planet_gas_layered.gdshader" id="1_d5erp"]
 [ext_resource type="Texture2D" uid="uid://dctu01wei5sw0" path="res://sprites/100x100.png" id="2_7tcae"]
+[ext_resource type="Script" uid="uid://d2y6vfr1mvc1w" path="res://scripts/data/color_data.gd" id="4_7tcae"]
 [ext_resource type="Script" uid="uid://cb7mswje1uq3a" path="res://scripts/planets/planet_gas_layered.gd" id="4_d5erp"]
+[ext_resource type="Script" uid="uid://dd20hylgwymld" path="res://scripts/data/color_data_array.gd" id="5_03c4o"]
 
 [sub_resource type="Gradient" id="Gradient_ty11t"]
 resource_local_to_scene = true
@@ -23,6 +25,25 @@ offsets = PackedFloat32Array(0, 0.52380955)
 resource_local_to_scene = true
 gradient = SubResource("Gradient_d5erp")
 
+[sub_resource type="Gradient" id="Gradient_7tcae"]
+resource_local_to_scene = true
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.008547009, 0.26923078, 0.50256413, 0.84102565)
+colors = PackedColorArray(0.42236784, 0, 0.022269761, 1, 0.5707292, 0.17578837, 0.14020437, 1, 0.77, 0.3331533, 0.20019999, 1, 1, 0.6726176, 0.626832, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_03c4o"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_7tcae")
+
+[sub_resource type="Gradient" id="Gradient_c7ypk"]
+resource_local_to_scene = true
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.52380955)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_q4ut0"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_c7ypk")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_c7ypk"]
 resource_local_to_scene = true
 shader = ExtResource("1_d5erp")
@@ -30,6 +51,9 @@ shader_parameter/seed = 123.0
 shader_parameter/pixels = 200.0
 shader_parameter/radius = 0.5
 shader_parameter/angles = Vector3(0, 0, 0.5)
+shader_parameter/use_defined_colors = true
+shader_parameter/defined_colors_1 = SubResource("GradientTexture2D_03c4o")
+shader_parameter/defined_colors_2 = SubResource("GradientTexture2D_q4ut0")
 shader_parameter/colors_1 = SubResource("GradientTexture2D_d5erp")
 shader_parameter/colors_2 = SubResource("GradientTexture2D_7tcae")
 shader_parameter/brightness = 1.18999998457712
@@ -38,10 +62,36 @@ shader_parameter/light_dir = Vector3(1, -0.5, 0.3)
 shader_parameter/light_strenght = 3.0
 shader_parameter/light_noise_strenght = 0.15
 
+[sub_resource type="Gradient" id="Gradient_q4ut0"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.008547009, 0.26923078, 0.50256413, 0.84102565)
+colors = PackedColorArray(0.42236784, 0, 0.022269761, 1, 0.5707292, 0.17578837, 0.14020437, 1, 0.77, 0.3331533, 0.20019999, 1, 1, 0.6726176, 0.626832, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_snrbt"]
+gradient = SubResource("Gradient_q4ut0")
+
+[sub_resource type="Gradient" id="Gradient_vlnvg"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.52380955)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_k7637"]
+gradient = SubResource("Gradient_vlnvg")
+
+[sub_resource type="Resource" id="Resource_jiq0m"]
+script = ExtResource("4_7tcae")
+colors_1 = SubResource("GradientTexture2D_snrbt")
+colors_2 = SubResource("GradientTexture2D_k7637")
+metadata/_custom_type_script = "uid://d2y6vfr1mvc1w"
+
+[sub_resource type="Resource" id="Resource_bvjhy"]
+script = ExtResource("5_03c4o")
+data = Array[ExtResource("4_7tcae")]([SubResource("Resource_jiq0m")])
+metadata/_custom_type_script = "uid://dd20hylgwymld"
+
 [node name="Planet" type="Sprite2D"]
 material = SubResource("ShaderMaterial_c7ypk")
 texture = ExtResource("2_7tcae")
 script = ExtResource("4_d5erp")
 planet_type = 4
 cloud_threshold = 0.0
-defined_colors = PackedColorArray(0.41960785, 0, 0.019607844, 1, 0.5686275, 0.17254902, 0.13725491, 1, 0.76862746, 0.32941177, 0.2, 1, 1, 0.67058825, 0.62352943, 1, 0, 0, 0, 1, 1, 1, 1, 1)
+defined_colors = SubResource("Resource_bvjhy")

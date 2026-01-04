@@ -184,7 +184,7 @@ func set_color_mode(mode: ColorHelpers.COLOR_MODE) -> void:
 		set_colors(color_palette.gradient.colors)
 	elif mode == ColorHelpers.COLOR_MODE.DEFINED:
 		set_colors(defined_colors)
-	else:
+	else: # mode == ColorHelpers.COLOR_MODE.RANDOM
 		set_colors(rand_colors)
 	
 	for pl: PlanetBase in planets:

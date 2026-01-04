@@ -1,13 +1,15 @@
-[gd_scene load_steps=16 format=3 uid="uid://qy3a25j2732h"]
+[gd_scene load_steps=24 format=3 uid="uid://qy3a25j2732h"]
 
 [ext_resource type="Texture2D" uid="uid://dctu01wei5sw0" path="res://sprites/100x100.png" id="1_6lw82"]
 [ext_resource type="Shader" uid="uid://b37rdd2phtnkr" path="res://shaders/SystemStar.gdshader" id="1_my8ps"]
 [ext_resource type="Script" uid="uid://beki8h1qaeycd" path="res://scripts/system_star.gd" id="2_elyem"]
 [ext_resource type="Texture2D" uid="uid://psmxvtatwhu3" path="res://sprites/StarRed.tres" id="2_my8ps"]
+[ext_resource type="Script" uid="uid://d2y6vfr1mvc1w" path="res://scripts/data/color_data.gd" id="5_h885y"]
 [ext_resource type="Texture2D" uid="uid://cl4d5d8h7idd" path="res://sprites/StarBlue.tres" id="5_opoxg"]
 [ext_resource type="Texture2D" uid="uid://clt3aym4536rt" path="res://sprites/StarWhite.tres" id="6_ic7tb"]
 [ext_resource type="Texture2D" uid="uid://vedm0ahjhmsr" path="res://sprites/StarYellow.tres" id="7_h885y"]
 [ext_resource type="Texture2D" uid="uid://ch1qn2pap3sf3" path="res://sprites/StarOrange.tres" id="8_5hl3b"]
+[ext_resource type="Script" uid="uid://dd20hylgwymld" path="res://scripts/data/color_data_array.gd" id="10_5hl3b"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_my8ps"]
 resource_local_to_scene = true
@@ -60,14 +62,48 @@ shader_parameter/noise3d = SubResource("NoiseTexture3D_dhd3v")
 shader_parameter/noise3d2 = SubResource("NoiseTexture3D_tdwcm")
 shader_parameter/radius = 0.42300001357273
 
+[sub_resource type="Resource" id="Resource_4k6do"]
+script = ExtResource("5_h885y")
+description = "Blue"
+colors_1 = ExtResource("5_opoxg")
+weigth = 1.0
+metadata/_custom_type_script = "uid://d2y6vfr1mvc1w"
+
+[sub_resource type="Resource" id="Resource_fvg82"]
+script = ExtResource("5_h885y")
+description = "Orange"
+colors_1 = ExtResource("8_5hl3b")
+weigth = 1.0
+metadata/_custom_type_script = "uid://d2y6vfr1mvc1w"
+
+[sub_resource type="Resource" id="Resource_osxdh"]
+script = ExtResource("5_h885y")
+description = "Red"
+colors_1 = ExtResource("2_my8ps")
+weigth = 1.0
+metadata/_custom_type_script = "uid://d2y6vfr1mvc1w"
+
+[sub_resource type="Resource" id="Resource_wln60"]
+script = ExtResource("5_h885y")
+description = "White"
+colors_1 = ExtResource("6_ic7tb")
+weigth = 1.0
+metadata/_custom_type_script = "uid://d2y6vfr1mvc1w"
+
+[sub_resource type="Resource" id="Resource_r07nt"]
+script = ExtResource("5_h885y")
+description = "Yellow"
+colors_1 = ExtResource("7_h885y")
+weigth = 1.0
+metadata/_custom_type_script = "uid://d2y6vfr1mvc1w"
+
+[sub_resource type="Resource" id="Resource_b84qd"]
+script = ExtResource("10_5hl3b")
+data = Array[ExtResource("5_h885y")]([SubResource("Resource_4k6do"), SubResource("Resource_fvg82"), SubResource("Resource_osxdh"), SubResource("Resource_wln60"), SubResource("Resource_r07nt")])
+metadata/_custom_type_script = "uid://dd20hylgwymld"
+
 [node name="SystemStar" type="Sprite2D"]
 material = SubResource("ShaderMaterial_nqiqp")
 texture = ExtResource("1_6lw82")
 script = ExtResource("2_elyem")
-star_type = Dictionary[String, GradientTexture2D]({
-"Blue": ExtResource("5_opoxg"),
-"Orange": ExtResource("8_5hl3b"),
-"Red": ExtResource("2_my8ps"),
-"White": ExtResource("6_ic7tb"),
-"Yellow": ExtResource("7_h885y")
-})
+defined_colors = SubResource("Resource_b84qd")

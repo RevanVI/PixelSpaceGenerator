@@ -68,7 +68,7 @@ func make_planets() -> void:
 
 func place_planet(planet_id: int, planet_amount: int) -> void:
 	# choose planet type
-	var planet_type: PlanetBase.PlanetType = rand_generator.randi_range(0, PlanetBase.PlanetType.keys().size() - 1)	as PlanetBase.PlanetType
+	var planet_type: PlanetBase.PlanetType = rand_generator.randi_range(0, planet_types.size() - 1)	as PlanetBase.PlanetType
 	var planet: PlanetBase = planet_types[planet_type].instantiate()
 	planetcontainer.add_child(planet)
 	planets.append(planet)

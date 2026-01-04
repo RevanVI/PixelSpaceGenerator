@@ -4,9 +4,9 @@ class_name SystemStar
 
 var rand_generator: RandomNumberGenerator
 
-@export var star_type: Dictionary[String, GradientTexture2D]
 var color_mode: ColorHelpers.COLOR_MODE
-var defined_colors: GradientTexture2D
+@export var defined_colors: ColorDataArray
+var defined_colors_ind: int
 var rand_colors: PackedColorArray
 var color_palette: GradientTexture2D
 
@@ -21,9 +21,9 @@ func set_values(iseed: int, icolor_mode: ColorHelpers.COLOR_MODE, ipalette: Grad
 	material.set_shader_parameter("seed", iseed)
 	material.set_shader_parameter("pixels", calc_pixel_size())
 
-	var star_type_ind: int = rand_generator.randi_range(0, star_type.size() - 1)
-	defined_colors = star_type.values()[star_type_ind]
-	material.set_shader_parameter("defined_colors", defined_colors)
+	defined_colors_ind = rand_generator.randi_range(0, defined_colors.get_type_count() - 1)
+	var defined_colors_data: ColorData = defined_colors.get_data(defined_colors_ind)
+	material.set_shader_parameter("defined_colors", defined_colors_data.colors_1)
 
 	var brightness_mod: float = rand_generator.randf_range(0.85, 1.2)
 	material.set_shader_parameter("brightness_mod", brightness_mod)
@@ -59,16 +59,16 @@ func set_color_mode(mode: ColorHelpers.COLOR_MODE) -> void:
 	print("SystemStar set_color_mode " + str(mode))
 	color_mode = mode
 	if mode == ColorHelpers.COLOR_MODE.PALETTE:
-		var points_1: PackedFloat32Array = material.get_shader_parameter("palette").gradient.offsets
-		var palette_colors_1: PackedColorArray = []
-		for i: float in points_1:
+		var points: PackedFloat32Array = material.get_shader_parameter("palette").gradient.offsets
+		var palette_colors: PackedColorArray = []
+		for i: float in points:
 			var color: Color = color_palette.gradient.sample(i)
-			palette_colors_1.append(color)
+			palette_colors.append(color)
 		material.set_shader_parameter("use_defined_colors", false)
-		set_colors(palette_colors_1)
+		set_colors(palette_colors)
 	elif mode == ColorHelpers.COLOR_MODE.DEFINED:
 		material.set_shader_parameter("use_defined_colors", true)
-	else: 
+	else: # mode == ColorHelpers.COLOR_MODE.RANDOM
 		material.set_shader_parameter("use_defined_colors", false)
 		set_colors(rand_colors)
 

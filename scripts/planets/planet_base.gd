@@ -14,9 +14,10 @@ enum PlanetType {
 var planet_id: int
 var rand_generator: RandomNumberGenerator
 @export var planet_type: PlanetType
-@export_range(0.0, 1.0) var cloud_threshold: float = 0.8;
+@export_range(0.0, 1.0) var cloud_threshold: float = 0.8
 #Color parameters
-@export var defined_colors: PackedColorArray
+@export var defined_colors: ColorDataArray
+var defined_colors_ind: int
 var rand_colors_1: PackedColorArray
 var rand_colors_2: PackedColorArray
 var color_palette: GradientTexture2D
@@ -36,6 +37,11 @@ func set_values(iplanet_id: int, iseed: int, icolor_mode: ColorHelpers.COLOR_MOD
 	rand_generator.seed = iseed
 	material.set_shader_parameter("seed", rand_generator.randi_range(0, 1_500_000))
 	material.set_shader_parameter("pixels", calc_pixel_size())
+
+	defined_colors_ind = rand_generator.randi_range(0, defined_colors.get_type_count() - 1)
+	var defined_colors_data: ColorData = defined_colors.get_data(defined_colors_ind)
+	material.set_shader_parameter("defined_colors_1", defined_colors_data.colors_1)
+	material.set_shader_parameter("defined_colors_2", defined_colors_data.colors_2)
 
 	var light_x: float = clamp(rand_generator.randf(), 0.2, 0.8) * 2.0 - 1.0;
 	var light_y: float = clamp(rand_generator.randf(), 0.2, 0.8) * 2.0 - 1.0;
@@ -98,13 +104,12 @@ func set_color_mode(mode: ColorHelpers.COLOR_MODE) -> void:
 			var color: Color = color_palette.gradient.sample(i)
 			palette_colors_2.append(color)
 
+		material.set_shader_parameter("use_defined_colors", false)
 		set_colors(palette_colors_1, palette_colors_2)
 	elif mode == ColorHelpers.COLOR_MODE.DEFINED:
-		var count_points_1: int = material.get_shader_parameter("colors_1").gradient.get_point_count()
-		var count_points_2: int = material.get_shader_parameter("colors_2").gradient.get_point_count()
-		assert(defined_colors.size() >= (count_points_1 + count_points_2))
-		set_colors(defined_colors.slice(0, count_points_1), defined_colors.slice(count_points_1, count_points_1 + count_points_2))
-	else: 
+		material.set_shader_parameter("use_defined_colors", true)
+	else: # mode == ColorHelpers.COLOR_MODE.RANDOM
+		material.set_shader_parameter("use_defined_colors", false)
 		set_colors(rand_colors_1, rand_colors_2)
 
 

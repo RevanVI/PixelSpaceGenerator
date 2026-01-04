@@ -8,8 +8,12 @@ uniform float pixels = 200.0;
 uniform float radius: hint_range(0.2, 0.5) = 0.5;
 uniform vec3 angles = vec3(0.0, 0.0, 0.0);
 
+uniform bool use_defined_colors = true;
+uniform sampler2D defined_colors_1;
+uniform sampler2D defined_colors_2;
 uniform sampler2D colors_1;
 uniform sampler2D colors_2;
+
 uniform float brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
 
 group_uniforms Light;
@@ -20,13 +24,24 @@ uniform float light_noise_strenght = 0.15;
 group_uniforms;
 
 
+vec3[2] get_color(vec2 coords) {
+	vec3 colors[2] = vec3[2](vec3(0.0), vec3(0.0));
+	if (use_defined_colors) {
+		colors[0] = texture(defined_colors_1, coords).rgb;
+		colors[1] = texture(defined_colors_2, coords).rgb;
+	}
+	else {
+		colors[0] = texture(colors_1, coords).rgb;
+		colors[1] = texture(colors_2, coords).rgb;
+	}
+	return colors;
+}
+
 void fragment() {
 	vec2 uv = floor(UV * pixels) / pixels;
 
-	// distance from center, to create a circle
 	float d_to_center = distance(uv, vec2(0.5));
 
-	//uv = ((uv * 2.0 - 1.0) / (radius + 0.5)) * 0.5 + 0.5;
 	uv = spherify(uv, radius * 2.0);
 	vec2 uv_rotated = rotate(uv, angles.z);
 
@@ -65,7 +80,7 @@ void fragment() {
 	float val = f * f3 * circle * light;
 	val = pow(val, 1.0 / brightness) * brightness;
 	float col_val = floor(val * 8.0) / 6.0;
-	vec3 color = texture(colors_1, vec2(col_val, 0.0)).rgb;
+	vec3 color = get_color(vec2(col_val, 0.0))[0];
 	float a = step(d_to_center, radius);
 	COLOR = vec4(color, a);
 }
