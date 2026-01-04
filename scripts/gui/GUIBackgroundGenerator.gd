@@ -129,4 +129,4 @@ func _on_enable_lighting_toggled(toggled_on: bool) -> void:
 	generator.toggle_lighting(toggled_on)
 
 func _on_color_mode_option_button_item_selected(index: int) -> void:
-	generator.color_mode = index
+	generator.color_mode = index as ColorHelpers.COLOR_MODE
