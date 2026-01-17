@@ -48,7 +48,7 @@ gradient = SubResource("Gradient_c7ypk")
 resource_local_to_scene = true
 shader = ExtResource("1_d5erp")
 shader_parameter/seed = 123.0
-shader_parameter/pixels = 200.0
+shader_parameter/pixels = 100.0
 shader_parameter/radius = 0.5
 shader_parameter/angles = Vector3(0, 0, 0.5)
 shader_parameter/use_defined_colors = true
@@ -56,10 +56,11 @@ shader_parameter/defined_colors_1 = SubResource("GradientTexture2D_03c4o")
 shader_parameter/defined_colors_2 = SubResource("GradientTexture2D_q4ut0")
 shader_parameter/colors_1 = SubResource("GradientTexture2D_d5erp")
 shader_parameter/colors_2 = SubResource("GradientTexture2D_7tcae")
-shader_parameter/brightness = 1.18999998457712
+shader_parameter/dither_enabled = true
+shader_parameter/brightness = 1.3999999798832001
 shader_parameter/light_enabled = true
 shader_parameter/light_dir = Vector3(1, -0.5, 0.3)
-shader_parameter/light_strenght = 3.0
+shader_parameter/light_strenght = 2.999999932944
 shader_parameter/light_noise_strenght = 0.15
 
 [sub_resource type="Gradient" id="Gradient_q4ut0"]

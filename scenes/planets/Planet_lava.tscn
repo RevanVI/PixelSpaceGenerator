@@ -78,20 +78,21 @@ shader = ExtResource("1_u2qb2")
 shader_parameter/seed = 123.0
 shader_parameter/pixels = 100.0
 shader_parameter/radius = 0.45000001485523
-shader_parameter/angles = Vector3(0, 5.015, 0)
+shader_parameter/angles = Vector3(0, 4.695, 0)
 shader_parameter/use_defined_colors = true
 shader_parameter/defined_colors_1 = SubResource("GradientTexture2D_p61m3")
 shader_parameter/defined_colors_2 = SubResource("GradientTexture2D_kf68w")
 shader_parameter/colors_1 = SubResource("GradientTexture2D_io4qm")
 shader_parameter/colors_2 = SubResource("GradientTexture2D_8lqpq")
-shader_parameter/brightness = 1.0
+shader_parameter/dither_enabled = true
+shader_parameter/brightness = 1.499999977648
 shader_parameter/noise3d = SubResource("NoiseTexture3D_sskfm")
 shader_parameter/noise3d2 = SubResource("NoiseTexture3D_2svr8")
 shader_parameter/clouds = true
 shader_parameter/light_enabled = true
-shader_parameter/light_dir = Vector3(0.715, -0.24, 0.865)
-shader_parameter/light_strenght = 2.30000003427276
-shader_parameter/light_noise_strenght = 0.1
+shader_parameter/light_dir = Vector3(0.455, -0.53, 0.865)
+shader_parameter/light_strenght = 2.2500000335277
+shader_parameter/light_noise_strenght = 0.525
 
 [sub_resource type="Gradient" id="Gradient_130yd"]
 interpolation_mode = 1

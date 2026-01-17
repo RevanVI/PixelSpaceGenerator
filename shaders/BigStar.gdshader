@@ -1,7 +1,7 @@
 shader_type canvas_item;
 render_mode blend_mix, unshaded;
 
-uniform sampler2D palette;
+uniform sampler2D palette: filter_nearest;
 uniform float brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
 uniform float brightness_rand: hint_range(0.0, 1.0, 0.05) = 1.0;
 

@@ -3,6 +3,7 @@ render_mode blend_mix, unshaded;
 
 #include "res://shaders/shader_helpers.gdshaderinc"
 #include "res://shaders/planet_helpers.gdshaderinc"
+#include "res://shaders/dither.gdshaderinc"
 
 
 uniform float seed = 123.0;
@@ -11,11 +12,12 @@ uniform float radius: hint_range(0.2, 0.5) = 0.5;
 uniform vec3 angles = vec3(0.0, 0.0, 0.0);
 
 uniform bool use_defined_colors = true;
-uniform sampler2D defined_colors_1;
-uniform sampler2D defined_colors_2;
-uniform sampler2D colors_1;
-uniform sampler2D colors_2;
+uniform sampler2D defined_colors_1: filter_nearest;
+uniform sampler2D defined_colors_2: filter_nearest;
+uniform sampler2D colors_1: filter_nearest;
+uniform sampler2D colors_2: filter_nearest;
 
+uniform bool dither_enabled = false;
 uniform float brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
 uniform sampler3D noise3d;
 uniform sampler3D noise3d2;
@@ -27,6 +29,9 @@ uniform vec3 light_dir = vec3(1.0, -0.5, 0.3);
 uniform float light_strenght: hint_range(0.0, 4.0, 0.05) = 3.0;
 uniform float light_noise_strenght = 0.15;
 group_uniforms;
+
+const int BAYER_LEVEL = 2;
+const float DITHER_COLOR_COUNT = 8.0;
 
 
 vec3[2] get_color(vec2 coords) {
@@ -44,7 +49,8 @@ vec3[2] get_color(vec2 coords) {
 
 
 void fragment() {
-	vec2 uv = floor(UV * pixels) / pixels;
+	vec2 pix_id = floor(UV / TEXTURE_PIXEL_SIZE / 1.0);
+	vec2 uv = pix_id * TEXTURE_PIXEL_SIZE * 1.0;
 
 	float d_to_center = distance(uv, vec2(0.5));
 
@@ -87,17 +93,13 @@ void fragment() {
 			light *= light_strenght;
 		}
 
-		// apply dithering
-		bool dith = dither_grid(UV, pixels);
-		if (dith) {
-			light *= 0.9;
-			noise_val *= 0.95;
-		}
-
 		noise_val *= light;
 		noise_val = pow(noise_val, 1.0 / brightness) * brightness;
-		float col_val = floor(noise_val * 14.0) / 7.0;
-		vec3 colors[2] = get_color(vec2(col_val, 0.0));
+		if (dither_enabled) {
+			noise_val = dither(vec3(noise_val), DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL).r;
+			//noise_val_2 = dither(vec3(noise_val_2), DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL).r;
+		}
+		vec3 colors[2] = get_color(vec2(noise_val, 0.0));
 		vec3 col = colors[0];
 		if (step(0.45, noise_val_2) > 0.0) {
 			col = colors[1];

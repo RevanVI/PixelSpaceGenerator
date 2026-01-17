@@ -29,7 +29,7 @@ gradient = SubResource("Gradient_rg3is")
 [sub_resource type="Gradient" id="Gradient_t6ej0"]
 resource_local_to_scene = true
 interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.2794872, 0.5307692, 0.77692306)
+offsets = PackedFloat32Array(0, 0.2794872, 0.53258145, 0.77692306)
 colors = PackedColorArray(0.01021584, 0.019293074, 0.111600764, 1, 0.30838284, 0.5472845, 0.8910366, 1, 0.17199686, 0.49077505, 0.83798355, 1, 0.6016735, 0.7610112, 0.97859734, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_q8sjp"]
@@ -78,18 +78,19 @@ shader_parameter/seed = 123.0
 shader_parameter/pixels = 100.0
 shader_parameter/radius = 0.45000001485523
 shader_parameter/angles = Vector3(0, 0, 0)
-shader_parameter/use_defined_colors = true
+shader_parameter/use_defined_colors = false
 shader_parameter/defined_colors_1 = SubResource("GradientTexture2D_q8sjp")
 shader_parameter/defined_colors_2 = SubResource("GradientTexture2D_diltt")
 shader_parameter/colors_1 = SubResource("GradientTexture2D_io4qm")
 shader_parameter/colors_2 = SubResource("GradientTexture2D_8lqpq")
-shader_parameter/brightness = 0.999999988824
+shader_parameter/dither_enabled = true
+shader_parameter/brightness = 1.499999977648
 shader_parameter/noise3d = SubResource("NoiseTexture3D_sskfm")
 shader_parameter/noise3d2 = SubResource("NoiseTexture3D_2svr8")
 shader_parameter/clouds = true
 shader_parameter/light_enabled = true
-shader_parameter/light_dir = Vector3(1, -1.245, 2.205)
-shader_parameter/light_strenght = 2.10000003129252
+shader_parameter/light_dir = Vector3(1.19, -0.475, 1.76)
+shader_parameter/light_strenght = 1.70000002533204
 shader_parameter/light_noise_strenght = 0.15
 
 [sub_resource type="Gradient" id="Gradient_diltt"]
