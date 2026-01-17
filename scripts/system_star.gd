@@ -54,7 +54,7 @@ func set_dither_status(value: bool) -> void:
 
 func calc_pixel_size() -> int:
 	var pixels: int = int(scale.x * texture.get_height())
-	pixels = clamp(pixels, 40, 2048)
+	assert(pixels > 0)
 	return pixels
 
 

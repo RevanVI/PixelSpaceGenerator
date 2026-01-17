@@ -23,6 +23,7 @@ var rand_generator: RandomNumberGenerator
 
 var lighting_enabled: bool = true
 var dither_enabled: bool = true
+var pixelization_scale: int = 1
 var brightness: float = 1.0
 
 #planet generator constants
@@ -74,7 +75,9 @@ func place_planet(planet_id: int, planet_amount: int) -> void:
 	planetcontainer.add_child(planet)
 	planets.append(planet)
 	
-	var rand_size: float = min(size.x, size.y) * rand_generator.randf_range(0.15, 1.15) * 0.002
+	# planet sprite should be at least 1 pixel after this
+	# floor(rand_size * planet_texture_height) > 0
+	var rand_size: float = min(size.x, size.y) * rand_generator.randf_range(0.2, 1.15) * 0.002
 	planet.scale = Vector2(1, 1) * rand_size
 
 	# basic idea - divide free space on equal parts and place each planet randomly inside its part
@@ -103,6 +106,7 @@ func set_render_size(new_size: Vector2) -> void:
 #visual settings
 func get_current_settings() -> VisualSettings:
 	var current_settings: VisualSettings = VisualSettings.new()
+	current_settings.pixelization_scale = pixelization_scale
 	current_settings.background_color = background_generator.background.color
 	current_settings.dust_enabled = background_generator.dust.visible
 	current_settings.nebulae_enabled = background_generator.nebulae.visible
@@ -140,6 +144,11 @@ func toggle_lighting(value: bool) -> void:
 	lighting_enabled = value
 	for p: PlanetBase in planets:
 		p.set_lighting(lighting_enabled)
+
+
+func set_pixelization_scale(value: int) -> void:
+	pixelization_scale = value
+	background_generator.set_pixelization_scale(value)
 
 
 func set_dither_status(value: bool) -> void:

@@ -199,6 +199,27 @@ size_flags_stretch_ratio = 0.5
 shortcut = SubResource("Shortcut_1jjyo")
 text = "New seed"
 
+[node name="HBoxContainer6" type="HBoxContainer" parent="HBoxContainer/OptionsColorRect/Settings"]
+layout_mode = 2
+
+[node name="PixelazationLabel" type="Label" parent="HBoxContainer/OptionsColorRect/Settings/HBoxContainer6"]
+layout_mode = 2
+text = "pixelization value:"
+
+[node name="PixelizationValue" type="Label" parent="HBoxContainer/OptionsColorRect/Settings/HBoxContainer6"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "1.0"
+
+[node name="PixelizationSlider" type="HSlider" parent="HBoxContainer/OptionsColorRect/Settings"]
+layout_mode = 2
+min_value = 1.0
+max_value = 32.0
+value = 1.0
+tick_count = 32
+ticks_on_borders = true
+ticks_position = 2
+
 [node name="Spacer2" type="Control" parent="HBoxContainer/OptionsColorRect/Settings"]
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
@@ -421,6 +442,7 @@ one_shot = true
 [connection signal="value_changed" from="HBoxContainer/OptionsColorRect/Settings/HBoxContainer/PixelsWidth" to="." method="_on_PixelsWidth_value_changed"]
 [connection signal="value_changed" from="HBoxContainer/OptionsColorRect/Settings/HBoxContainer/PixelsHeight" to="." method="_on_PixelsHeight_value_changed"]
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/HBoxContainer3/SeedButton" to="." method="_on_seed_button_pressed"]
+[connection signal="value_changed" from="HBoxContainer/OptionsColorRect/Settings/PixelizationSlider" to="." method="_on_pixelization_slider_value_changed"]
 [connection signal="item_selected" from="HBoxContainer/OptionsColorRect/Settings/ColorModeContainer/ColorModeOptionButton" to="." method="_on_color_mode_option_button_item_selected"]
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableStars" to="." method="_on_EnableStars_pressed"]
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableDust" to="." method="_on_EnableDust_pressed"]

@@ -7,6 +7,8 @@ extends Control
 @onready var seed_box: SpinBox = $HBoxContainer/OptionsColorRect/Settings/HBoxContainer3/Seed
 @onready var color_scheme_container: Node = $HBoxContainer/OptionsColorRect/Settings/ColorShemesContainer/ColorSchemesVerticalContainer
 
+@onready var pixelization_slider: HSlider = $HBoxContainer/OptionsColorRect/Settings/PixelizationSlider
+@onready var pixelization_value: Label = $HBoxContainer/OptionsColorRect/Settings/HBoxContainer6/PixelizationValue
 @onready var enable_stars_toggle: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableStars
 @onready var enable_dust_toggle: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableDust
 @onready var enable_nebulae_toggle: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableNebulae
@@ -36,6 +38,7 @@ func _ready() -> void:
 
 func set_active_settings() -> void:
 	var current_settings: VisualSettings = generator.get_current_settings()
+	pixelization_slider.value = current_settings.pixelization_scale
 	enable_stars_toggle.button_pressed = current_settings.background_stars_enabled
 	enable_dust_toggle.button_pressed = current_settings.dust_enabled
 	enable_nebulae_toggle.button_pressed = current_settings.nebulae_enabled
@@ -98,6 +101,11 @@ func export_image() -> void:
 
 
 #visible setiings signals
+func _on_pixelization_slider_value_changed(value: float) -> void:
+	generator.set_pixelization_scale(int(value))
+	pixelization_value.text = str(value)
+
+
 func select_colorscheme(scheme : PackedColorArray) -> void:
 	generator.update_color_palette(scheme)
 
@@ -142,6 +150,3 @@ func _on_use_random_colors_toggled(toggled_on: bool) -> void:
 
 func _on_color_mode_option_button_item_selected(index: int) -> void:
 	generator.color_mode = index as ColorHelpers.COLOR_MODE
-
-
-
