@@ -98,7 +98,7 @@ void fragment() {
 		float final_brightness = brightness_mod * global_brightness;
 		noise_val = pow(noise_val, 1.0 / final_brightness) * final_brightness;
 		if (dither_enabled) {
-			noise_val = dither(vec3(noise_val), DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL).r;
+			noise_val = dither_float(noise_val, DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL);
 			//noise_val_2 = dither(vec3(noise_val_2), DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL).r;
 		}
 		vec3 colors[2] = get_color(vec2(noise_val, 0.0));

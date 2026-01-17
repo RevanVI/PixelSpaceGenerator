@@ -57,7 +57,7 @@ void fragment() {
 		noise_val = pow(noise_val, 1.0 / final_brightness) * final_brightness;
 		
 		if (dithered_enabled) {
-			noise_val = dither(vec3(noise_val), DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL).r;
+			noise_val = dither_float(noise_val, DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL);
 		}
 		
 		float col_val = floor(noise_val * 14.0) / 7.0;

@@ -48,7 +48,7 @@ void fragment() {
 	n_dust_lerp = pow(n_dust_lerp, 1.0 / final_brightness) * final_brightness;
 	
 	if (dither_enabled) {
-		n_dust_lerp = dither(vec3(n_dust_lerp), DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL).r;
+		n_dust_lerp = dither_float(n_dust_lerp, DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL);
 	}
 	
 	// slightly offset alpha values to create thin bands around the nebulae

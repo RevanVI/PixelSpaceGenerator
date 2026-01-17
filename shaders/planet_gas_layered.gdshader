@@ -80,7 +80,7 @@ void fragment() {
 	float final_brightness = brightness_mod * global_brightness;
 	val = pow(val, 1.0 / final_brightness) * final_brightness;
 	if (dither_enabled) {
-		val = dither(vec3(val), DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL).r;
+		val = dither_float(val, DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL);
 	}
 	vec3 color = get_color(vec2(val, 0.0))[0];
 	float a = step(d_to_center, radius);

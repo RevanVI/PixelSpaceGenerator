@@ -40,13 +40,25 @@ float get_bayer_shift(vec2 pixel_coord, int level) {
 }
 
 
-vec3 dither(vec3 color, float color_count, vec2 pixel_coord, float dither_shift, int dither_level) {
+vec3 dither_vec3(vec3 color, float color_count, vec2 pixel_coord, float dither_shift, int dither_level) {
 	vec3 actual_value = color * (color_count - 1.0);
 	vec3 floor_value = floor(actual_value);
 
 	vec3 delta = actual_value - floor_value;
 	float bayer_shift = get_bayer_shift(pixel_coord, dither_level);
 	vec3 dither_values = step(vec3(bayer_shift), delta + dither_shift);
+
+	return (floor_value + dither_values) / (color_count - 1.0);
+}
+
+
+float dither_float(float color, float color_count, vec2 pixel_coord, float dither_shift, int dither_level) {
+	float actual_value = color * (color_count - 1.0);
+	float floor_value = floor(actual_value);
+
+	float delta = actual_value - floor_value;
+	float bayer_shift = get_bayer_shift(pixel_coord, dither_level);
+	float dither_values = step(bayer_shift, delta + dither_shift);
 
 	return (floor_value + dither_values) / (color_count - 1.0);
 }

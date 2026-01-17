@@ -89,7 +89,7 @@ void fragment() {
 		float final_brightness = brightness_mod * global_brightness;
 		noise_val = pow(noise_val, 1.0 / final_brightness) * final_brightness;
 		if (dither_enabled) {
-			noise_val = dither(vec3(noise_val), DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL).r;
+			noise_val = dither_float(noise_val, DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL);
 			//noise_val_2 = dither(vec3(noise_val_2), DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL).r;
 		}
 		vec3 colors[2] = get_color(vec2(noise_val, 0.0));
@@ -121,16 +121,15 @@ void fragment() {
 			light *= light_strenght;
 		}
 		
-		vec3 clouds_base_color = get_color(vec2(0.0, 0.0))[0];
-		vec3 color = vec3(n3 * 1.5) * light;
-		
+		n3 *= 1.5 * light;
 		if (dither_enabled) {
-			color = dither(color, DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL);
+			n3 = dither_float(n3, DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL);
 		}
 		
 		// clamp color so even without dithering clouds are blocky
-		color = floor(color * DITHER_COLOR_COUNT) / DITHER_COLOR_COUNT;
-		color = clouds_base_color * color;
+		n3 = floor(n3 * DITHER_COLOR_COUNT) / DITHER_COLOR_COUNT;
+		vec3 clouds_base_color = get_color(vec2(0.0, 0.0))[0];
+		vec3 color = clouds_base_color * vec3(n3);
 		
 		// mixing like this makes clouds opaque
 		float cloud_alpha = step(0.5, n2);

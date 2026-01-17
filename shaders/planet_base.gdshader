@@ -85,7 +85,7 @@ void fragment() {
 		float final_brightness = brightness_mod * global_brightness;
 		noise_val = pow(noise_val, 1.0 / final_brightness) * final_brightness;
 		if (dither_enabled) {
-			noise_val = dither(vec3(noise_val), DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL).r;
+			noise_val = dither_float(noise_val, DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL);
 		}
 		vec3 colors[2] = get_color(vec2(noise_val, 0.0));
 		vec3 col = colors[0];
@@ -116,7 +116,7 @@ void fragment() {
 		
 		n2 *= step(0.5, n2) * light;
 		if (dither_enabled) {
-			n2 = dither(vec3(n2), DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL).r;
+			n2 = dither_float(n2, DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL);
 		}
 		//make clouds more blocky by reducing color palette
 		n2 = floor(n2 * 4.0) / 4.0;
