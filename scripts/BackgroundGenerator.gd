@@ -16,6 +16,7 @@ var stars : Array[Star] = []
 var planets: Array[PlanetBase] = []
 
 var lighting_enabled: bool = true
+var dither_enabled: bool = true
 var brightness: float = 1.0
 
 # color parameters
@@ -137,6 +138,7 @@ func get_current_settings() -> VisualSettings:
 	current_settings.planets_enabled = planetcontainer.visible
 	current_settings.planet_lighting_enabled = lighting_enabled
 	current_settings.transparancy_enabled = !background.visible
+	current_settings.dither_enabled = dither_enabled
 	current_settings.brightness = brightness
 	return current_settings
 
@@ -165,6 +167,15 @@ func toggle_lighting(value: bool) -> void:
 	lighting_enabled = value
 	for p: PlanetBase in planets:
 		p.set_lighting(lighting_enabled)
+
+
+func set_dither_status(value: bool) -> void:
+	dither_enabled = value
+	nebulae.material.set_shader_parameter("dither_enabled", value)
+	dust.material.set_shader_parameter("dither_enabled", value)
+	for p: PlanetBase in planets:
+		p.set_dither_status(value)
+	
 
 
 func set_brightness(value: float = 1.0) -> void:

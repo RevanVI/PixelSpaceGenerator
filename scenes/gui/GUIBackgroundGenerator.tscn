@@ -172,15 +172,12 @@ min_value = 100.0
 max_value = 5000.0
 value = 200.0
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/OptionsColorRect/Settings"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="HBoxContainer/OptionsColorRect/Settings/HBoxContainer2"]
+[node name="Label2" type="Label" parent="HBoxContainer/OptionsColorRect/Settings/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "height:"
 
-[node name="PixelsHeight" type="SpinBox" parent="HBoxContainer/OptionsColorRect/Settings/HBoxContainer2"]
+[node name="PixelsHeight" type="SpinBox" parent="HBoxContainer/OptionsColorRect/Settings/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = 100.0
@@ -382,6 +379,12 @@ theme_override_styles/hover_pressed = SubResource("3")
 button_pressed = true
 text = "lighting"
 
+[node name="EnableDither" type="CheckBox" parent="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer"]
+layout_mode = 2
+theme_override_styles/hover_pressed = SubResource("3")
+button_pressed = true
+text = "dither"
+
 [node name="Spacer5" type="Control" parent="HBoxContainer/OptionsColorRect/Settings"]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
@@ -429,7 +432,7 @@ one_shot = true
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/HBoxContainer4/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/HBoxContainer4/GenerateButton" to="." method="_on_generate_button_pressed"]
 [connection signal="value_changed" from="HBoxContainer/OptionsColorRect/Settings/HBoxContainer/PixelsWidth" to="." method="_on_PixelsWidth_value_changed"]
-[connection signal="value_changed" from="HBoxContainer/OptionsColorRect/Settings/HBoxContainer2/PixelsHeight" to="." method="_on_PixelsHeight_value_changed"]
+[connection signal="value_changed" from="HBoxContainer/OptionsColorRect/Settings/HBoxContainer/PixelsHeight" to="." method="_on_PixelsHeight_value_changed"]
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/HBoxContainer3/SeedButton" to="." method="_on_seed_button_pressed"]
 [connection signal="item_selected" from="HBoxContainer/OptionsColorRect/Settings/ColorModeContainer/ColorModeOptionButton" to="." method="_on_color_mode_option_button_item_selected"]
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableStars" to="." method="_on_EnableStars_pressed"]
@@ -438,6 +441,7 @@ one_shot = true
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnablePlanets" to="." method="_on_EnablePlanets_pressed"]
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableTransparency" to="." method="_on_EnableTransparency_pressed"]
 [connection signal="toggled" from="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableLighting" to="." method="_on_enable_lighting_toggled"]
+[connection signal="toggled" from="HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableDither" to="." method="_on_enable_dither_toggled"]
 [connection signal="value_changed" from="HBoxContainer/OptionsColorRect/Settings/BrightnessSlider" to="." method="_on_brightness_slider_value_changed"]
 [connection signal="pressed" from="HBoxContainer/OptionsColorRect/Settings/ExportButton" to="." method="_on_ExportButton_pressed"]
 [connection signal="timeout" from="SaveTimer" to="." method="_on_SaveTimer_timeout"]

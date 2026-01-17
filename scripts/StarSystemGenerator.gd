@@ -22,6 +22,7 @@ var star: SystemStar
 var rand_generator: RandomNumberGenerator
 
 var lighting_enabled: bool = true
+var dither_enabled: bool = true
 var brightness: float = 1.0
 
 #planet generator constants
@@ -109,6 +110,7 @@ func get_current_settings() -> VisualSettings:
 	current_settings.planets_enabled = planetcontainer.visible
 	current_settings.planet_lighting_enabled = lighting_enabled
 	current_settings.transparancy_enabled = !background_generator.background.visible
+	current_settings.dither_enabled = dither_enabled
 	current_settings.brightness = brightness
 	current_settings.color_mode = color_mode
 	return current_settings
@@ -138,6 +140,14 @@ func toggle_lighting(value: bool) -> void:
 	lighting_enabled = value
 	for p: PlanetBase in planets:
 		p.set_lighting(lighting_enabled)
+
+
+func set_dither_status(value: bool) -> void:
+	dither_enabled = value
+	background_generator.set_dither_status(value)
+	for pl: PlanetBase in planets:
+		pl.set_dither_status(value)
+	star.set_dither_status(value)
 
 
 func set_brightness(value: float = 1.0) -> void:

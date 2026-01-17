@@ -8,7 +8,7 @@ render_mode blend_mix, unshaded;
 
 uniform float seed = 123.0;
 uniform float pixels = 200.0;
-uniform bool dithered_enabled = false;
+uniform bool dither_enabled = false;
 uniform bool use_defined_colors = true;
 uniform sampler2D defined_colors: filter_nearest;
 uniform sampler2D palette: filter_nearest;
@@ -56,7 +56,7 @@ void fragment() {
 		float final_brightness = global_brightness * brightness_mod;
 		noise_val = pow(noise_val, 1.0 / final_brightness) * final_brightness;
 		
-		if (dithered_enabled) {
+		if (dither_enabled) {
 			noise_val = dither_float(noise_val, DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL);
 		}
 		

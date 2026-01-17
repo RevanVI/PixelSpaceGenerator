@@ -48,6 +48,10 @@ func set_brightness(value: float = 1.0) -> void:
 	material.set_shader_parameter("global_brightness", value)
 
 
+func set_dither_status(value: bool) -> void:
+	material.set_shader_parameter("dither_enabled", value)
+
+
 func calc_pixel_size() -> int:
 	var pixels: int = int(scale.x * texture.get_height())
 	pixels = clamp(pixels, 40, 2048)

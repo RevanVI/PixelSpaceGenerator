@@ -12,7 +12,7 @@ uniform float brightness_mod: hint_range(0.5, 2.0, 0.01) = 1.0;
 uniform float global_brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
 uniform sampler2D palette;
 uniform vec2 uv_correct = vec2(1.0);
-uniform bool dithering_enabled = false;
+uniform bool dither_enabled = false;
 
 const int BAYER_LEVEL = 2;
 const float DITHER_COLOR_COUNT = 8.0;
@@ -51,7 +51,7 @@ void fragment() {
 	float final_brightness = brightness_mod * global_brightness;
 	n_dust_lerp = pow(n_dust_lerp, 1.0 / final_brightness) * final_brightness;
 	
-	if (dithering_enabled) {
+	if (dither_enabled) {
 		n_dust_lerp = dither_float(n_dust_lerp, DITHER_COLOR_COUNT, pix_id, 0.0,  BAYER_LEVEL);
 	}
 	

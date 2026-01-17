@@ -46,7 +46,7 @@ shader_parameter/brightness_mod = 1.1999999843536
 shader_parameter/global_brightness = 1.0
 shader_parameter/palette = SubResource("GradientTexture2D_idhmj")
 shader_parameter/uv_correct = Vector2(1, 1)
-shader_parameter/dithering_enabled = true
+shader_parameter/dither_enabled = true
 
 [sub_resource type="Gradient" id="Gradient_1ss0m"]
 resource_local_to_scene = true

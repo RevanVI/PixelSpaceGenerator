@@ -73,6 +73,10 @@ func set_brightness(value: float = 1.0) -> void:
 	material.set_shader_parameter("global_brightness", value)
 
 
+func set_dither_status(value: bool) -> void:
+	material.set_shader_parameter("dither_enabled", value)
+
+
 func set_lighting(value: bool) -> void:
 	material.set_shader_parameter("light_enabled", value)
 

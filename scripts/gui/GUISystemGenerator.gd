@@ -13,6 +13,7 @@ extends Control
 @onready var enable_planets_toggle: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnablePlanets
 @onready var enable_transparency: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableTransparency
 @onready var enable_lighting: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableLighting
+@onready var enable_dither: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableDither
 @onready var brightness_slider: HSlider = $HBoxContainer/OptionsColorRect/Settings/BrightnessSlider
 @onready var brightness_value: Label = $HBoxContainer/OptionsColorRect/Settings/HBoxContainer5/BrightnessValue
 @onready var viewportBackground: ColorRect = $HBoxContainer/RenderControl/ViewportBackground
@@ -41,6 +42,7 @@ func set_active_settings() -> void:
 	enable_planets_toggle.button_pressed = current_settings.planets_enabled
 	enable_transparency.button_pressed = current_settings.transparancy_enabled
 	enable_lighting.button_pressed = current_settings.planet_lighting_enabled
+	enable_dither.button_pressed = current_settings.dither_enabled
 	brightness_slider.value = current_settings.brightness
 
 
@@ -130,9 +132,16 @@ func _on_enable_lighting_toggled(toggled_on: bool) -> void:
 	generator.toggle_lighting(toggled_on)
 
 
+func _on_enable_dither_toggled(toggled_on: bool) -> void:
+	generator.set_dither_status(toggled_on)
+
+
 func _on_use_random_colors_toggled(toggled_on: bool) -> void:
 	generator.set_use_random_colors(toggled_on)
 
 
 func _on_color_mode_option_button_item_selected(index: int) -> void:
 	generator.color_mode = index as ColorHelpers.COLOR_MODE
+
+
+
