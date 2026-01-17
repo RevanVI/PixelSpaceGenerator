@@ -45,7 +45,7 @@ func set_values(iseed: int, icolor_mode: ColorHelpers.COLOR_MODE, ipalette: Grad
 
 
 func set_brightness(value: float = 1.0) -> void:
-	material.set_shader_parameter("brightness", value)
+	material.set_shader_parameter("global_brightness", value)
 
 
 func calc_pixel_size() -> int:

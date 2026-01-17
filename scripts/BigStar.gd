@@ -19,4 +19,4 @@ func set_values(star_id: int, iseed: int, ipalette: GradientTexture2D) -> void:
 
 
 func set_brightness(value: float = 1.0) -> void:
-	material.set_shader_parameter("brightness", value)
+	material.set_shader_parameter("global_brightness", value)

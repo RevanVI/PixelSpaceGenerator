@@ -169,8 +169,8 @@ func toggle_lighting(value: bool) -> void:
 
 func set_brightness(value: float = 1.0) -> void:
 	brightness = value
-	nebulae.material.set_shader_parameter("brightness", value)
-	dust.material.set_shader_parameter("brightness", value)
+	nebulae.material.set_shader_parameter("global_brightness", value)
+	dust.material.set_shader_parameter("global_brightness", value)
 	for pl: PlanetBase in planets:
 		pl.set_brightness(value)
 	for st: Star in stars:

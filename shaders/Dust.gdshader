@@ -8,7 +8,8 @@ uniform float size = 50.0;
 uniform int OCTAVES : hint_range(0, 20, 1);
 uniform float seed: hint_range(1, 10);
 uniform float pixels = 200.0;
-uniform float brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
+uniform float brightness_mod: hint_range(0.5, 2.0, 0.01) = 1.0;
+uniform float global_brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
 uniform sampler2D palette;
 uniform vec2 uv_correct = vec2(1.0);
 uniform bool dithering_enabled = false;
@@ -47,7 +48,8 @@ void fragment() {
 
 	// choose & apply colors
 	n_dust_lerp = pow(n_dust_lerp, 3.2) * 8.0;
-	n_dust_lerp = pow(n_dust_lerp, 1.0 / brightness) * brightness;
+	float final_brightness = brightness_mod * global_brightness;
+	n_dust_lerp = pow(n_dust_lerp, 1.0 / final_brightness) * final_brightness;
 	
 	if (dithering_enabled) {
 		n_dust_lerp = dither(vec3(n_dust_lerp), DITHER_COLOR_COUNT, pix_id, 0.0,  BAYER_LEVEL).r;

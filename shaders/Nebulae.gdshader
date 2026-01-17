@@ -10,7 +10,8 @@ uniform float seed: hint_range(1, 10);
 uniform float pixels = 100.0;
 uniform sampler2D palette: filter_nearest;
 uniform vec4 background_color : source_color;
-uniform float brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
+uniform float brightness_mod: hint_range(0.5, 2.0, 0.01) = 1.0;
+uniform float global_brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
 uniform vec2 uv_correct = vec2(1.0);
 uniform bool dither_enabled = false;
 
@@ -43,7 +44,8 @@ void fragment() {
 	float n2 = fbm(uv * size + vec2(1, 1), OCTAVES, seed);
 	float n_dust_lerp = n2 * n;
 
-	n_dust_lerp = pow(n_dust_lerp, 1.0 / brightness) * brightness;
+	float final_brightness = brightness_mod * global_brightness;
+	n_dust_lerp = pow(n_dust_lerp, 1.0 / final_brightness) * final_brightness;
 	
 	if (dither_enabled) {
 		n_dust_lerp = dither(vec3(n_dust_lerp), DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL).r;

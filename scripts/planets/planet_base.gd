@@ -70,7 +70,7 @@ func set_values(iplanet_id: int, iseed: int, icolor_mode: ColorHelpers.COLOR_MOD
 
 
 func set_brightness(value: float = 1.0) -> void:
-	material.set_shader_parameter("brightness", value)
+	material.set_shader_parameter("global_brightness", value)
 
 
 func set_lighting(value: bool) -> void:

@@ -13,7 +13,7 @@ uniform bool use_defined_colors = true;
 uniform sampler2D defined_colors: filter_nearest;
 uniform sampler2D palette: filter_nearest;
 uniform float brightness_mod: hint_range(0.5, 2.0, 0.01) = 1.0;
-uniform float brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
+uniform float global_brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
 uniform vec3 angles = vec3(0.0, 0.0, 0.0);
 
 uniform sampler3D noise3d;
@@ -53,7 +53,7 @@ void fragment() {
 		float noise_val_2 = texture(noise3d2, sphere).r;
 		noise_val *= noise_val_2 * 1.5;
 
-		float final_brightness = brightness * brightness_mod;
+		float final_brightness = global_brightness * brightness_mod;
 		noise_val = pow(noise_val, 1.0 / final_brightness) * final_brightness;
 		
 		if (dithered_enabled) {
@@ -69,7 +69,7 @@ void fragment() {
 		int bands = 4;
 		vec4 atm = vec4(vec3(0.0), 0.0);
 		vec3 base_color = get_color(vec2(1.0, 0.0));
-		float final_brightness = brightness * brightness_mod;
+		float final_brightness = global_brightness * brightness_mod;
 		base_color.r = pow(base_color.r, 1.0 / final_brightness) * final_brightness;
 		base_color.g = pow(base_color.g, 1.0 / final_brightness) * final_brightness;
 		base_color.b = pow(base_color.b, 1.0 / final_brightness) * final_brightness;

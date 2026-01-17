@@ -17,7 +17,8 @@ uniform sampler2D colors_1: filter_nearest;
 uniform sampler2D colors_2: filter_nearest;
 
 uniform bool dither_enabled = false;
-uniform float brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
+uniform float brightness_mod: hint_range(0.5, 2.0, 0.01) = 1.0;
+uniform float global_brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
 uniform sampler3D noise3d;
 uniform sampler3D noise3d2;
 uniform bool clouds = false;
@@ -81,7 +82,8 @@ void fragment() {
 		}
 
 		noise_val *= light;
-		noise_val = pow(noise_val, 1.0 / brightness) * brightness;
+		float final_brightness = brightness_mod * global_brightness;
+		noise_val = pow(noise_val, 1.0 / final_brightness) * final_brightness;
 		if (dither_enabled) {
 			noise_val = dither(vec3(noise_val), DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL).r;
 		}
