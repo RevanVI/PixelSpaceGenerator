@@ -99,7 +99,7 @@ func _place_planet(planet_id: int) -> void:
 
 
 func calc_stars_count() -> int:
-	var count: int = int(max(size.x, size.y) / 20) #from 0 (below 20px) to 250 (on 5000 px)
+	var count: int = int(max(size.x, size.y) / 32) #from 0 (below 32px) to 156 (on 5000 px)
 	return count
 
 
@@ -118,10 +118,15 @@ func _place_big_star(star_id: int) -> void:
 	var rand_y: float = rand_generator.randf()
 	var pos: Vector2 = Vector2(int(rand_x * size.x), int(rand_y * size.y))
 
+	# star sprite should be at least 1 pixel after this
+	# floor(star_scale * star_texture_height) > 0
+	var rand_size: float = min(size.x, size.y) * rand_generator.randf_range(0.25, 1.0) * 0.003
+
 	var star: Star = starcontainer.get_object()
 	stars.append(star)
 	star.position = pos
 	var sseed: int = rand_generator.randi()
+	star.scale = Vector2(1, 1) * rand_size
 	star.set_values(star_id, sseed, star_palette, pixelization_scale)
 	star.show()
 	
