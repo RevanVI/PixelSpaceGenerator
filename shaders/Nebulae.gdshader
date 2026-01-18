@@ -40,11 +40,11 @@ float cloud_alpha(vec2 uv) {
 void fragment() {
 	// pixelizing - two ways of doing this
 	// split this texture in whole pixels
-	float corrected_pixel_scale = floor(pixels / float(pixel_scale));
+	vec2 corrected_pixel_scale = floor(pixels * uv_correct / float(pixel_scale));
 	// split this texture by pixel size
 	//corrected_pixel_scale = pixels / float(pixel_scale);
-	vec2 pix_id = floor(UV * uv_correct * corrected_pixel_scale);
-	vec2 uv = pix_id / uv_correct / corrected_pixel_scale;
+	vec2 pix_id = floor(UV * corrected_pixel_scale);
+	vec2 uv = pix_id  / corrected_pixel_scale * uv_correct;
 	
 	// distance from center
 	float d =  distance(uv, vec2(0.5) * uv_correct) * 0.45;

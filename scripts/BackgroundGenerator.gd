@@ -50,9 +50,9 @@ func _ready() -> void:
 func generate_new(iseed: int, generate_planets: bool = true) -> void:
 	var aspect: Vector2 = Vector2(1,1)
 	if size.x > size.y:
-		aspect = Vector2(size.x / size.y, 1.0)
-	else:
 		aspect = Vector2(1.0, size.y / size.x)
+	else:
+		aspect = Vector2(size.x / size.y, 1.0)
 	
 	rand_generator.seed = iseed
 	dust.material.set_shader_parameter("seed", iseed)
