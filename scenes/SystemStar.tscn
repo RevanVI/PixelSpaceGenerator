@@ -50,13 +50,15 @@ gradient = SubResource("Gradient_opoxg")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nqiqp"]
 resource_local_to_scene = true
 shader = ExtResource("1_my8ps")
-shader_parameter/seed = 123.0
 shader_parameter/pixels = 100.0
+shader_parameter/pixel_scale = 1
+shader_parameter/seed = 123.0
+shader_parameter/dither_enabled = true
 shader_parameter/use_defined_colors = true
 shader_parameter/defined_colors = ExtResource("2_my8ps")
 shader_parameter/palette = SubResource("GradientTexture2D_ic7tb")
 shader_parameter/brightness_mod = 1.0
-shader_parameter/brightness = 1.0
+shader_parameter/global_brightness = 1.0
 shader_parameter/angles = Vector3(0, 0, 0)
 shader_parameter/noise3d = SubResource("NoiseTexture3D_dhd3v")
 shader_parameter/noise3d2 = SubResource("NoiseTexture3D_tdwcm")

@@ -22,6 +22,8 @@ var star: SystemStar
 var rand_generator: RandomNumberGenerator
 
 var lighting_enabled: bool = true
+var dither_enabled: bool = true
+var pixelization_scale: int = 1
 var brightness: float = 1.0
 
 #planet generator constants
@@ -51,7 +53,7 @@ func make_system_star() -> void:
 	var star_radius: float = 0.5 * rand_size * star.texture.get_height()
 	star.position = Vector2(-0.33 * star_radius, 0.5 * size.y)
 	star.scale = Vector2(1, 1) * rand_size
-	star.set_values(rand_generator.randi(), color_mode, color_palette)
+	star.set_values(rand_generator.randi(), color_mode, color_palette, pixelization_scale)
 
 
 func make_planets() -> void:
@@ -73,7 +75,9 @@ func place_planet(planet_id: int, planet_amount: int) -> void:
 	planetcontainer.add_child(planet)
 	planets.append(planet)
 	
-	var rand_size: float = min(size.x, size.y) * rand_generator.randf_range(0.15, 1.15) * 0.002
+	# planet sprite should be at least 1 pixel after this
+	# floor(rand_size * planet_texture_height) > 0
+	var rand_size: float = min(size.x, size.y) * rand_generator.randf_range(0.2, 1.15) * 0.002
 	planet.scale = Vector2(1, 1) * rand_size
 
 	# basic idea - divide free space on equal parts and place each planet randomly inside its part
@@ -87,7 +91,7 @@ func place_planet(planet_id: int, planet_amount: int) -> void:
 	var radius: float = rand_generator.randf_range(radius_low, radius_high)
 	planet.position = Vector2(int(radius * size.x), int(0.5 * size.y))
 
-	planet.set_values(planet_id, rand_generator.randi(), color_mode, color_palette)
+	planet.set_values(planet_id, rand_generator.randi(), color_mode, color_palette, pixelization_scale)
 	planet.set_light_dir((star.position - planet.position).normalized())
 
 	#make moons here
@@ -102,6 +106,7 @@ func set_render_size(new_size: Vector2) -> void:
 #visual settings
 func get_current_settings() -> VisualSettings:
 	var current_settings: VisualSettings = VisualSettings.new()
+	current_settings.pixelization_scale = pixelization_scale
 	current_settings.background_color = background_generator.background.color
 	current_settings.dust_enabled = background_generator.dust.visible
 	current_settings.nebulae_enabled = background_generator.nebulae.visible
@@ -109,6 +114,7 @@ func get_current_settings() -> VisualSettings:
 	current_settings.planets_enabled = planetcontainer.visible
 	current_settings.planet_lighting_enabled = lighting_enabled
 	current_settings.transparancy_enabled = !background_generator.background.visible
+	current_settings.dither_enabled = dither_enabled
 	current_settings.brightness = brightness
 	current_settings.color_mode = color_mode
 	return current_settings
@@ -138,6 +144,22 @@ func toggle_lighting(value: bool) -> void:
 	lighting_enabled = value
 	for p: PlanetBase in planets:
 		p.set_lighting(lighting_enabled)
+
+
+func set_pixelization_scale(value: int) -> void:
+	pixelization_scale = value
+	background_generator.set_pixelization_scale(value)
+	for pl: PlanetBase in planets:
+		pl.set_pixel_scale(pixelization_scale)
+	star.set_pixel_scale(pixelization_scale)
+
+
+func set_dither_status(value: bool) -> void:
+	dither_enabled = value
+	background_generator.set_dither_status(value)
+	for pl: PlanetBase in planets:
+		pl.set_dither_status(value)
+	star.set_dither_status(value)
 
 
 func set_brightness(value: float = 1.0) -> void:

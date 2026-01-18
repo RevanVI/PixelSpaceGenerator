@@ -16,6 +16,8 @@ var stars : Array[Star] = []
 var planets: Array[PlanetBase] = []
 
 var lighting_enabled: bool = true
+var dither_enabled: bool = true
+var pixelization_scale: int = 1
 var brightness: float = 1.0
 
 # color parameters
@@ -48,9 +50,9 @@ func _ready() -> void:
 func generate_new(iseed: int, generate_planets: bool = true) -> void:
 	var aspect: Vector2 = Vector2(1,1)
 	if size.x > size.y:
-		aspect = Vector2(size.x / size.y, 1.0)
-	else:
 		aspect = Vector2(1.0, size.y / size.x)
+	else:
+		aspect = Vector2(size.x / size.y, 1.0)
 	
 	rand_generator.seed = iseed
 	dust.material.set_shader_parameter("seed", iseed)
@@ -59,6 +61,7 @@ func generate_new(iseed: int, generate_planets: bool = true) -> void:
 	nebulae.material.set_shader_parameter("seed", iseed)
 	nebulae.material.set_shader_parameter("pixels", max(size.x, size.y))
 	nebulae.material.set_shader_parameter("uv_correct", aspect)
+	set_pixelization_scale(pixelization_scale)
 	
 	randomize_colors()
 	set_color_mode(color_mode)
@@ -79,8 +82,9 @@ func _make_new_planets() -> void:
 
 
 func _place_planet(planet_id: int) -> void:
-	var random_size: float = min(size.x, size.y) * rand_generator.randf_range(0.15, 1)
-	var planet_scale: Vector2 = Vector2(1,1)*(0.7 * random_size * 0.004)
+	# planet sprite should be at least 1 pixel after this
+	# floor(planet_scale * planet_texture_height) > 0
+	var rand_size: float = min(size.x, size.y) * rand_generator.randf_range(0.15, 1) * 0.003
 	var rand_x: float = rand_generator.randf()
 	var rand_y: float = rand_generator.randf()
 	var pos: Vector2 = Vector2(int(rand_x * size.x), int(rand_y * size.y))
@@ -88,14 +92,14 @@ func _place_planet(planet_id: int) -> void:
 	var planet: PlanetBase = planet_scene.instantiate()
 	planetcontainer.add_child(planet)
 	planets.append(planet)
-	planet.scale = planet_scale
+	planet.scale = Vector2(1, 1) * rand_size
 	planet.position = pos
 	var pseed: int = rand_generator.randi()
-	planet.set_values(planet_id, pseed, color_mode, color_palette)
+	planet.set_values(planet_id, pseed, color_mode, color_palette, pixelization_scale)
 
 
 func calc_stars_count() -> int:
-	var count: int = int(max(size.x, size.y) / 20) #from 0 (below 20px) to 250 (on 5000 px)
+	var count: int = int(max(size.x, size.y) / 32) #from 0 (below 32px) to 156 (on 5000 px)
 	return count
 
 
@@ -114,11 +118,16 @@ func _place_big_star(star_id: int) -> void:
 	var rand_y: float = rand_generator.randf()
 	var pos: Vector2 = Vector2(int(rand_x * size.x), int(rand_y * size.y))
 
+	# star sprite should be at least 1 pixel after this
+	# floor(star_scale * star_texture_height) > 0
+	var rand_size: float = min(size.x, size.y) * rand_generator.randf_range(0.25, 1.0) * 0.003
+
 	var star: Star = starcontainer.get_object()
 	stars.append(star)
 	star.position = pos
 	var sseed: int = rand_generator.randi()
-	star.set_values(star_id, sseed, star_palette)
+	star.scale = Vector2(1, 1) * rand_size
+	star.set_values(star_id, sseed, star_palette, pixelization_scale)
 	star.show()
 	
 
@@ -130,6 +139,7 @@ func set_render_size(new_size: Vector2) -> void:
 #visual settings
 func get_current_settings() -> VisualSettings:
 	var current_settings: VisualSettings = VisualSettings.new()
+	current_settings.pixelization_scale = pixelization_scale
 	current_settings.background_color = background.color
 	current_settings.dust_enabled = dust.visible
 	current_settings.nebulae_enabled = nebulae.visible
@@ -137,6 +147,7 @@ func get_current_settings() -> VisualSettings:
 	current_settings.planets_enabled = planetcontainer.visible
 	current_settings.planet_lighting_enabled = lighting_enabled
 	current_settings.transparancy_enabled = !background.visible
+	current_settings.dither_enabled = dither_enabled
 	current_settings.brightness = brightness
 	return current_settings
 
@@ -167,10 +178,28 @@ func toggle_lighting(value: bool) -> void:
 		p.set_lighting(lighting_enabled)
 
 
+func set_pixelization_scale(value: int) -> void:
+	pixelization_scale = value
+	nebulae.material.set_shader_parameter("pixel_scale", value)
+	dust.material.set_shader_parameter("pixel_scale", value)
+	for pl: PlanetBase in planets:
+		pl.set_pixel_scale(value)
+	for st: Star in stars:
+		st.set_pixel_scale(value)
+
+
+func set_dither_status(value: bool) -> void:
+	dither_enabled = value
+	nebulae.material.set_shader_parameter("dither_enabled", value)
+	dust.material.set_shader_parameter("dither_enabled", value)
+	for p: PlanetBase in planets:
+		p.set_dither_status(value)
+	
+
 func set_brightness(value: float = 1.0) -> void:
 	brightness = value
-	nebulae.material.set_shader_parameter("brightness", value)
-	dust.material.set_shader_parameter("brightness", value)
+	nebulae.material.set_shader_parameter("global_brightness", value)
+	dust.material.set_shader_parameter("global_brightness", value)
 	for pl: PlanetBase in planets:
 		pl.set_brightness(value)
 	for st: Star in stars:

@@ -80,8 +80,9 @@ seamless_blend_skirt = 0.296
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_c56q5"]
 resource_local_to_scene = true
 shader = ExtResource("1_loug5")
+shader_parameter/pixels = 100.0
+shader_parameter/pixel_scale = 1
 shader_parameter/seed = 123.0
-shader_parameter/pixels = 200.0
 shader_parameter/radius = 0.45000001485523
 shader_parameter/angles = Vector3(-3.14, 0, 0)
 shader_parameter/use_defined_colors = true
@@ -89,13 +90,15 @@ shader_parameter/defined_colors_1 = SubResource("GradientTexture2D_o54mv")
 shader_parameter/defined_colors_2 = SubResource("GradientTexture2D_tb10y")
 shader_parameter/colors_1 = SubResource("GradientTexture2D_io4qm")
 shader_parameter/colors_2 = SubResource("GradientTexture2D_8lqpq")
-shader_parameter/brightness = 0.999999988824
+shader_parameter/dither_enabled = true
+shader_parameter/brightness_mod = 1.4299999792126399
+shader_parameter/global_brightness = 1.0
 shader_parameter/noise3d = SubResource("NoiseTexture3D_sskfm")
 shader_parameter/noise3d2 = SubResource("NoiseTexture3D_2svr8")
 shader_parameter/clouds = false
 shader_parameter/light_enabled = true
 shader_parameter/light_dir = Vector3(-0.34, -0.025, 0.6)
-shader_parameter/light_strenght = 2.500000037253
+shader_parameter/light_strenght = 2.0000000298024
 shader_parameter/light_noise_strenght = 0.0
 
 [sub_resource type="Gradient" id="Gradient_tb10y"]

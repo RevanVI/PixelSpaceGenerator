@@ -2,16 +2,27 @@ shader_type canvas_item;
 render_mode blend_mix,unshaded;
 
 #include "shader_helpers.gdshaderinc"
+#include "dither.gdshaderinc"
 
+
+uniform float pixels = 100.0;
+uniform int pixel_scale: hint_range(1, 32, 1) = 4;
+uniform vec2 uv_correct = vec2(1.0);
 
 uniform float size = 50.0;
 uniform int OCTAVES : hint_range(0, 20, 1);
 uniform float seed: hint_range(1, 10);
-uniform float pixels = 100.0;
-uniform sampler2D palette;
+
+uniform sampler2D palette: filter_nearest;
 uniform vec4 background_color : source_color;
-uniform float brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
-uniform vec2 uv_correct = vec2(1.0);
+
+uniform float brightness_mod: hint_range(0.5, 2.0, 0.01) = 1.0;
+uniform float global_brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
+
+uniform bool dither_enabled = false;
+
+const int BAYER_LEVEL = 2;
+const float DITHER_COLOR_COUNT = 8.0;
 
 
 float cloud_alpha(vec2 uv) {
@@ -27,42 +38,42 @@ float cloud_alpha(vec2 uv) {
 }
 
 void fragment() {
-	// pixelizing
-	vec2 uv = floor(UV * pixels) / pixels * uv_correct;
-
+	// pixelizing - two ways of doing this
+	// split this texture in whole pixels
+	vec2 corrected_pixel_scale = floor(pixels * uv_correct / float(pixel_scale));
+	// split this texture by pixel size
+	//corrected_pixel_scale = pixels / float(pixel_scale);
+	vec2 pix_id = floor(UV * corrected_pixel_scale);
+	vec2 uv = pix_id  / corrected_pixel_scale * uv_correct;
+	
 	// distance from center
-	float d =  distance(uv, vec2(0.5) * uv_correct) * 0.4;
+	float d =  distance(uv, vec2(0.5) * uv_correct) * 0.45;
 
 	// noise for the inside of the nebulae
 	float n = cloud_alpha(uv * size);
 	float n2 = fbm(uv * size + vec2(1, 1), OCTAVES, seed);
-	float n_dust_lerp = n2 * n * n;
+	float n_dust_lerp = n2 * n;
 
-	// apply dithering
-	bool dith = dither_grid(UV, pixels);
-	if (dith) {
-		n_dust_lerp *= 0.95;
-		d*= 0.98;
+	float final_brightness = brightness_mod * global_brightness;
+	n_dust_lerp = pow(n_dust_lerp, 1.0 / final_brightness) * final_brightness;
+	
+	if (dither_enabled) {
+		n_dust_lerp = dither_float(n_dust_lerp, DITHER_COLOR_COUNT, pix_id, 0.0, BAYER_LEVEL);
 	}
-
+	
 	// slightly offset alpha values to create thin bands around the nebulae
 	float a = step(n2, 0.1 + d);
 	float a2 = step(n2, 0.115 + d);
 
 	// choose colors
-	n_dust_lerp = pow(n_dust_lerp, 1.0 / brightness) * brightness;
 	float col_value = 0.0;
 	if (a2 > a) {
-		col_value = floor(n_dust_lerp * 40.0) / 7.0;
+		col_value = floor(n_dust_lerp * 24.0) / 8.0;
 	} else {
-		col_value = floor(n_dust_lerp * 18.0) / 7.0;
+		col_value = floor(n_dust_lerp * 8.0) / 8.0;
 	}
 
 	// apply colors
 	vec3 col = texture(palette, vec2(col_value, 0.0)).rgb;
-	if (col_value < 0.1) {
-		col = background_color.rgb;
-	}
-
 	COLOR = vec4(col, a2);
 }

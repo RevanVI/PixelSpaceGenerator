@@ -1,13 +1,14 @@
 extends PlanetCommon
 
 
-func set_values(iplanet_id: int, iseed: int, icolor_mode: ColorHelpers.COLOR_MODE, palette: GradientTexture2D) -> void:
+func set_values(iplanet_id: int, iseed: int, icolor_mode: ColorHelpers.COLOR_MODE, palette: GradientTexture2D, pixel_scale: int) -> void:
 	print("Planet id " + str(iplanet_id) + " set_values start, seed: " + str(iseed))
 
 	planet_id = iplanet_id
 	rand_generator.seed = iseed
 	material.set_shader_parameter("seed", rand_generator.randi_range(0, 1_500_000))
 	material.set_shader_parameter("pixels", calc_pixel_size())
+	set_pixel_scale(pixel_scale)
 
 	var light_x: float = clamp(rand_generator.randf(), 0.2, 0.8) * 2.0 - 1.0;
 	var light_y: float = clamp(rand_generator.randf(), 0.2, 0.8) * 2.0 - 1.0;

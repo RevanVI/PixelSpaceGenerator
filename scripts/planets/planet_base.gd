@@ -30,13 +30,14 @@ func _ready() -> void:
 	rand_generator = RandomNumberGenerator.new()
 
 
-func set_values(iplanet_id: int, iseed: int, icolor_mode: ColorHelpers.COLOR_MODE, palette: GradientTexture2D) -> void:
+func set_values(iplanet_id: int, iseed: int, icolor_mode: ColorHelpers.COLOR_MODE, palette: GradientTexture2D, pixel_scale: int) -> void:
 	print("Planet id " + str(iplanet_id) + " set_values start, seed: " + str(iseed))
 
 	planet_id = iplanet_id
 	rand_generator.seed = iseed
 	material.set_shader_parameter("seed", rand_generator.randi_range(0, 1_500_000))
 	material.set_shader_parameter("pixels", calc_pixel_size())
+	set_pixel_scale(pixel_scale)
 
 	defined_colors_ind = rand_generator.randi_range(0, defined_colors.get_type_count() - 1)
 	var defined_colors_data: ColorData = defined_colors.get_data(defined_colors_ind)
@@ -70,7 +71,11 @@ func set_values(iplanet_id: int, iseed: int, icolor_mode: ColorHelpers.COLOR_MOD
 
 
 func set_brightness(value: float = 1.0) -> void:
-	material.set_shader_parameter("brightness", value)
+	material.set_shader_parameter("global_brightness", value)
+
+
+func set_dither_status(value: bool) -> void:
+	material.set_shader_parameter("dither_enabled", value)
 
 
 func set_lighting(value: bool) -> void:
@@ -83,8 +88,12 @@ func set_light_dir(dir: Vector2) -> void:
 
 func calc_pixel_size() -> int:
 	var pixels: int = int(scale.x * texture.get_height())
-	pixels = clamp(pixels, 40, 2048)
+	assert(pixels > 0)
 	return pixels
+
+
+func set_pixel_scale(value: int) -> void:
+	material.set_shader_parameter("pixel_scale", value)
 
 
 # Colors methods

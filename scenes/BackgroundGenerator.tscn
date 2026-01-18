@@ -38,13 +38,16 @@ gradient = SubResource("Gradient_nexjq")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nexjq"]
 resource_local_to_scene = true
 shader = ExtResource("2_ncimm")
+shader_parameter/pixels = 100.0
+shader_parameter/uv_correct = Vector2(1, 1)
+shader_parameter/pixel_scale = 2
 shader_parameter/size = 10.0
 shader_parameter/OCTAVES = 8
 shader_parameter/seed = 6.175
-shader_parameter/pixels = 100.0
-shader_parameter/brightness = 1.0
 shader_parameter/palette = SubResource("GradientTexture2D_idhmj")
-shader_parameter/uv_correct = Vector2(1, 1)
+shader_parameter/brightness_mod = 1.1999999843536
+shader_parameter/global_brightness = 1.0
+shader_parameter/dither_enabled = true
 
 [sub_resource type="Gradient" id="Gradient_1ss0m"]
 resource_local_to_scene = true
@@ -59,14 +62,17 @@ gradient = SubResource("Gradient_1ss0m")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n454q"]
 resource_local_to_scene = true
 shader = ExtResource("3_ncimm")
+shader_parameter/pixels = 100.0
+shader_parameter/pixel_scale = 2
+shader_parameter/uv_correct = Vector2(1, 1)
 shader_parameter/size = 10.0
 shader_parameter/OCTAVES = 3
 shader_parameter/seed = 4.5
-shader_parameter/pixels = 200.0
 shader_parameter/palette = SubResource("GradientTexture2D_fp7lx")
 shader_parameter/background_color = Color(0.0901961, 0.0901961, 0.0666667, 1)
-shader_parameter/brightness = 1.0
-shader_parameter/uv_correct = Vector2(1, 1)
+shader_parameter/brightness_mod = 1.1499999854712
+shader_parameter/global_brightness = 1.0
+shader_parameter/dither_enabled = true
 
 [node name="BackgroundGenerator" type="Control"]
 custom_minimum_size = Vector2(100, 100)
@@ -92,9 +98,12 @@ color = Color(0.0901961, 0.0901961, 0.0666667, 1)
 
 [node name="Dust" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_nexjq")
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Nebulae" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_n454q")
@@ -102,8 +111,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 1.0
-offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
