@@ -50,8 +50,9 @@ gradient = SubResource("Gradient_opoxg")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nqiqp"]
 resource_local_to_scene = true
 shader = ExtResource("1_my8ps")
-shader_parameter/seed = 123.0
 shader_parameter/pixels = 100.0
+shader_parameter/pixel_scale = 1
+shader_parameter/seed = 123.0
 shader_parameter/dither_enabled = true
 shader_parameter/use_defined_colors = true
 shader_parameter/defined_colors = ExtResource("2_my8ps")

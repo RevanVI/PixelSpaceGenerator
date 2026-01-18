@@ -80,8 +80,9 @@ seamless_blend_skirt = 0.296
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_c56q5"]
 resource_local_to_scene = true
 shader = ExtResource("1_loug5")
-shader_parameter/seed = 123.0
 shader_parameter/pixels = 100.0
+shader_parameter/pixel_scale = 1
+shader_parameter/seed = 123.0
 shader_parameter/radius = 0.45000001485523
 shader_parameter/angles = Vector3(-3.14, 0, 0)
 shader_parameter/use_defined_colors = true

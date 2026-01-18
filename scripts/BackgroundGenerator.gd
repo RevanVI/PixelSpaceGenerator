@@ -95,7 +95,7 @@ func _place_planet(planet_id: int) -> void:
 	planet.scale = Vector2(1, 1) * rand_size
 	planet.position = pos
 	var pseed: int = rand_generator.randi()
-	planet.set_values(planet_id, pseed, color_mode, color_palette)
+	planet.set_values(planet_id, pseed, color_mode, color_palette, pixelization_scale)
 
 
 func calc_stars_count() -> int:
@@ -122,7 +122,7 @@ func _place_big_star(star_id: int) -> void:
 	stars.append(star)
 	star.position = pos
 	var sseed: int = rand_generator.randi()
-	star.set_values(star_id, sseed, star_palette)
+	star.set_values(star_id, sseed, star_palette, pixelization_scale)
 	star.show()
 	
 
@@ -177,6 +177,10 @@ func set_pixelization_scale(value: int) -> void:
 	pixelization_scale = value
 	nebulae.material.set_shader_parameter("pixel_scale", value)
 	dust.material.set_shader_parameter("pixel_scale", value)
+	for pl: PlanetBase in planets:
+		pl.set_pixel_scale(value)
+	for st: Star in stars:
+		st.set_pixel_scale(value)
 
 
 func set_dither_status(value: bool) -> void:

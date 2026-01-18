@@ -47,8 +47,9 @@ gradient = SubResource("Gradient_c7ypk")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_c7ypk"]
 resource_local_to_scene = true
 shader = ExtResource("1_d5erp")
-shader_parameter/seed = 123.0
 shader_parameter/pixels = 100.0
+shader_parameter/pixel_scale = 1
+shader_parameter/seed = 123.0
 shader_parameter/radius = 0.5
 shader_parameter/angles = Vector3(0, 0, 0.5)
 shader_parameter/use_defined_colors = true

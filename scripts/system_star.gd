@@ -16,10 +16,11 @@ func _ready() -> void:
 	rand_generator = RandomNumberGenerator.new()
 
 
-func set_values(iseed: int, icolor_mode: ColorHelpers.COLOR_MODE, ipalette: GradientTexture2D) -> void:
+func set_values(iseed: int, icolor_mode: ColorHelpers.COLOR_MODE, ipalette: GradientTexture2D, pixel_scale: int) -> void:
 	rand_generator.seed = iseed
 	material.set_shader_parameter("seed", iseed)
 	material.set_shader_parameter("pixels", calc_pixel_size())
+	set_pixel_scale(pixel_scale)
 
 	defined_colors_ind = rand_generator.randi_range(0, defined_colors.get_type_count() - 1)
 	var defined_colors_data: ColorData = defined_colors.get_data(defined_colors_ind)
@@ -56,6 +57,10 @@ func calc_pixel_size() -> int:
 	var pixels: int = int(scale.x * texture.get_height())
 	assert(pixels > 0)
 	return pixels
+
+
+func set_pixel_scale(value: int) -> void:
+	material.set_shader_parameter("pixel_scale", value)
 
 
 # Colors methods

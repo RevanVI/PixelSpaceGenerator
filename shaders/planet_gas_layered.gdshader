@@ -1,11 +1,15 @@
 shader_type canvas_item;
 
-#include "res://shaders/shader_helpers.gdshaderinc"
-#include "res://shaders/planet_helpers.gdshaderinc"
-#include "res://shaders/dither.gdshaderinc"
+#include "shader_helpers.gdshaderinc"
+#include "planet_helpers.gdshaderinc"
+#include "dither.gdshaderinc"
+#include "pixelization.gdshaderinc"
+
+
+uniform float pixels = 200.0;
+uniform int pixel_scale: hint_range(1, 32, 1) = 1;
 
 uniform float seed = 123.0;
-uniform float pixels = 200.0;
 uniform float radius: hint_range(0.2, 0.5) = 0.5;
 uniform vec3 angles = vec3(0.0, 0.0, 0.0);
 
@@ -43,9 +47,8 @@ vec3[2] get_color(vec2 coords) {
 }
 
 void fragment() {
-	// pixelzing
-	vec2 pix_id = floor(UV / TEXTURE_PIXEL_SIZE / 1.0);
-	vec2 uv = pix_id * TEXTURE_PIXEL_SIZE * 1.0;
+	vec2 uv = UV;
+	vec2 pix_id = pixelize(uv, pixels, pixel_scale);
 
 	float d_to_center = distance(uv, vec2(0.5));
 

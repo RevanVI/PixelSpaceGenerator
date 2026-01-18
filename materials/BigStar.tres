@@ -6,6 +6,9 @@
 [resource]
 resource_local_to_scene = true
 shader = ExtResource("1_qx5g3")
+shader_parameter/pixels = 25.0
+shader_parameter/pixel_scale = 1
+shader_parameter/frame_count = 6
 shader_parameter/palette = ExtResource("2_br0n4")
-shader_parameter/brightness = 1.0
+shader_parameter/global_brightness = 1.0
 shader_parameter/brightness_rand = 1.0

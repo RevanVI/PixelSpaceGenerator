@@ -4,10 +4,13 @@ render_mode blend_mix, unshaded;
 #include "shader_helpers.gdshaderinc"
 #include "planet_helpers.gdshaderinc"
 #include "dither.gdshaderinc"
+#include "pixelization.gdshaderinc"
 
+
+uniform float pixels = 200.0;
+uniform int pixel_scale: hint_range(1, 32, 1) = 1;
 
 uniform float seed = 123.0;
-uniform float pixels = 200.0;
 uniform bool dither_enabled = false;
 uniform bool use_defined_colors = true;
 uniform sampler2D defined_colors: filter_nearest;
@@ -38,9 +41,8 @@ vec3 get_color(vec2 coords) {
 
 
 void fragment() {
-	// pixelzing
-	vec2 pix_id = floor(UV / TEXTURE_PIXEL_SIZE / 1.0);
-	vec2 uv = pix_id * TEXTURE_PIXEL_SIZE * 1.0;
+	vec2 uv = UV;
+	vec2 pix_id = pixelize(uv, pixels, pixel_scale);
 
 	// distance from center
 	float d_to_center = distance(uv, vec2(0.5));

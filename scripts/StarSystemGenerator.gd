@@ -53,7 +53,7 @@ func make_system_star() -> void:
 	var star_radius: float = 0.5 * rand_size * star.texture.get_height()
 	star.position = Vector2(-0.33 * star_radius, 0.5 * size.y)
 	star.scale = Vector2(1, 1) * rand_size
-	star.set_values(rand_generator.randi(), color_mode, color_palette)
+	star.set_values(rand_generator.randi(), color_mode, color_palette, pixelization_scale)
 
 
 func make_planets() -> void:
@@ -91,7 +91,7 @@ func place_planet(planet_id: int, planet_amount: int) -> void:
 	var radius: float = rand_generator.randf_range(radius_low, radius_high)
 	planet.position = Vector2(int(radius * size.x), int(0.5 * size.y))
 
-	planet.set_values(planet_id, rand_generator.randi(), color_mode, color_palette)
+	planet.set_values(planet_id, rand_generator.randi(), color_mode, color_palette, pixelization_scale)
 	planet.set_light_dir((star.position - planet.position).normalized())
 
 	#make moons here
@@ -149,6 +149,9 @@ func toggle_lighting(value: bool) -> void:
 func set_pixelization_scale(value: int) -> void:
 	pixelization_scale = value
 	background_generator.set_pixelization_scale(value)
+	for pl: PlanetBase in planets:
+		pl.set_pixel_scale(pixelization_scale)
+	star.set_pixel_scale(pixelization_scale)
 
 
 func set_dither_status(value: bool) -> void:
