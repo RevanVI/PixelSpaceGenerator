@@ -23,7 +23,7 @@ extends Node2D
 	set(new_color):
 		d = new_color
 		update_colors()
-@export_tool_button("Generate random") var generate_action = generate_random_coefs
+@export_tool_button("Generate random") var generate_action: Callable = generate_random_coefs
 @export_category("Output")
 @export var output_colors: PackedColorArray
 
