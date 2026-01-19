@@ -2,7 +2,7 @@
 
 [ext_resource type="Shader" uid="uid://d254323flhejp" path="res://shaders/planet_base.gdshader" id="1_anxbh"]
 [ext_resource type="Texture2D" uid="uid://dctu01wei5sw0" path="res://sprites/100x100.png" id="2_6yqi0"]
-[ext_resource type="Script" uid="uid://cnc6uxnxq0vw8" path="res://scripts/planets/Planet_ice.gd" id="3_anxbh"]
+[ext_resource type="Script" path="res://scripts/planets/planet_ice.gd" id="3_anxbh"]
 [ext_resource type="Script" uid="uid://d2y6vfr1mvc1w" path="res://scripts/data/color_data.gd" id="4_h6ncc"]
 [ext_resource type="Script" uid="uid://dd20hylgwymld" path="res://scripts/data/color_data_array.gd" id="5_6pdn1"]
 

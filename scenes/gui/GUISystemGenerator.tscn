@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://3rpabicjy07h"]
 
 [ext_resource type="Theme" uid="uid://t7qc4m724rcq" path="res://themes/Theme.tres" id="1_lgu5b"]
-[ext_resource type="Script" uid="uid://btqnomrwvmsvg" path="res://scripts/gui/GUISystemGenerator.gd" id="2_lgu5b"]
+[ext_resource type="Script" uid="uid://btqnomrwvmsvg" path="res://scripts/gui/gui_system_generator.gd" id="2_lgu5b"]
 [ext_resource type="PackedScene" uid="uid://bs3887pshh4c3" path="res://scenes/star_system_generator.tscn" id="3_lgu5b"]
 [ext_resource type="Texture2D" uid="uid://dmj13e54cck1s" path="res://sprites/gui/transparent.png" id="4_rmy1q"]
 [ext_resource type="PackedScene" uid="uid://cytukqpi1a1hq" path="res://scenes/gui/SchemeSelectButton.tscn" id="5_bacxw"]
