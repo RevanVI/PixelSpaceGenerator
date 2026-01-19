@@ -1,12 +1,12 @@
 extends Control
 
+var new_size: Vector2i = Vector2i(200, 200)
 
-@onready var generator : StarSystemGenerator = $SubViewport/StarSystemGenerator
-@onready var viewport : SubViewport = $SubViewport
+@onready var generator: StarSystemGenerator = $SubViewport/StarSystemGenerator
+@onready var viewport: SubViewport = $SubViewport
 @onready var export_path: Label = $HBoxContainer/OptionsColorRect/Settings/ExportPathLabel
 @onready var seed_box: SpinBox = $HBoxContainer/OptionsColorRect/Settings/HBoxContainer3/Seed
 @onready var color_scheme_container: Node = $HBoxContainer/OptionsColorRect/Settings/ColorShemesContainer/ColorSchemesVerticalContainer
-
 @onready var pixelization_slider: HSlider = $HBoxContainer/OptionsColorRect/Settings/PixelizationSlider
 @onready var pixelization_value: Label = $HBoxContainer/OptionsColorRect/Settings/HBoxContainer6/PixelizationValue
 @onready var enable_stars_toggle: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableStars
@@ -18,10 +18,7 @@ extends Control
 @onready var enable_dither: CheckBox = $HBoxContainer/OptionsColorRect/Settings/OptionsGridContainer/EnableDither
 @onready var brightness_slider: HSlider = $HBoxContainer/OptionsColorRect/Settings/BrightnessSlider
 @onready var brightness_value: Label = $HBoxContainer/OptionsColorRect/Settings/HBoxContainer5/BrightnessValue
-@onready var viewportBackground: ColorRect = $HBoxContainer/RenderControl/ViewportBackground
-
-
-var new_size : Vector2i = Vector2i(200,200)
+@onready var viewport_background: ColorRect = $HBoxContainer/RenderControl/ViewportBackground
 
 
 func _ready() -> void:
@@ -49,13 +46,24 @@ func set_active_settings() -> void:
 	brightness_slider.value = current_settings.brightness
 
 
-#generation
+func export_image() -> void:
+	var img: Image
+	img = Image.create(new_size.x, new_size.y, false, Image.FORMAT_RGBA8)
+	var viewport_img: Image = viewport.get_texture().get_image()
+	img.blit_rect(viewport_img, Rect2(0, 0, new_size.x, new_size.y), Vector2(0, 0))
+	SaveSystem.SaveImage(img, "SystemGenerator")
+
+
+func select_colorscheme(scheme: PackedColorArray) -> void:
+	generator.update_color_palette(scheme)
+
+
 func _generate_new() -> void:
 	viewport.size = new_size
 	generator.set_render_size(new_size)
 	$SubViewport/Camera1.zoom = Vector2(1.0, 1.0)
 	$SubViewport/Camera1.offset = new_size * 0.5
-	
+
 	await get_tree().process_frame
 	generator.generate_new(int(seed_box.value))
 
@@ -73,62 +81,48 @@ func _on_generate_button_pressed() -> void:
 	_generate_new()
 
 
-func _on_PixelsHeight_value_changed(value : int) -> void:
+func _on_pixels_height_value_changed(value: int) -> void:
 	value = clamp(value, 100, 5000)
 	new_size.y = int(value)
 
 
-func _on_PixelsWidth_value_changed(value : int) -> void:
+func _on_pixels_width_value_changed(value: int) -> void:
 	value = clamp(value, 100, 5000)
 	new_size.x = int(value)
 
 
-#save image
-func _on_ExportButton_pressed() -> void:
+func _on_export_button_pressed() -> void:
 	$SaveTimer.start()
 
 
-func _on_SaveTimer_timeout() -> void:
+func _on_save_timer_timeout() -> void:
 	export_image()
 
 
-func export_image() -> void:
-	var img : Image
-	img = Image.create(new_size.x, new_size.y, false, Image.FORMAT_RGBA8)
-	var viewport_img : Image = viewport.get_texture().get_image()
-	img.blit_rect(viewport_img, Rect2(0,0,new_size.x,new_size.y), Vector2(0,0))
-	SaveSystem.SaveImage(img, "SystemGenerator")
-
-
-#visible setiings signals
 func _on_pixelization_slider_value_changed(value: float) -> void:
 	generator.set_pixelization_scale(int(value))
 	pixelization_value.text = str(value)
 
 
-func select_colorscheme(scheme : PackedColorArray) -> void:
-	generator.update_color_palette(scheme)
-
-
-func _on_EnableStars_pressed() -> void:
+func _on_enable_stars_pressed() -> void:
 	generator.toggle_background_stars()
 
 
-func _on_EnableDust_pressed() -> void:
+func _on_enable_dust_pressed() -> void:
 	generator.toggle_dust()
 
 
-func _on_EnableNebulae_pressed() -> void:
+func _on_enable_nebulae_pressed() -> void:
 	generator.toggle_nebulae()
 
 
-func _on_EnablePlanets_pressed() -> void:
+func _on_enable_planets_pressed() -> void:
 	generator.toggle_planets()
 
 
-func _on_EnableTransparency_pressed() -> void:
+func _on_enable_transparency_pressed() -> void:
 	generator.toggle_transparancy()
-	viewportBackground.visible = !viewportBackground.visible
+	viewport_background.visible = !viewport_background.visible
 
 
 func _on_brightness_slider_value_changed(value: float) -> void:

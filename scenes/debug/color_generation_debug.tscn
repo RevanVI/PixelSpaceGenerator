@@ -41,12 +41,12 @@ shader_parameter/b = Vector3(0.5, 0.5, 0.5)
 shader_parameter/c = Vector3(1.0859526, 0.49221107, 0.96002245)
 shader_parameter/d = Vector3(1.1799488, 0.80912733, 0.6276091)
 
-[node name="ColorGenerationDebug" type="Node2D" node_paths=PackedStringArray("linear_gradien_tex", "contant_gradien_tex", "lightened_contant_gradien_tex", "darkened_contant_gradien_tex", "shader_linear_tex")]
+[node name="ColorGenerationDebug" type="Node2D" node_paths=PackedStringArray("linear_gradient_tex", "contant_gradient_tex", "lightened_contant_gradient_tex", "darkened_contant_gradient_tex", "shader_linear_tex")]
 script = ExtResource("1_adx2c")
-linear_gradien_tex = NodePath("Control/ColorRect/VBoxContainer/LinearGradientHBox/LinearGradientTex")
-contant_gradien_tex = NodePath("Control/ColorRect/VBoxContainer/ConstantGradientHBox/ConstantGradientTex")
-lightened_contant_gradien_tex = NodePath("Control/ColorRect/VBoxContainer/LightenedConstantGradientHBox/LightenedConstantGradientTex")
-darkened_contant_gradien_tex = NodePath("Control/ColorRect/VBoxContainer/DarkenedConstantGradientHBox/DarkenedConstantGradientTex")
+linear_gradient_tex = NodePath("Control/ColorRect/VBoxContainer/LinearGradientHBox/LinearGradientTex")
+contant_gradient_tex = NodePath("Control/ColorRect/VBoxContainer/ConstantGradientHBox/ConstantGradientTex")
+lightened_contant_gradient_tex = NodePath("Control/ColorRect/VBoxContainer/LightenedConstantGradientHBox/LightenedConstantGradientTex")
+darkened_contant_gradient_tex = NodePath("Control/ColorRect/VBoxContainer/DarkenedConstantGradientHBox/DarkenedConstantGradientTex")
 shader_linear_tex = NodePath("Control/ColorRect/VBoxContainer/ShaderLinearHBox/ShaderLinearTex")
 a = Color(0.5, 0.5, 0.5, 1)
 b = Color(0.5, 0.5, 0.5, 1)
