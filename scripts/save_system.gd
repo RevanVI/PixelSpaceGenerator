@@ -1,8 +1,8 @@
-extends RefCounted
 class_name SaveSystem
+extends RefCounted
 
 
-static func GetSavePath() -> String:
+static func get_save_path() -> String:
 	var path: String = ""
 	if OS.get_name() == "Android":
 		path = OS.get_system_dir(OS.SYSTEM_DIR_PICTURES) + ("/SaveImages")
@@ -14,9 +14,11 @@ static func GetSavePath() -> String:
 	return path
 
 
-static func SaveImage(img: Image, prefix: String) -> int:
+static func save_image(img: Image, prefix: String) -> int:
 	var date: String = Time.get_datetime_string_from_system(false, true)
 	date = date.replace_chars(" -:", "_".unicode_at(0))
-	var code: int = img.save_png(SaveSystem.GetSavePath() + "/" + prefix + 
-		"_" + str(date) + ".png")
+	var code: int = img.save_png(
+		SaveSystem.get_save_path() + "/" + prefix +
+		"_" + str(date) + ".png",
+	)
 	return code

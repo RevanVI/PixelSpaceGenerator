@@ -1,6 +1,5 @@
-extends Sprite2D
 class_name PlanetBase
-
+extends Sprite2D
 
 enum PlanetType {
 	COMMON = 0,
@@ -10,19 +9,17 @@ enum PlanetType {
 	GAS_LAYERED = 4,
 }
 
+@export var planet_type: PlanetType
+@export_range(0.0, 1.0) var cloud_threshold: float = 0.8
+@export var defined_colors: ColorDataArray
 
 var planet_id: int
 var rand_generator: RandomNumberGenerator
-@export var planet_type: PlanetType
-@export_range(0.0, 1.0) var cloud_threshold: float = 0.8
-#Color parameters
-@export var defined_colors: ColorDataArray
 var defined_colors_ind: int
 var rand_colors_1: PackedColorArray
 var rand_colors_2: PackedColorArray
 var color_palette: GradientTexture2D
-var color_mode: ColorHelpers.COLOR_MODE
-
+var color_mode: ColorHelpers.ColorMode
 
 
 func _ready() -> void:
@@ -30,7 +27,7 @@ func _ready() -> void:
 	rand_generator = RandomNumberGenerator.new()
 
 
-func set_values(iplanet_id: int, iseed: int, icolor_mode: ColorHelpers.COLOR_MODE, palette: GradientTexture2D, pixel_scale: int) -> void:
+func set_values(iplanet_id: int, iseed: int, icolor_mode: ColorHelpers.ColorMode, palette: GradientTexture2D, pixel_scale: int) -> void:
 	print("Planet id " + str(iplanet_id) + " set_values start, seed: " + str(iseed))
 
 	planet_id = iplanet_id
@@ -44,9 +41,9 @@ func set_values(iplanet_id: int, iseed: int, icolor_mode: ColorHelpers.COLOR_MOD
 	material.set_shader_parameter("defined_colors_1", defined_colors_data.colors_1)
 	material.set_shader_parameter("defined_colors_2", defined_colors_data.colors_2)
 
-	var light_x: float = clamp(rand_generator.randf(), 0.2, 0.8) * 2.0 - 1.0;
-	var light_y: float = clamp(rand_generator.randf(), 0.2, 0.8) * 2.0 - 1.0;
-	var light_z: float = light_y * 0.5  + 0.5;
+	var light_x: float = clamp(rand_generator.randf(), 0.2, 0.8) * 2.0 - 1.0
+	var light_y: float = clamp(rand_generator.randf(), 0.2, 0.8) * 2.0 - 1.0
+	var light_z: float = light_y * 0.5 + 0.5
 	material.set_shader_parameter("light_dir", Vector3(light_x, light_y, light_z))
 
 	#generate two noise textures for variation
@@ -60,11 +57,11 @@ func set_values(iplanet_id: int, iseed: int, icolor_mode: ColorHelpers.COLOR_MOD
 	var clouds: float = rand_generator.randf()
 	material.set_shader_parameter("clouds", clouds > cloud_threshold)
 
-	var planet_rotation : float = rand_generator.randf()
+	var planet_rotation: float = rand_generator.randf()
 	material.set_shader_parameter("angles", [planet_rotation, 0.0, 0.0])
 
 	color_palette = palette
-	randomize_colors()	
+	randomize_colors()
 	set_color_mode(icolor_mode)
 	show()
 	print("Planet id " + str(planet_id) + " set_values end")
@@ -97,10 +94,10 @@ func set_pixel_scale(value: int) -> void:
 
 
 # Colors methods
-func set_color_mode(mode: ColorHelpers.COLOR_MODE) -> void:
+func set_color_mode(mode: ColorHelpers.ColorMode) -> void:
 	print("Planet id " + str(planet_id) + " set_color_mode " + str(mode))
 	color_mode = mode
-	if mode == ColorHelpers.COLOR_MODE.PALETTE:
+	if mode == ColorHelpers.ColorMode.PALETTE:
 		var points_1: PackedFloat32Array = material.get_shader_parameter("colors_1").gradient.offsets
 		var palette_colors_1: PackedColorArray = []
 		for i: float in points_1:
@@ -115,7 +112,7 @@ func set_color_mode(mode: ColorHelpers.COLOR_MODE) -> void:
 
 		material.set_shader_parameter("use_defined_colors", false)
 		set_colors(palette_colors_1, palette_colors_2)
-	elif mode == ColorHelpers.COLOR_MODE.DEFINED:
+	elif mode == ColorHelpers.ColorMode.DEFINED:
 		material.set_shader_parameter("use_defined_colors", true)
 	else: # mode == ColorHelpers.COLOR_MODE.RANDOM
 		material.set_shader_parameter("use_defined_colors", false)

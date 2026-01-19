@@ -6,7 +6,6 @@
 [ext_resource type="Script" uid="uid://d2y6vfr1mvc1w" path="res://scripts/data/color_data.gd" id="4_nv0tr"]
 [ext_resource type="Script" uid="uid://dd20hylgwymld" path="res://scripts/data/color_data_array.gd" id="5_nv0tr"]
 
-
 [sub_resource type="Gradient" id="Gradient_0s5if"]
 resource_local_to_scene = true
 interpolation_mode = 1

@@ -1,6 +1,5 @@
+class_name BigStar
 extends Sprite2D
-class_name Star
-
 
 var rand_generator: RandomNumberGenerator
 

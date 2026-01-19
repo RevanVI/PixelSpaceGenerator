@@ -29,7 +29,7 @@ func _ready() -> void:
 	for i: SchemeSelectButton in color_scheme_container.get_children():
 		i.scheme_selected.connect(select_colorscheme)
 	_generate_new()
-	export_path.text += SaveSystem.GetSavePath()
+	export_path.text += SaveSystem.get_save_path()
 
 
 func set_active_settings() -> void:
@@ -50,7 +50,7 @@ func export_image() -> void:
 	img = Image.create(new_size.x, new_size.y, false, Image.FORMAT_RGBA8)
 	var viewport_img: Image = viewport.get_texture().get_image()
 	img.blit_rect(viewport_img, Rect2(0, 0, new_size.x, new_size.y), Vector2(0, 0))
-	SaveSystem.SaveImage(img, "BackgroundGenerator")
+	SaveSystem.save_image(img, "BackgroundGenerator")
 
 
 func select_colorscheme(scheme: PackedColorArray) -> void:
@@ -138,4 +138,4 @@ func _on_enable_dither_toggled(toggled_on: bool) -> void:
 
 
 func _on_color_mode_option_button_item_selected(index: int) -> void:
-	generator.color_mode = index as ColorHelpers.COLOR_MODE
+	generator.color_mode = index as ColorHelpers.ColorMode

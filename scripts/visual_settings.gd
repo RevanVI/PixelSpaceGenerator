@@ -1,6 +1,5 @@
-extends RefCounted
 class_name VisualSettings
-
+extends RefCounted
 
 var pixelization_scale: int = 1
 var background_color: Color
@@ -12,4 +11,4 @@ var planet_lighting_enabled: bool = true
 var transparancy_enabled: bool = false
 var dither_enabled: bool = false
 var brightness: float = 1.0
-var color_mode: ColorHelpers.COLOR_MODE = ColorHelpers.COLOR_MODE.DEFINED
+var color_mode: ColorHelpers.ColorMode = ColorHelpers.ColorMode.DEFINED
