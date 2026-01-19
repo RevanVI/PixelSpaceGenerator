@@ -6,7 +6,7 @@ class_name StarSystemGenerator
 
 @onready var background_generator: BackgroundGenerator = $BackgroundGenerator
 @onready var planetcontainer : ObjectPool = $PlanetContainer
-@onready var system_star_scene : PackedScene = preload("res://scenes/SystemStar.tscn")
+@onready var system_star_scene : PackedScene = preload("res://scenes/system_star.tscn")
 
 
 @export var planet_types: Dictionary[PlanetBase.PlanetType, PackedScene]

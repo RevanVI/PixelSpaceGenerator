@@ -7,8 +7,8 @@ class_name BackgroundGenerator
 @onready var nebulae : ColorRect = $Nebulae
 @onready var starcontainer : ObjectPool = $StarContainer
 @onready var planetcontainer : ObjectPool = $PlanetContainer
-@onready var planet_scene : PackedScene = preload("res://scenes/planets/Planet_common.tscn")
-@onready var big_star_scene : PackedScene = preload("res://scenes/BigStar.tscn")
+@onready var planet_scene : PackedScene = preload("res://scenes/planets/planet_common.tscn")
+@onready var big_star_scene : PackedScene = preload("res://scenes/big_star.tscn")
 
 var rand_generator: RandomNumberGenerator
 

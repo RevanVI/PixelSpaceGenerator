@@ -1,12 +1,13 @@
 [gd_scene load_steps=15 format=3 uid="uid://bs3887pshh4c3"]
 
 [ext_resource type="Script" uid="uid://cwq4wkgbnlge5" path="res://scripts/star_system_generator.gd" id="1_3rxsl"]
-[ext_resource type="PackedScene" uid="uid://c44u5g0iuf311" path="res://scenes/BackgroundGenerator.tscn" id="1_ejbn0"]
-[ext_resource type="PackedScene" uid="uid://c2pcy21xoga2l" path="res://scenes/planets/Planet_common.tscn" id="2_y4phi"]
-[ext_resource type="PackedScene" uid="uid://brjw15ql033cn" path="res://scenes/planets/Planet_ice.tscn" id="3_eipdn"]
-[ext_resource type="PackedScene" uid="uid://basdyd5js0buu" path="res://scenes/planets/Planet_barren.tscn" id="4_gu62f"]
-[ext_resource type="PackedScene" uid="uid://b8m8sokdy2o1h" path="res://scenes/planets/Planet_lava.tscn" id="5_eipdn"]
-[ext_resource type="PackedScene" uid="uid://dft7qb48id2hk" path="res://scenes/planets/Planet_gas_layered.tscn" id="5_gu62f"]
+[ext_resource type="PackedScene" uid="uid://c44u5g0iuf311" path="res://scenes/background_generator.tscn" id="1_ejbn0"]
+[ext_resource type="PackedScene" uid="uid://c2pcy21xoga2l" path="res://scenes/planets/planet_common.tscn" id="2_y4phi"]
+[ext_resource type="PackedScene" uid="uid://brjw15ql033cn" path="res://scenes/planets/planet_ice.tscn" id="3_eipdn"]
+[ext_resource type="PackedScene" uid="uid://basdyd5js0buu" path="res://scenes/planets/planet_barren.tscn" id="4_gu62f"]
+[ext_resource type="PackedScene" uid="uid://b8m8sokdy2o1h" path="res://scenes/planets/planet_lava.tscn" id="5_eipdn"]
+[ext_resource type="PackedScene" uid="uid://dft7qb48id2hk" path="res://scenes/planets/planet_gas_layered.tscn" id="5_gu62f"]
+[ext_resource type="Script" uid="uid://cgjc7a1d2cyuk" path="res://scripts/object_pool.gd" id="8_gu62f"]
 
 [sub_resource type="Gradient" id="1"]
 resource_local_to_scene = true
@@ -38,69 +39,6 @@ colors = PackedColorArray(0.12549, 0.133333, 0.0823529, 1, 0.227451, 0.156863, 0
 resource_local_to_scene = true
 gradient = SubResource("Gradient_lx7bg")
 
-[sub_resource type="GDScript" id="GDScript_wcukq"]
-script/source = "extends Node
-class_name ObjectPool
-
-enum OBJECT_POOL_MODE {
-	CONST_SIZE = 0,
-	GROWING_SIZE = 1,
-}
-
-
-var _objects: Array[Node] = []
-var _object_status: Array[bool] = []
-var _mode: OBJECT_POOL_MODE = OBJECT_POOL_MODE.CONST_SIZE
-var _template: PackedScene
-
-
-func init(object_template: PackedScene, count: int, mode: OBJECT_POOL_MODE = OBJECT_POOL_MODE.CONST_SIZE) -> void:
-	_template = object_template
-	_mode = mode
-	for i: int in range(count):
-		var object: Node = _template.instantiate()
-		add_child(object)
-		object.hide()
-		object.set_process(false)
-		_objects.append(object)
-		_object_status.append(true)
-
-
-func get_object() -> Node:
-	for i: int in range(_objects.size()):
-		if _object_status[i] == true:
-			_object_status[i] = false
-			_objects[i].set_process(true)
-			return _objects[i]
-	
-	if (_mode == OBJECT_POOL_MODE.GROWING_SIZE):
-		var object: Node = _template.instantiate()
-		add_child(object)
-		object.hide()
-		_objects.append(object)
-		_object_status.append(false)
-		return object
-	else:
-		printerr(\"No free objects in pool\")
-		return null
-
-
-func return_object(object: Node) -> void:
-	var index: int = _objects.find(object)
-	if index != -1:
-		object.hide()
-		object.set_process(false)
-		_object_status[index] = true
-
-
-func get_used_objects() -> Array[Node]:
-	var used_objects: Array[Node] = []
-	for i: int in range(_objects.size()):
-		if _object_status[i] == false:
-			used_objects.append(_objects[i])
-	return used_objects
-"
-
 [node name="StarSystemGenerator" type="Control"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 3
@@ -121,8 +59,9 @@ color_palette = SubResource("GradientTexture2D_ncimm")
 layout_mode = 0
 offset_right = 500.0
 offset_bottom = 500.0
+color_mode = null
 color_palette = SubResource("GradientTexture2D_lx7bg")
 star_palette = SubResource("GradientTexture2D_jpq07")
 
 [node name="PlanetContainer" type="Node2D" parent="."]
-script = SubResource("GDScript_wcukq")
+script = ExtResource("8_gu62f")

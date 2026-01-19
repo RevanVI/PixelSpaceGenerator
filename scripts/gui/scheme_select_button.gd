@@ -6,7 +6,7 @@ signal scheme_selected(colorScheme: PackedColorArray)
 
 
 @export var colorscheme: PackedColorArray
-@onready var colorbutton_scene : PackedScene = preload("res://scenes/gui/ColorPickerButton.tscn")
+@onready var colorbutton_scene : PackedScene = preload("res://scenes/gui/color_picker_button.tscn")
 
 
 func _ready() -> void:

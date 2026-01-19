@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bxfia35xn3yu" path="res://scripts/background_generator.gd" id="1"]
 [ext_resource type="Shader" uid="uid://b4k0cut1nduup" path="res://shaders/Dust.gdshader" id="2_ncimm"]
 [ext_resource type="Shader" uid="uid://cq6greoxewybf" path="res://shaders/Nebulae.gdshader" id="3_ncimm"]
+[ext_resource type="Script" uid="uid://cgjc7a1d2cyuk" path="res://scripts/object_pool.gd" id="4_ncimm"]
 
 [sub_resource type="Gradient" id="1"]
 resource_local_to_scene = true
@@ -73,69 +74,6 @@ shader_parameter/brightness_mod = 1.1499999854712
 shader_parameter/global_brightness = 1.0
 shader_parameter/dither_enabled = true
 
-[sub_resource type="GDScript" id="GDScript_wcukq"]
-script/source = "extends Node
-class_name ObjectPool
-
-enum OBJECT_POOL_MODE {
-	CONST_SIZE = 0,
-	GROWING_SIZE = 1,
-}
-
-
-var _objects: Array[Node] = []
-var _object_status: Array[bool] = []
-var _mode: OBJECT_POOL_MODE = OBJECT_POOL_MODE.CONST_SIZE
-var _template: PackedScene
-
-
-func init(object_template: PackedScene, count: int, mode: OBJECT_POOL_MODE = OBJECT_POOL_MODE.CONST_SIZE) -> void:
-	_template = object_template
-	_mode = mode
-	for i: int in range(count):
-		var object: Node = _template.instantiate()
-		add_child(object)
-		object.hide()
-		object.set_process(false)
-		_objects.append(object)
-		_object_status.append(true)
-
-
-func get_object() -> Node:
-	for i: int in range(_objects.size()):
-		if _object_status[i] == true:
-			_object_status[i] = false
-			_objects[i].set_process(true)
-			return _objects[i]
-	
-	if (_mode == OBJECT_POOL_MODE.GROWING_SIZE):
-		var object: Node = _template.instantiate()
-		add_child(object)
-		object.hide()
-		_objects.append(object)
-		_object_status.append(false)
-		return object
-	else:
-		printerr(\"No free objects in pool\")
-		return null
-
-
-func return_object(object: Node) -> void:
-	var index: int = _objects.find(object)
-	if index != -1:
-		object.hide()
-		object.set_process(false)
-		_object_status[index] = true
-
-
-func get_used_objects() -> Array[Node]:
-	var used_objects: Array[Node] = []
-	for i: int in range(_objects.size()):
-		if _object_status[i] == false:
-			used_objects.append(_objects[i])
-	return used_objects
-"
-
 [node name="BackgroundGenerator" type="Control"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 3
@@ -177,7 +115,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="StarContainer" type="Node2D" parent="."]
-script = SubResource("GDScript_wcukq")
+script = ExtResource("4_ncimm")
 
 [node name="PlanetContainer" type="Node2D" parent="."]
-script = SubResource("GDScript_wcukq")
+script = ExtResource("4_ncimm")

@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dywdyrr81impg" path="res://scripts/gui/main_gui.gd" id="1_3vhpy"]
 [ext_resource type="Theme" uid="uid://t7qc4m724rcq" path="res://themes/Theme.tres" id="1_m1x1q"]
-[ext_resource type="PackedScene" uid="uid://dsbb0okoxwu3o" path="res://scenes/gui/GUIBackgroundGenerator.tscn" id="2_3vhpy"]
-[ext_resource type="PackedScene" uid="uid://3rpabicjy07h" path="res://scenes/gui/GUISystemGenerator.tscn" id="3_m1x1q"]
+[ext_resource type="PackedScene" uid="uid://dsbb0okoxwu3o" path="res://scenes/gui/gui_background_generator.tscn" id="2_3vhpy"]
+[ext_resource type="PackedScene" uid="uid://3rpabicjy07h" path="res://scenes/gui/gui_system_generator.tscn" id="3_m1x1q"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_3vhpy"]
 color = Color(0.21561998, 0.3198798, 0.67780745, 1)
