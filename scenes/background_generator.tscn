@@ -1,8 +1,8 @@
 [gd_scene load_steps=15 format=3 uid="uid://c44u5g0iuf311"]
 
 [ext_resource type="Script" uid="uid://bxfia35xn3yu" path="res://scripts/background_generator.gd" id="1"]
-[ext_resource type="Shader" uid="uid://b4k0cut1nduup" path="res://shaders/Dust.gdshader" id="2_ncimm"]
-[ext_resource type="Shader" uid="uid://cq6greoxewybf" path="res://shaders/Nebulae.gdshader" id="3_ncimm"]
+[ext_resource type="Shader" uid="uid://b4k0cut1nduup" path="res://shaders/dust.gdshader" id="2_ncimm"]
+[ext_resource type="Shader" uid="uid://cq6greoxewybf" path="res://shaders/nebulae.gdshader" id="3_ncimm"]
 [ext_resource type="Script" uid="uid://cgjc7a1d2cyuk" path="res://scripts/object_pool.gd" id="4_ncimm"]
 
 [sub_resource type="Gradient" id="1"]
