@@ -46,16 +46,16 @@ func set_active_settings() -> void:
 	brightness_slider.value = current_settings.brightness
 
 
-func export_image() -> void:
+func select_colorscheme(scheme: PackedColorArray) -> void:
+	generator.update_color_palette(scheme)
+
+
+func _export_image() -> void:
 	var img: Image
 	img = Image.create(new_size.x, new_size.y, false, Image.FORMAT_RGBA8)
 	var viewport_img: Image = viewport.get_texture().get_image()
 	img.blit_rect(viewport_img, Rect2(0, 0, new_size.x, new_size.y), Vector2(0, 0))
 	SaveSystem.save_image(img, "SystemGenerator")
-
-
-func select_colorscheme(scheme: PackedColorArray) -> void:
-	generator.update_color_palette(scheme)
 
 
 func _generate_new() -> void:
@@ -96,7 +96,7 @@ func _on_export_button_pressed() -> void:
 
 
 func _on_save_timer_timeout() -> void:
-	export_image()
+	_export_image()
 
 
 func _on_pixelization_slider_value_changed(value: float) -> void:
@@ -104,43 +104,39 @@ func _on_pixelization_slider_value_changed(value: float) -> void:
 	pixelization_value.text = str(value)
 
 
-func _on_enable_stars_pressed() -> void:
-	generator.toggle_background_stars()
-
-
-func _on_enable_dust_pressed() -> void:
-	generator.toggle_dust()
-
-
-func _on_enable_nebulae_pressed() -> void:
-	generator.toggle_nebulae()
-
-
-func _on_enable_planets_pressed() -> void:
-	generator.toggle_planets()
-
-
-func _on_enable_transparency_pressed() -> void:
-	generator.toggle_transparancy()
-	viewport_background.visible = !viewport_background.visible
-
-
 func _on_brightness_slider_value_changed(value: float) -> void:
 	generator.set_brightness(brightness_slider.value)
 	brightness_value.text = str(value)
 
 
+func _on_color_mode_option_button_item_selected(index: int) -> void:
+	generator.color_mode = index as ColorHelpers.ColorMode
+
+
+func _on_enable_stars_toggled(toggled_on: bool) -> void:
+	generator.set_stars_visibility(toggled_on)
+
+
+func _on_enable_dust_toggled(toggled_on: bool) -> void:
+	generator.set_dust_visibility(toggled_on)
+
+
+func _on_enable_nebulae_toggled(toggled_on: bool) -> void:
+	generator.set_nebulae_visibility(toggled_on)
+
+
+func _on_enable_planets_toggled(toggled_on: bool) -> void:
+	generator.set_planets_visibility(toggled_on)
+
+
+func _on_enable_transparency_toggled(toggled_on: bool) -> void:
+	generator.set_background_visibility(!toggled_on)
+	viewport_background.visible = !toggled_on
+
+
 func _on_enable_lighting_toggled(toggled_on: bool) -> void:
-	generator.toggle_lighting(toggled_on)
+	generator.set_lighting(toggled_on)
 
 
 func _on_enable_dither_toggled(toggled_on: bool) -> void:
 	generator.set_dither_status(toggled_on)
-
-
-func _on_use_random_colors_toggled(toggled_on: bool) -> void:
-	generator.set_use_random_colors(toggled_on)
-
-
-func _on_color_mode_option_button_item_selected(index: int) -> void:
-	generator.color_mode = index as ColorHelpers.ColorMode

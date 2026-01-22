@@ -63,27 +63,27 @@ func get_current_settings() -> VisualSettings:
 	return current_settings
 
 
-func toggle_dust() -> void:
-	dust.visible = !dust.visible
+func set_dust_visibility(value: bool) -> void:
+	dust.visible = value
 
 
-func toggle_background_stars() -> void:
-	star_container.visible = !star_container.visible
+func set_stars_visibility(value:bool) -> void:
+	star_container.visible = value
 
 
-func toggle_nebulae() -> void:
-	nebulae.visible = !nebulae.visible
+func set_nebulae_visibility(value: bool) -> void:
+	nebulae.visible = value
 
 
-func toggle_planets() -> void:
-	planet_container.visible = !planet_container.visible
+func set_planets_visibility(value: bool) -> void:
+	planet_container.visible = value
 
 
-func toggle_transparancy() -> void:
-	background.visible = !background.visible
+func set_background_visibility(value: bool) -> void:
+	background.visible = value
 
 
-func toggle_lighting(value: bool) -> void:
+func set_lighting(value: bool) -> void:
 	lighting_enabled = value
 	for p: PlanetBase in planets:
 		p.set_lighting(lighting_enabled)
@@ -148,18 +148,6 @@ func set_colors(colors: PackedColorArray) -> void:
 	star_palette.gradient.colors = colors.slice(0, 8)
 
 
-func randomize_colors() -> void:
-	print("BackgroundGenerator randomize_colors")
-	var colors: PackedColorArray = ColorHelpers.generate_new_colors(8, rand_generator)
-
-	var new_colors: PackedColorArray = PackedColorArray()
-	for i: int in 8:
-		var col: Color = colors[0].darkened(0.6)
-		col = col.lightened(i / 8.0)
-		new_colors.append(col)
-	rand_colors = new_colors
-
-
 func generate_new(iseed: int, generate_planets: bool = true) -> void:
 	var aspect: Vector2 = Vector2(1, 1)
 	if size.x > size.y:
@@ -176,7 +164,7 @@ func generate_new(iseed: int, generate_planets: bool = true) -> void:
 	nebulae.material.set_shader_parameter("uv_correct", aspect)
 	set_pixelization_scale(pixelization_scale)
 
-	randomize_colors()
+	_randomize_colors()
 	set_color_mode(color_mode)
 
 	if (generate_planets):
@@ -242,3 +230,15 @@ func _place_big_star(star_id: int) -> void:
 	star.scale = Vector2(1, 1) * rand_size
 	star.set_values(star_id, sseed, star_palette, pixelization_scale)
 	star.show()
+
+
+func _randomize_colors() -> void:
+	print("BackgroundGenerator randomize_colors")
+	var colors: PackedColorArray = ColorHelpers.generate_new_colors(8, rand_generator)
+
+	var new_colors: PackedColorArray = PackedColorArray()
+	for i: int in 8:
+		var col: Color = colors[0].darkened(0.6)
+		col = col.lightened(i / 8.0)
+		new_colors.append(col)
+	rand_colors = new_colors

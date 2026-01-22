@@ -27,14 +27,6 @@ var brightness: float = 1.0
 func _ready() -> void:
 	rand_generator = RandomNumberGenerator.new()
 	background_generator.color_mode = color_mode
-	#planetcontainer.init(planet_scene, PLANET_COUNT_MAX)
-
-
-func generate_new(iseed: int) -> void:
-	background_generator.generate_new(iseed, false)
-	rand_generator.seed = iseed
-	_make_system_star()
-	_make_planets()
 
 
 func set_render_size(new_size: Vector2) -> void:
@@ -59,27 +51,27 @@ func get_current_settings() -> VisualSettings:
 	return current_settings
 
 
-func toggle_dust() -> void:
-	background_generator.toggle_dust()
+func set_dust_visibility(value: bool) -> void:
+	background_generator.set_dust_visibility(value)
 
 
-func toggle_background_stars() -> void:
-	background_generator.toggle_background_stars()
+func set_stars_visibility(value: bool) -> void:
+	background_generator.set_stars_visibility(value)
 
 
-func toggle_nebulae() -> void:
-	background_generator.toggle_nebulae()
+func set_nebulae_visibility(value: bool) -> void:
+	background_generator.set_nebulae_visibility(value)
 
 
-func toggle_planets() -> void:
-	planetcontainer.visible = !planetcontainer.visible
+func set_planets_visibility(value: bool) -> void:
+	planetcontainer.visible = value
 
 
-func toggle_transparancy() -> void:
-	background_generator.toggle_transparancy()
+func set_background_visibility(value: bool) -> void:
+	background_generator.set_background_visibility(value)
 
 
-func toggle_lighting(value: bool) -> void:
+func set_lighting(value: bool) -> void:
 	lighting_enabled = value
 	for p: PlanetBase in planets:
 		p.set_lighting(lighting_enabled)
@@ -124,6 +116,13 @@ func update_color_palette(scheme: PackedColorArray) -> void:
 		set_color_mode(color_mode)
 
 
+func generate_new(iseed: int) -> void:
+	background_generator.generate_new(iseed, false)
+	rand_generator.seed = iseed
+	_make_system_star()
+	_make_planets()
+
+
 func _make_system_star() -> void:
 	if star == null:
 		star = system_star_scene.instantiate()
@@ -140,8 +139,7 @@ func _make_system_star() -> void:
 func _make_planets() -> void:
 	for planet: PlanetBase in planets:
 		planet.queue_free()
-		#planetcontainer.return_object(planet)
-		planets = []
+	planets = []
 
 	var planet_amount: int = int(rand_generator.randi() % (PLANET_COUNT_MAX + 1))
 	print(planet_amount)
