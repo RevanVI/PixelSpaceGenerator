@@ -1,0 +1,442 @@
+[gd_scene load_steps=11 format=3 uid="uid://00h78cuk7oke"]
+
+[ext_resource type="Theme" uid="uid://t7qc4m724rcq" path="res://themes/Theme.tres" id="1_bd76t"]
+[ext_resource type="Script" uid="uid://ccy06dihny53s" path="res://scripts/gui/gui_generator.gd" id="2_v63y6"]
+[ext_resource type="Texture2D" uid="uid://dmj13e54cck1s" path="res://sprites/gui/transparent.png" id="4_we5xu"]
+[ext_resource type="PackedScene" uid="uid://cytukqpi1a1hq" path="res://scenes/gui/scheme_select_button.tscn" id="5_61lnb"]
+
+[sub_resource type="ViewportTexture" id="1"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="InputEventKey" id="InputEventKey_q3ydp"]
+device = -1
+keycode = 4194309
+
+[sub_resource type="Shortcut" id="Shortcut_1jjyo"]
+events = [SubResource("InputEventKey_q3ydp")]
+
+[sub_resource type="StyleBoxFlat" id="3"]
+bg_color = Color(0.305882, 0.286275, 0.372549, 1)
+
+[sub_resource type="InputEventKey" id="InputEventKey_5lc7j"]
+device = -1
+keycode = 69
+unicode = 101
+
+[sub_resource type="Shortcut" id="Shortcut_c1vv3"]
+events = [SubResource("InputEventKey_5lc7j")]
+
+[node name="GUI" type="Control"]
+layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 0.933
+offset_bottom = 0.2000122
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_bd76t")
+script = ExtResource("2_v63y6")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+gui_snap_controls_to_pixels = false
+size = Vector2i(5000, 5000)
+
+[node name="Camera1" type="Camera2D" parent="SubViewport"]
+
+[node name="HBox" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="RenderControl" type="Control" parent="HBox"]
+custom_minimum_size = Vector2(556, 556)
+layout_mode = 2
+
+[node name="BackgroundGrid" type="TextureRect" parent="HBox/RenderControl"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("4_we5xu")
+stretch_mode = 1
+
+[node name="ViewportBackground" type="ColorRect" parent="HBox/RenderControl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03137255, 0.078431375, 0.11764706, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="HBox/RenderControl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="SubViewportTextureRect" type="TextureRect" parent="HBox/RenderControl/MarginContainer"]
+layout_mode = 2
+texture = SubResource("1")
+expand_mode = 1
+stretch_mode = 6
+metadata/_edit_use_anchors_ = true
+
+[node name="OptionsColorRect" type="ColorRect" parent="HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.0313726, 0.0784314, 0.117647, 1)
+
+[node name="SettingsBox" type="VBoxContainer" parent="HBox/OptionsColorRect"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 2
+
+[node name="GenerateBox" type="HBoxContainer" parent="HBox/OptionsColorRect/SettingsBox"]
+layout_mode = 2
+
+[node name="ResetButton" type="Button" parent="HBox/OptionsColorRect/SettingsBox/GenerateBox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+shortcut = SubResource("Shortcut_1jjyo")
+text = "New image (user seed)"
+
+[node name="GenerateButton" type="Button" parent="HBox/OptionsColorRect/SettingsBox/GenerateBox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Generate (new seed)"
+
+[node name="Label" type="Label" parent="HBox/OptionsColorRect/SettingsBox"]
+layout_mode = 2
+text = "Size (Pixels):"
+
+[node name="SizeBox" type="HBoxContainer" parent="HBox/OptionsColorRect/SettingsBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBox/OptionsColorRect/SettingsBox/SizeBox"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "width:"
+
+[node name="PixelsWidth" type="SpinBox" parent="HBox/OptionsColorRect/SettingsBox/SizeBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 100.0
+max_value = 5000.0
+value = 200.0
+
+[node name="Label2" type="Label" parent="HBox/OptionsColorRect/SettingsBox/SizeBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "height:"
+
+[node name="PixelsHeight" type="SpinBox" parent="HBox/OptionsColorRect/SettingsBox/SizeBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 100.0
+max_value = 5000.0
+value = 200.0
+
+[node name="SeedBox" type="HBoxContainer" parent="HBox/OptionsColorRect/SettingsBox"]
+layout_mode = 2
+alignment = 2
+
+[node name="Label" type="Label" parent="HBox/OptionsColorRect/SettingsBox/SeedBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "seed:"
+
+[node name="Seed" type="SpinBox" parent="HBox/OptionsColorRect/SettingsBox/SeedBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.5
+min_value = 1.0
+max_value = 999999.0
+value = 500.0
+
+[node name="SeedButton" type="Button" parent="HBox/OptionsColorRect/SettingsBox/SeedBox"]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.5
+shortcut = SubResource("Shortcut_1jjyo")
+text = "New seed"
+
+[node name="PixelScaleBox" type="HBoxContainer" parent="HBox/OptionsColorRect/SettingsBox"]
+layout_mode = 2
+
+[node name="PixelScaleLabel" type="Label" parent="HBox/OptionsColorRect/SettingsBox/PixelScaleBox"]
+layout_mode = 2
+text = "pixel scale:"
+
+[node name="PixelScaleValue" type="Label" parent="HBox/OptionsColorRect/SettingsBox/PixelScaleBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "1.0"
+
+[node name="PixelScaleSlider" type="HSlider" parent="HBox/OptionsColorRect/SettingsBox"]
+layout_mode = 2
+min_value = 1.0
+max_value = 32.0
+value = 1.0
+tick_count = 32
+ticks_on_borders = true
+ticks_position = 2
+
+[node name="Spacer2" type="Control" parent="HBox/OptionsColorRect/SettingsBox"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="ColorModeBox" type="HBoxContainer" parent="HBox/OptionsColorRect/SettingsBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBox/OptionsColorRect/SettingsBox/ColorModeBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "color mode:"
+
+[node name="ColorModeOptionButton" type="OptionButton" parent="HBox/OptionsColorRect/SettingsBox/ColorModeBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+selected = 0
+item_count = 3
+popup/item_0/text = "defined"
+popup/item_0/id = 0
+popup/item_1/text = "palette"
+popup/item_1/id = 1
+popup/item_2/text = "random"
+popup/item_2/id = 2
+
+[node name="Label2" type="Label" parent="HBox/OptionsColorRect/SettingsBox"]
+layout_mode = 2
+text = "colorscheme:"
+
+[node name="ColorShemesContainer" type="ScrollContainer" parent="HBox/OptionsColorRect/SettingsBox"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorSchemesBox" type="VBoxContainer" parent="HBox/OptionsColorRect/SettingsBox/ColorShemesContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Nyx8" parent="HBox/OptionsColorRect/SettingsBox/ColorShemesContainer/ColorSchemesBox" instance=ExtResource("5_61lnb")]
+layout_mode = 2
+text = " NYX-8"
+alignment = 0
+color_scheme = PackedColorArray(0.00392157, 0.0352941, 0.0588235, 1, 0.0313726, 0.0784314, 0.117647, 1, 0.0588235, 0.164706, 0.247059, 1, 0.12549, 0.223529, 0.309804, 1, 0.305882, 0.286275, 0.372549, 1, 0.505882, 0.384314, 0.443137, 1, 0.6, 0.458824, 0.466667, 1, 0.764706, 0.639216, 0.541176, 1, 0.964706, 0.839216, 0.741176, 1)
+
+[node name="Ammo8" parent="HBox/OptionsColorRect/SettingsBox/ColorShemesContainer/ColorSchemesBox" instance=ExtResource("5_61lnb")]
+layout_mode = 2
+text = " Ammo-8"
+alignment = 0
+color_scheme = PackedColorArray(0, 0.0392157, 0.0117647, 1, 0.0156863, 0.0470588, 0.0235294, 1, 0.0666667, 0.137255, 0.0941176, 1, 0.117647, 0.227451, 0.160784, 1, 0.188235, 0.364706, 0.258824, 1, 0.301961, 0.501961, 0.380392, 1, 0.537255, 0.635294, 0.341176, 1, 0.745098, 0.862745, 0.498039, 1, 0.933333, 1, 0.8, 1)
+
+[node name="WinterWonderland" parent="HBox/OptionsColorRect/SettingsBox/ColorShemesContainer/ColorSchemesBox" instance=ExtResource("5_61lnb")]
+layout_mode = 2
+text = " Winter Wonderland"
+alignment = 0
+color_scheme = PackedColorArray(0.0666667, 0.0941176, 0.215686, 1, 0.12549, 0.156863, 0.305882, 1, 0.172549, 0.290196, 0.470588, 1, 0.219608, 0.458824, 0.631373, 1, 0.545098, 0.792157, 0.866667, 1, 0.45098, 0.552941, 0.615686, 1, 0.654902, 0.737255, 0.788235, 1, 0.839216, 0.882353, 0.913725, 1, 1, 1, 1, 1)
+
+[node name="Borkfest" parent="HBox/OptionsColorRect/SettingsBox/ColorShemesContainer/ColorSchemesBox" instance=ExtResource("5_61lnb")]
+layout_mode = 2
+text = " Borkfest"
+alignment = 0
+color_scheme = PackedColorArray(0.0901961, 0.0901961, 0.0666667, 1, 0.12549, 0.133333, 0.0823529, 1, 0.227451, 0.156863, 0.00784314, 1, 0.588235, 0.235294, 0.235294, 1, 0.792157, 0.352941, 0.180392, 1, 1, 0.470588, 0.192157, 1, 0.952941, 0.6, 0.286275, 1, 0.921569, 0.760784, 0.458824, 1, 0.87451, 0.843137, 0.521569, 1)
+
+[node name="SubmergedChimera" parent="HBox/OptionsColorRect/SettingsBox/ColorShemesContainer/ColorSchemesBox" instance=ExtResource("5_61lnb")]
+layout_mode = 2
+text = " Submerged Chimera"
+alignment = 0
+color_scheme = PackedColorArray(0.0196078, 0.00784314, 0.0980392, 1, 0.0705882, 0.0588235, 0.156863, 1, 0.180392, 0.117647, 0.360784, 1, 0.427451, 0.258824, 0.6, 1, 0.52549, 0.137255, 0.682353, 1, 0.870588, 0.223529, 0.913725, 1, 0.968627, 0.572549, 0.894118, 1, 1, 0.823529, 0.870588, 1, 0.968627, 0.980392, 0.917647, 1)
+
+[node name="DreamScape8" parent="HBox/OptionsColorRect/SettingsBox/ColorShemesContainer/ColorSchemesBox" instance=ExtResource("5_61lnb")]
+layout_mode = 2
+text = " DreamScape-8"
+alignment = 0
+color_scheme = PackedColorArray(0.129412, 0.0980392, 0.129412, 1, 0.329412, 0.2, 0.266667, 1, 0.545098, 0.25098, 0.286275, 1, 0.682353, 0.415686, 0.278431, 1, 0.792157, 0.627451, 0.352941, 1, 0.317647, 0.321569, 0.384314, 1, 0.388235, 0.470588, 0.490196, 1, 0.556863, 0.627451, 0.568627, 1, 0.788235, 0.8, 0.631373, 1)
+
+[node name="Coffee" parent="HBox/OptionsColorRect/SettingsBox/ColorShemesContainer/ColorSchemesBox" instance=ExtResource("5_61lnb")]
+layout_mode = 2
+text = " Coffee"
+alignment = 0
+color_scheme = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1, 0.0392157, 0.0392157, 0.0392157, 1, 0.0980392, 0.0980392, 0.0980392, 1, 0.32549, 0.243137, 0.176471, 1, 0.635294, 0.439216, 0.207843, 1, 0.721569, 0.545098, 0.290196, 1, 0.866667, 0.792157, 0.490196, 1, 0.984314, 0.976471, 0.937255, 1)
+
+[node name="FunkyFuture8" parent="HBox/OptionsColorRect/SettingsBox/ColorShemesContainer/ColorSchemesBox" instance=ExtResource("5_61lnb")]
+layout_mode = 2
+text = " Funcky Future-8"
+alignment = 0
+color_scheme = PackedColorArray(0.0705882, 0.0313726, 0.14902, 1, 0.168627, 0.0588235, 0.329412, 1, 0.670588, 0.121569, 0.396078, 1, 1, 0.309804, 0.411765, 1, 1, 0.505882, 0.258824, 1, 1, 0.854902, 0.270588, 1, 0.2, 0.407843, 0.862745, 1, 0.286275, 0.905882, 0.92549, 1, 1, 0.968627, 0.972549, 1)
+
+[node name="Pollen8" parent="HBox/OptionsColorRect/SettingsBox/ColorShemesContainer/ColorSchemesBox" instance=ExtResource("5_61lnb")]
+layout_mode = 2
+text = " Pollen-8"
+alignment = 0
+color_scheme = PackedColorArray(0.180392, 0.141176, 0.164706, 1, 0.45098, 0.27451, 0.298039, 1, 0.670588, 0.337255, 0.458824, 1, 0.933333, 0.415686, 0.486275, 1, 1, 0.654902, 0.647059, 1, 0.203922, 0.67451, 0.729412, 1, 0.447059, 0.862745, 0.733333, 1, 1, 0.878431, 0.494118, 1, 1, 0.905882, 0.839216, 1)
+
+[node name="RustGold8" parent="HBox/OptionsColorRect/SettingsBox/ColorShemesContainer/ColorSchemesBox" instance=ExtResource("5_61lnb")]
+layout_mode = 2
+text = " Rust Gold-8"
+alignment = 0
+color_scheme = PackedColorArray(0.0313726, 0.0784314, 0.117647, 1, 0.12549, 0.12549, 0.12549, 1, 0.223529, 0.223529, 0.223529, 1, 0.447059, 0.34902, 0.337255, 1, 0.733333, 0.498039, 0.341176, 1, 0.2, 0.109804, 0.0901961, 1, 0.337255, 0.196078, 0.14902, 1, 0.67451, 0.419608, 0.14902, 1, 0.964706, 0.803922, 0.14902, 1)
+
+[node name="SLSO8" parent="HBox/OptionsColorRect/SettingsBox/ColorShemesContainer/ColorSchemesBox" instance=ExtResource("5_61lnb")]
+layout_mode = 2
+text = " SLSO-8"
+alignment = 0
+color_scheme = PackedColorArray(0, 0.0901961, 0.168627, 1, 0.0509804, 0.168627, 0.270588, 1, 0.12549, 0.235294, 0.337255, 1, 0.329412, 0.305882, 0.407843, 1, 0.552941, 0.411765, 0.478431, 1, 0.815686, 0.505882, 0.34902, 1, 1, 0.666667, 0.368627, 1, 1, 0.831373, 0.639216, 1, 1, 0.92549, 0.839216, 1)
+
+[node name="GoosebumpsGold" parent="HBox/OptionsColorRect/SettingsBox/ColorShemesContainer/ColorSchemesBox" instance=ExtResource("5_61lnb")]
+layout_mode = 2
+text = " Goosebumps Gold"
+alignment = 0
+color_scheme = PackedColorArray(0, 0.00784314, 0.0156863, 1, 0.129412, 0.0980392, 0.109804, 1, 0.215686, 0.137255, 0.396078, 1, 0.25098, 0.294118, 0.466667, 1, 0.352941, 0.521569, 0.643137, 1, 0.580392, 0.0784314, 0.203922, 1, 0.784314, 0.129412, 0.0313726, 1, 0.890196, 0.364706, 0.0313726, 1, 0.819608, 0.623529, 0.133333, 1)
+
+[node name="OIL6" parent="HBox/OptionsColorRect/SettingsBox/ColorShemesContainer/ColorSchemesBox" instance=ExtResource("5_61lnb")]
+layout_mode = 2
+text = " OIL-6"
+alignment = 0
+color_scheme = PackedColorArray(0.0228, 0.0228, 0.04, 1, 0.0666667, 0.0666667, 0.121569, 1, 0.113725, 0.113725, 0.2, 1, 0.152941, 0.152941, 0.266667, 1, 0.286275, 0.301961, 0.494118, 1, 0.545098, 0.427451, 0.611765, 1, 0.776471, 0.623529, 0.647059, 1, 0.94902, 0.827451, 0.670588, 1, 0.984314, 0.960784, 0.937255, 1)
+
+[node name="MidnightAblaze" parent="HBox/OptionsColorRect/SettingsBox/ColorShemesContainer/ColorSchemesBox" instance=ExtResource("5_61lnb")]
+layout_mode = 2
+text = "Midnight Ablaze"
+alignment = 0
+color_scheme = PackedColorArray(0.07450981, 0.007843138, 0.03137255, 1, 0.12156863, 0.019607844, 0.0627451, 1, 0.19215687, 0.019607844, 0.11764706, 1, 0.27450982, 0.05490196, 0.16862746, 1, 0.4862745, 0.09411765, 0.23529412, 1, 0.8352941, 0.23529412, 0.41568628, 1, 1, 0.50980395, 0.45490196, 1, 0.99607843, 0.6666667, 0.58431375, 1, 0.99681324, 0.801365, 0.77899057, 1)
+
+[node name="Spacer3" type="Control" parent="HBox/OptionsColorRect/SettingsBox"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="OptionsGrid" type="GridContainer" parent="HBox/OptionsColorRect/SettingsBox"]
+layout_mode = 2
+columns = 2
+
+[node name="EnableStars" type="CheckBox" parent="HBox/OptionsColorRect/SettingsBox/OptionsGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/hover_pressed = SubResource("3")
+button_pressed = true
+text = "stars"
+
+[node name="EnableDust" type="CheckBox" parent="HBox/OptionsColorRect/SettingsBox/OptionsGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/hover_pressed = SubResource("3")
+button_pressed = true
+text = "dust"
+
+[node name="EnableNebulae" type="CheckBox" parent="HBox/OptionsColorRect/SettingsBox/OptionsGrid"]
+layout_mode = 2
+theme_override_styles/hover_pressed = SubResource("3")
+button_pressed = true
+text = "nebulae"
+
+[node name="EnablePlanets" type="CheckBox" parent="HBox/OptionsColorRect/SettingsBox/OptionsGrid"]
+layout_mode = 2
+theme_override_styles/hover_pressed = SubResource("3")
+button_pressed = true
+text = "planets"
+
+[node name="EnableTransparency" type="CheckBox" parent="HBox/OptionsColorRect/SettingsBox/OptionsGrid"]
+layout_mode = 2
+theme_override_styles/hover_pressed = SubResource("3")
+text = "transparency"
+
+[node name="EnableLighting" type="CheckBox" parent="HBox/OptionsColorRect/SettingsBox/OptionsGrid"]
+layout_mode = 2
+theme_override_styles/hover_pressed = SubResource("3")
+button_pressed = true
+text = "lighting"
+
+[node name="EnableDither" type="CheckBox" parent="HBox/OptionsColorRect/SettingsBox/OptionsGrid"]
+layout_mode = 2
+theme_override_styles/hover_pressed = SubResource("3")
+button_pressed = true
+text = "dither"
+
+[node name="Spacer5" type="Control" parent="HBox/OptionsColorRect/SettingsBox"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+
+[node name="BrightnessBox" type="HBoxContainer" parent="HBox/OptionsColorRect/SettingsBox"]
+layout_mode = 2
+
+[node name="BrightnessLabel" type="Label" parent="HBox/OptionsColorRect/SettingsBox/BrightnessBox"]
+layout_mode = 2
+text = "Brightness:"
+
+[node name="BrightnessValue" type="Label" parent="HBox/OptionsColorRect/SettingsBox/BrightnessBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "1.0"
+
+[node name="BrightnessSlider" type="HSlider" parent="HBox/OptionsColorRect/SettingsBox"]
+layout_mode = 2
+min_value = 0.5
+max_value = 2.0
+step = 0.05
+value = 1.0
+tick_count = 4
+ticks_on_borders = true
+ticks_position = 2
+
+[node name="Spacer4" type="Control" parent="HBox/OptionsColorRect/SettingsBox"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="ExportPathLabel" type="Label" parent="HBox/OptionsColorRect/SettingsBox"]
+layout_mode = 2
+text = "export dir : "
+
+[node name="ExportButton" type="Button" parent="HBox/OptionsColorRect/SettingsBox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+shortcut = SubResource("Shortcut_c1vv3")
+text = "Export (Press E)"
+
+[node name="SaveTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[connection signal="pressed" from="HBox/OptionsColorRect/SettingsBox/GenerateBox/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="HBox/OptionsColorRect/SettingsBox/GenerateBox/GenerateButton" to="." method="_on_generate_button_pressed"]
+[connection signal="value_changed" from="HBox/OptionsColorRect/SettingsBox/SizeBox/PixelsWidth" to="." method="_on_pixels_width_value_changed"]
+[connection signal="value_changed" from="HBox/OptionsColorRect/SettingsBox/SizeBox/PixelsHeight" to="." method="_on_pixels_height_value_changed"]
+[connection signal="pressed" from="HBox/OptionsColorRect/SettingsBox/SeedBox/SeedButton" to="." method="_on_seed_button_pressed"]
+[connection signal="value_changed" from="HBox/OptionsColorRect/SettingsBox/PixelScaleSlider" to="." method="_on_pixelization_slider_value_changed"]
+[connection signal="item_selected" from="HBox/OptionsColorRect/SettingsBox/ColorModeBox/ColorModeOptionButton" to="." method="_on_color_mode_option_button_item_selected"]
+[connection signal="toggled" from="HBox/OptionsColorRect/SettingsBox/OptionsGrid/EnableStars" to="." method="_on_enable_stars_toggled"]
+[connection signal="toggled" from="HBox/OptionsColorRect/SettingsBox/OptionsGrid/EnableDust" to="." method="_on_enable_dust_toggled"]
+[connection signal="toggled" from="HBox/OptionsColorRect/SettingsBox/OptionsGrid/EnableNebulae" to="." method="_on_enable_nebulae_toggled"]
+[connection signal="toggled" from="HBox/OptionsColorRect/SettingsBox/OptionsGrid/EnablePlanets" to="." method="_on_enable_planets_toggled"]
+[connection signal="toggled" from="HBox/OptionsColorRect/SettingsBox/OptionsGrid/EnableTransparency" to="." method="_on_enable_transparency_toggled"]
+[connection signal="toggled" from="HBox/OptionsColorRect/SettingsBox/OptionsGrid/EnableLighting" to="." method="_on_enable_lighting_toggled"]
+[connection signal="toggled" from="HBox/OptionsColorRect/SettingsBox/OptionsGrid/EnableDither" to="." method="_on_enable_dither_toggled"]
+[connection signal="value_changed" from="HBox/OptionsColorRect/SettingsBox/BrightnessSlider" to="." method="_on_brightness_slider_value_changed"]
+[connection signal="pressed" from="HBox/OptionsColorRect/SettingsBox/ExportButton" to="." method="_on_export_button_pressed"]
+[connection signal="timeout" from="SaveTimer" to="." method="_on_save_timer_timeout"]

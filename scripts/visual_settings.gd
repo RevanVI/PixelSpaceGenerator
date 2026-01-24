@@ -1,7 +1,7 @@
 class_name VisualSettings
 extends RefCounted
 
-var pixelization_scale: int = 1
+var pixel_scale: int = 1
 var background_color: Color
 var dust_enabled: bool = true
 var nebulae_enabled: bool = true

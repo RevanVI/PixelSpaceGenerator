@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dywdyrr81impg" path="res://scripts/gui/main_gui.gd" id="1_3vhpy"]
 [ext_resource type="Theme" uid="uid://t7qc4m724rcq" path="res://themes/Theme.tres" id="1_m1x1q"]
-[ext_resource type="PackedScene" uid="uid://dsbb0okoxwu3o" path="res://scenes/gui/gui_background_generator.tscn" id="2_3vhpy"]
-[ext_resource type="PackedScene" uid="uid://3rpabicjy07h" path="res://scenes/gui/gui_system_generator.tscn" id="3_m1x1q"]
+[ext_resource type="PackedScene" uid="uid://bgfdori8snp8h" path="res://scenes/gui/gui_background_generator.tscn" id="3_b5c01"]
+[ext_resource type="PackedScene" uid="uid://d3qcc7f3uhgux" path="res://scenes/gui/gui_system_generator.tscn" id="3_m1x1q"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_3vhpy"]
 color = Color(0.21561998, 0.3198798, 0.67780745, 1)
@@ -73,10 +73,10 @@ theme_override_styles/separator = SubResource("StyleBoxLine_3vhpy")
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="BackgroundGUI" parent="VBoxContainer/Modes" instance=ExtResource("2_3vhpy")]
+[node name="Background" parent="VBoxContainer/Modes" instance=ExtResource("3_b5c01")]
 layout_mode = 2
 
-[node name="SystemGUI" parent="VBoxContainer/Modes" instance=ExtResource("3_m1x1q")]
+[node name="System" parent="VBoxContainer/Modes" instance=ExtResource("3_m1x1q")]
 visible = false
 layout_mode = 2
 
