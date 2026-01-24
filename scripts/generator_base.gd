@@ -78,7 +78,7 @@ func update_color_palette(scheme: PackedColorArray) -> void:
 		set_color_mode(color_mode)
 
 
-func set_colors(colors: PackedColorArray) -> void:
+func set_colors(_colors: PackedColorArray) -> void:
 	print(self.name + " set_colors")
 
 
