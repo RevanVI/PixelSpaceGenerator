@@ -62,8 +62,8 @@ func set_pixelization_scale(value: int) -> void:
 
 func set_dither_status(value: bool) -> void:
 	super.set_dither_status(value)
-	nebulae.material.set_shader_parameter("_dither_enabled", value)
-	dust.material.set_shader_parameter("_dither_enabled", value)
+	nebulae.material.set_shader_parameter("dither_enabled", value)
+	dust.material.set_shader_parameter("dither_enabled", value)
 	for p: PlanetBase in _planets:
 		p.set_dither_status(value)
 
@@ -133,9 +133,9 @@ func generate_new(iseed: int) -> void:
 	_randomize_colors()
 	set_color_mode(color_mode)
 
+	_make_new_stars()
 	if (generate_planets):
 		_make_new_planets()
-	_make_new_stars()
 
 
 func get_current_settings() -> VisualSettings:
