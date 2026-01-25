@@ -29,7 +29,7 @@ func _ready() -> void:
 
 
 func set_values(id: int, gen_seed: int, mode: ColorHelpers.ColorMode, palette: GradientTexture2D, pixel_scale: int) -> void:
-	print("Planet id " + str(id) + " set_values start, seed: " + str(gen_seed))
+	Log.info(self, "Planet id " + str(id) + " set_values start, seed: " + str(gen_seed))
 
 	planet_id = id
 	rand_generator.seed = gen_seed
@@ -66,7 +66,7 @@ func set_values(id: int, gen_seed: int, mode: ColorHelpers.ColorMode, palette: G
 	_randomize_colors()
 	set_color_mode(mode)
 	show()
-	print("Planet id " + str(id) + " set_values end")
+	Log.info(self, "Planet id " + str(id) + " set_values end")
 
 
 func set_brightness(value: float = 1.0) -> void:
@@ -90,7 +90,7 @@ func set_pixel_scale(value: int) -> void:
 
 
 func set_color_mode(mode: ColorHelpers.ColorMode) -> void:
-	print("Planet id " + str(planet_id) + " set_color_mode " + str(mode))
+	Log.info(self, "Planet id " + str(planet_id) + " set_color_mode " + str(mode))
 	color_mode = mode
 	if mode == ColorHelpers.ColorMode.PALETTE:
 		var palette_colors: Array[PackedColorArray] = [PackedColorArray(), PackedColorArray()]
@@ -114,7 +114,7 @@ func set_color_mode(mode: ColorHelpers.ColorMode) -> void:
 
 
 func set_colors(colors_1: PackedColorArray, colors_2: PackedColorArray) -> void:
-	print("Planet id " + str(planet_id) + " set_colors")
+	Log.info(self, "Planet id " + str(planet_id) + " set_colors")
 	var tex: GradientTexture2D = material.get_shader_parameter("colors_1")
 	tex.gradient.colors = colors_1
 	tex = material.get_shader_parameter("colors_2")

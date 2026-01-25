@@ -25,6 +25,7 @@ var new_size: Vector2i = Vector2i(200, 200)
 
 
 func _ready() -> void:
+	Log.info(self, "_ready")
 	randomize()
 	OS.low_processor_usage_mode = true
 	OS.request_permissions()

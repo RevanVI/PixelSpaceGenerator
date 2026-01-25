@@ -75,6 +75,7 @@ func update_color_palette(scheme: PackedColorArray) -> void:
 
 
 func generate_new(iseed: int) -> void:
+	Log.info(self, "generate_new. Seed: " + str(iseed))
 	background_generator.generate_new(iseed)
 	_rand_generator.seed = iseed
 	_make_system_star()
@@ -118,7 +119,6 @@ func _make_planets() -> void:
 	_planets = []
 
 	var planet_amount: int = int(_rand_generator.randi() % (PLANET_COUNT_MAX + 1))
-	print(planet_amount)
 	for i: int in range(planet_amount):
 		_place_planet(i, planet_amount)
 

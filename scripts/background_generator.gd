@@ -109,6 +109,7 @@ func set_colors(colors: PackedColorArray) -> void:
 
 
 func generate_new(iseed: int) -> void:
+	Log.info(self, "generate_new. Seed: " + str(iseed))
 	_rand_generator.seed = iseed
 
 	var aspect: Vector2 = Vector2(1, 1)

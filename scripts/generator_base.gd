@@ -20,11 +20,13 @@ var _rand_colors: PackedColorArray
 
 
 func _ready() -> void:
+	Log.info(self, "_ready")
 	_set_default_values()
 	_rand_generator = RandomNumberGenerator.new()
 
 
 func set_render_size(new_size: Vector2) -> void:
+	Log.info(self, "set_render_size to " + str(new_size))
 	custom_minimum_size = new_size
 	size = new_size
 
@@ -61,18 +63,18 @@ func set_brightness(value: float = 1.0) -> void:
 
 
 func set_color_mode(mode: ColorHelpers.ColorMode) -> void:
-	print(self.name + " set_color_mode " + str(mode))
+	Log.info(self, "set_color_mode " + str(mode))
 
 
 func update_color_palette(scheme: PackedColorArray) -> void:
-	print(self.name + " update_color_palette")
+	Log.info(self, "update_color_palette")
 	color_palette.gradient.colors = scheme.slice(0, 8)
 	if color_mode == ColorHelpers.ColorMode.PALETTE:
 		set_color_mode(color_mode)
 
 
 func set_colors(_colors: PackedColorArray) -> void:
-	print(self.name + " set_colors")
+	Log.info(self, "set_colors")
 
 
 @abstract func generate_new(iseed: int) -> void
@@ -87,4 +89,4 @@ func set_colors(_colors: PackedColorArray) -> void:
 
 
 func _randomize_colors() -> void:
-	print(self.name + " randomize_colors")
+	return

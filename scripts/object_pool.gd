@@ -39,7 +39,7 @@ func get_object() -> Node:
 		_object_status.append(false)
 		return object
 
-	printerr("No free objects in pool")
+	Log.error(self, "No free objects in pool")
 	return null
 
 

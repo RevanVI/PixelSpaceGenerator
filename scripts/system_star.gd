@@ -63,7 +63,7 @@ func set_pixel_scale(value: int) -> void:
 
 
 func set_color_mode(mode: ColorHelpers.ColorMode) -> void:
-	print("SystemStar set_color_mode " + str(mode))
+	Log.info(self, "set_color_mode " + str(mode))
 	color_mode = mode
 	if mode == ColorHelpers.ColorMode.PALETTE:
 		var points: PackedFloat32Array = material.get_shader_parameter("palette").gradient.offsets
@@ -81,13 +81,12 @@ func set_color_mode(mode: ColorHelpers.ColorMode) -> void:
 
 
 func set_colors(colors: PackedColorArray) -> void:
-	print("SystemStar set_colors")
+	Log.info(self, "set_colors")
 	var tex: GradientTexture2D = material.get_shader_parameter("palette")
 	tex.gradient.colors = colors
 
 
 func randomize_colors() -> void:
-	print("SystemStar randomize_colors")
 	var colors: PackedColorArray = ColorHelpers.generate_new_colors(8, rand_generator)
 
 	var new_colors: PackedColorArray = PackedColorArray()

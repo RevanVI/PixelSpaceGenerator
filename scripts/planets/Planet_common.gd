@@ -3,7 +3,6 @@ extends PlanetBase
 
 
 func _randomize_colors() -> void:
-	print("Planet id " + str(planet_id) + " randomize_colors")
 	var colors: PackedColorArray = ColorHelpers.generate_new_colors(4, rand_generator)
 
 	var new_colors: PackedColorArray = PackedColorArray()
