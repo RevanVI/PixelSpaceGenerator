@@ -10,7 +10,6 @@ const PLANET_COUNT_MAX: int = 5
 		color_mode = value
 		set_color_mode(value)
 @export var color_palette: GradientTexture2D
-@export var defined_colors: PackedColorArray
 
 var _rand_generator: RandomNumberGenerator
 var _lighting_enabled: bool = true
@@ -63,12 +62,6 @@ func set_brightness(value: float = 1.0) -> void:
 
 func set_color_mode(mode: ColorHelpers.ColorMode) -> void:
 	print(self.name + " set_color_mode " + str(mode))
-	if mode == ColorHelpers.ColorMode.PALETTE:
-		set_colors(color_palette.gradient.colors)
-	elif mode == ColorHelpers.ColorMode.DEFINED:
-		set_colors(defined_colors)
-	else: # mode == ColorHelpers.COLOR_MODE.RANDOM
-		set_colors(_rand_colors)
 
 
 func update_color_palette(scheme: PackedColorArray) -> void:

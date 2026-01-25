@@ -33,6 +33,7 @@ generator = NodePath("SubViewport/BackgroundGenerator")
 offset_right = 100.0
 offset_bottom = 100.0
 star_palette = SubResource("GradientTexture2D_eefl0")
+generate_planets = true
 color_palette = SubResource("GradientTexture2D_h1doa")
 
 [node name="SubViewportTextureRect" parent="HBox/RenderControl/MarginContainer" index="0"]

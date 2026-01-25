@@ -3,22 +3,23 @@ extends GeneratorBase
 
 @export var star_palette: GradientTexture2D
 @export var generate_planets: bool
+@export var defined_colors: ColorDataArray
 
 var _stars: Array[BigStar] = []
 var _planets: Array[PlanetBase] = []
+var _defined_color_ind: int
 
 @onready var background: ColorRect = $CanvasLayer/Background
 @onready var dust: ColorRect = $Dust
 @onready var nebulae: ColorRect = $Nebulae
 @onready var star_container: ObjectPool = $StarContainer
-@onready var planet_container: ObjectPool = $PlanetContainer
+@onready var planet_container: Node = $PlanetContainer
 @onready var planet_scene: PackedScene = preload("res://scenes/planets/planet_common.tscn")
 @onready var big_star_scene: PackedScene = preload("res://scenes/big_star.tscn")
 
 
 func _ready() -> void:
 	super._ready()
-	planet_container.init(planet_scene, 5)
 	star_container.init(big_star_scene, _calc_stars_count(), ObjectPool.ObjectPoolMode.GROWING_SIZE)
 
 
@@ -78,6 +79,20 @@ func set_brightness(value: float = 1.0) -> void:
 
 func set_color_mode(mode: ColorHelpers.ColorMode) -> void:
 	super.set_color_mode(mode)
+	if mode == ColorHelpers.ColorMode.PALETTE:
+		dust.material.set_shader_parameter("use_defined_colors", false)
+		nebulae.material.set_shader_parameter("use_defined_colors", false)
+		set_colors(color_palette.gradient.colors)
+	elif mode == ColorHelpers.ColorMode.DEFINED:
+		dust.material.set_shader_parameter("use_defined_colors", true)
+		nebulae.material.set_shader_parameter("use_defined_colors", true)
+		# TODO: change this - there is no need to change colors on dust and nebulae objects
+		set_colors(defined_colors.get_data(_defined_color_ind).colors_1.gradient.colors)
+	else: # mode == ColorHelpers.COLOR_MODE.RANDOM
+		dust.material.set_shader_parameter("use_defined_colors", false)
+		nebulae.material.set_shader_parameter("use_defined_colors", false)
+		set_colors(_rand_colors)
+
 	for pl: PlanetBase in _planets:
 		pl.set_color_mode(mode)
 
@@ -88,7 +103,6 @@ func set_colors(colors: PackedColorArray) -> void:
 	tex.gradient.colors = colors
 	tex = nebulae.material.get_shader_parameter("palette")
 	tex.gradient.colors = colors
-	nebulae.material.set_shader_parameter("background_color", colors.slice(0, 1)[0])
 	background.color = colors.slice(0, 1)[0]
 	star_palette.gradient.colors = colors.slice(0, 8)
 
@@ -108,6 +122,11 @@ func generate_new(iseed: int) -> void:
 	nebulae.material.set_shader_parameter("pixels", max(size.x, size.y))
 	nebulae.material.set_shader_parameter("uv_correct", aspect)
 	set_pixelization_scale(_pixel_scale)
+
+	_defined_color_ind = _rand_generator.randi_range(0, defined_colors.get_type_count() - 1)
+	var defined_colors_data: ColorData = defined_colors.get_data(_defined_color_ind)
+	dust.material.set_shader_parameter("defined_colors", defined_colors_data.colors_1)
+	nebulae.material.set_shader_parameter("defined_colors", defined_colors_data.colors_1)
 
 	_randomize_colors()
 	set_color_mode(color_mode)
@@ -177,19 +196,20 @@ func _make_new_stars() -> void:
 
 
 func _place_big_star(star_id: int) -> void:
+	var star: BigStar = star_container.get_object()
+	_stars.append(star)
+
 	var rand_x: float = _rand_generator.randf()
 	var rand_y: float = _rand_generator.randf()
 	var pos: Vector2 = Vector2(int(rand_x * size.x), int(rand_y * size.y))
+	star.position = pos
 
 	# star sprite should be at least 1 pixel after this
 	# floor(star_scale * star_texture_height) > 0
 	var rand_size: float = min(size.x, size.y) * _rand_generator.randf_range(0.25, 1.0) * 0.003
-
-	var star: BigStar = star_container.get_object()
-	_stars.append(star)
-	star.position = pos
-	var sseed: int = _rand_generator.randi()
 	star.scale = Vector2(1, 1) * rand_size
+
+	var sseed: int = _rand_generator.randi()
 	star.set_values(star_id, sseed, star_palette, _pixel_scale)
 	star.show()
 

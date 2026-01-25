@@ -7,7 +7,7 @@ var _planets: Array[PlanetBase] = []
 var _star: SystemStar
 
 @onready var background_generator: BackgroundGenerator = $BackgroundGenerator
-@onready var planetcontainer: ObjectPool = $PlanetContainer
+@onready var planet_container: Node = $PlanetContainer
 @onready var system_star_scene: PackedScene = preload("res://scenes/system_star.tscn")
 
 
@@ -24,7 +24,7 @@ func set_nebulae_visibility(value: bool) -> void:
 
 
 func set_planets_visibility(value: bool) -> void:
-	planetcontainer.visible = value
+	planet_container.visible = value
 
 
 func set_background_visibility(value: bool) -> void:
@@ -62,6 +62,7 @@ func set_brightness(value: float = 1.0) -> void:
 
 
 func set_color_mode(mode: ColorHelpers.ColorMode) -> void:
+	super.set_color_mode(mode)
 	background_generator.color_mode = mode
 	_star.set_color_mode(mode)
 	for pl: PlanetBase in _planets:
@@ -87,7 +88,7 @@ func get_current_settings() -> VisualSettings:
 	current_settings.dust_enabled = background_generator.dust.visible
 	current_settings.nebulae_enabled = background_generator.nebulae.visible
 	current_settings.background_stars_enabled = background_generator.star_container.visible
-	current_settings.planets_enabled = planetcontainer.visible
+	current_settings.planets_enabled = planet_container.visible
 	current_settings.planet_lighting_enabled = _lighting_enabled
 	current_settings.transparancy_enabled = !background_generator.background.visible
 	current_settings.dither_enabled = _dither_enabled
@@ -126,7 +127,7 @@ func _place_planet(planet_id: int, planet_amount: int) -> void:
 	# choose planet type
 	var planet_type: PlanetBase.PlanetType = _rand_generator.randi_range(0, planet_types.size() - 1) as PlanetBase.PlanetType
 	var planet: PlanetBase = planet_types[planet_type].instantiate()
-	planetcontainer.add_child(planet)
+	planet_container.add_child(planet)
 	_planets.append(planet)
 
 	# planet sprite should be at least 1 pixel after this

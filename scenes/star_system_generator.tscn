@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bs3887pshh4c3"]
+[gd_scene load_steps=14 format=3 uid="uid://bs3887pshh4c3"]
 
 [ext_resource type="Script" uid="uid://cwq4wkgbnlge5" path="res://scripts/star_system_generator.gd" id="1_3rxsl"]
 [ext_resource type="PackedScene" uid="uid://bvmq8f7bjnt63" path="res://scenes/background_generator.tscn" id="1_ejbn0"]
@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://basdyd5js0buu" path="res://scenes/planets/planet_barren.tscn" id="4_gu62f"]
 [ext_resource type="PackedScene" uid="uid://b8m8sokdy2o1h" path="res://scenes/planets/planet_lava.tscn" id="5_eipdn"]
 [ext_resource type="PackedScene" uid="uid://dft7qb48id2hk" path="res://scenes/planets/planet_gas_layered.tscn" id="5_gu62f"]
-[ext_resource type="Script" uid="uid://cgjc7a1d2cyuk" path="res://scripts/object_pool.gd" id="8_gu62f"]
 
 [sub_resource type="Gradient" id="1"]
 resource_local_to_scene = true
@@ -63,4 +62,3 @@ star_palette = SubResource("GradientTexture2D_jpq07")
 color_palette = SubResource("GradientTexture2D_lx7bg")
 
 [node name="PlanetContainer" type="Node2D" parent="."]
-script = ExtResource("8_gu62f")

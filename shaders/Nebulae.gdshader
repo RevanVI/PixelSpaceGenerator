@@ -6,15 +6,16 @@ render_mode blend_mix,unshaded;
 
 
 uniform float pixels = 100.0;
-uniform int pixel_scale: hint_range(1, 32, 1) = 4;
 uniform vec2 uv_correct = vec2(1.0);
+uniform int pixel_scale: hint_range(1, 32, 1) = 4;
 
 uniform float size = 50.0;
 uniform int OCTAVES : hint_range(0, 20, 1);
 uniform float seed: hint_range(1, 10);
 
+uniform bool use_defined_colors = true;
+uniform sampler2D defined_colors: filter_nearest;
 uniform sampler2D palette: filter_nearest;
-uniform vec4 background_color : source_color;
 
 uniform float brightness_mod: hint_range(0.5, 2.0, 0.01) = 1.0;
 uniform float global_brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
@@ -23,6 +24,18 @@ uniform bool dither_enabled = false;
 
 const int BAYER_LEVEL = 2;
 const float DITHER_COLOR_COUNT = 8.0;
+
+
+vec3 get_color(vec2 coords) {
+	vec3 color = vec3(0.0);
+	if (use_defined_colors) {
+		color = texture(defined_colors, coords).rgb;
+	}
+	else {
+		color = texture(palette, coords).rgb;
+	}
+	return color;
+}
 
 
 float cloud_alpha(vec2 uv) {
@@ -74,6 +87,6 @@ void fragment() {
 	}
 
 	// apply colors
-	vec3 col = texture(palette, vec2(col_value, 0.0)).rgb;
+	vec3 col = get_color(vec2(col_value, 0.0)).rgb;
 	COLOR = vec4(col, a2);
 }
