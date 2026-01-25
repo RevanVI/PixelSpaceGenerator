@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bvmq8f7bjnt63"]
+[gd_scene load_steps=33 format=3 uid="uid://bvmq8f7bjnt63"]
 
 [ext_resource type="Script" uid="uid://cc1qq1dp550bc" path="res://scripts/background_generator.gd" id="1"]
 [ext_resource type="Script" uid="uid://d2y6vfr1mvc1w" path="res://scripts/data/color_data.gd" id="2_kt06d"]
@@ -6,6 +6,11 @@
 [ext_resource type="Script" uid="uid://dd20hylgwymld" path="res://scripts/data/color_data_array.gd" id="3_1iivr"]
 [ext_resource type="Shader" uid="uid://cq6greoxewybf" path="res://shaders/nebulae.gdshader" id="3_ncimm"]
 [ext_resource type="Script" uid="uid://cgjc7a1d2cyuk" path="res://scripts/object_pool.gd" id="4_ncimm"]
+[ext_resource type="PackedScene" uid="uid://c2pcy21xoga2l" path="res://scenes/planets/planet_common.tscn" id="4_sd8fh"]
+[ext_resource type="PackedScene" uid="uid://brjw15ql033cn" path="res://scenes/planets/planet_ice.tscn" id="5_vt50s"]
+[ext_resource type="PackedScene" uid="uid://basdyd5js0buu" path="res://scenes/planets/planet_barren.tscn" id="6_hll7j"]
+[ext_resource type="PackedScene" uid="uid://b8m8sokdy2o1h" path="res://scenes/planets/planet_lava.tscn" id="7_bvs7a"]
+[ext_resource type="PackedScene" uid="uid://dft7qb48id2hk" path="res://scenes/planets/planet_gas_layered.tscn" id="8_6qnrj"]
 
 [sub_resource type="Gradient" id="Gradient_qyadi"]
 resource_local_to_scene = true
@@ -143,6 +148,13 @@ offset_bottom = -500.0
 script = ExtResource("1")
 star_palette = SubResource("GradientTexture2D_j7w48")
 defined_colors = SubResource("Resource_sd8fh")
+planet_types = Dictionary[int, PackedScene]({
+0: ExtResource("4_sd8fh"),
+1: ExtResource("5_vt50s"),
+2: ExtResource("6_hll7j"),
+3: ExtResource("7_bvs7a"),
+4: ExtResource("8_6qnrj")
+})
 color_palette = SubResource("GradientTexture2D_acyu4")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]

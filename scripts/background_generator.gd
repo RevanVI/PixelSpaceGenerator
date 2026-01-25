@@ -2,8 +2,9 @@ class_name BackgroundGenerator
 extends GeneratorBase
 
 @export var star_palette: GradientTexture2D
-@export var generate_planets: bool
 @export var defined_colors: ColorDataArray
+@export var generate_planets: bool
+@export var planet_types: Dictionary[PlanetBase.PlanetType, PackedScene]
 
 var _stars: Array[BigStar] = []
 var _planets: Array[PlanetBase] = []
@@ -162,7 +163,9 @@ func _make_new_planets() -> void:
 
 
 func _place_planet(planet_id: int) -> void:
-	var planet: PlanetBase = planet_scene.instantiate()
+	# choose planet type
+	var planet_type: PlanetBase.PlanetType = _rand_generator.randi_range(0, planet_types.size() - 1) as PlanetBase.PlanetType
+	var planet: PlanetBase = planet_types[planet_type].instantiate()
 	planet_container.add_child(planet)
 	_planets.append(planet)
 
