@@ -25,12 +25,12 @@ func _input(_event: InputEvent) -> void:
 func update_widget(widget_path: String, data = null) -> void:
 	var split_keyword: PackedStringArray = widget_path.split(":")
 	if split_keyword.size() == 1:
-		Log.error(self, "No container name was provided: " + widget_path)
+		Log.error(name, "No container name was provided: " + widget_path)
 		return
 
 	var container_name: String = split_keyword[0]
 	if not _debug_containers.has(container_name):
-		Log.error(self, "Container " + container_name + " is not registered")
+		Log.error(name, "Container " + container_name + " is not registered")
 		return
 
 	var container_node: DebugContainer = _debug_containers[container_name]
@@ -41,7 +41,7 @@ func update_widget(widget_path: String, data = null) -> void:
 func register_debug_container(container_node: DebugContainer) -> void:
 	var container_name: String = container_node.name
 	if _debug_containers.has(container_name):
-		Log.error(self, "DebugContainer " + container_name + " has been already registered")
+		Log.error(name, "DebugContainer " + container_name + " has been already registered")
 		return
 	container_node.get_parent().call_deferred("remove_child", container_node)
 	debug_content_container.call_deferred("add_child", container_node)

@@ -25,7 +25,7 @@ var new_size: Vector2i = Vector2i(200, 200)
 
 
 func _ready() -> void:
-	Log.info(self, "_ready")
+	Log.info(name, "_ready")
 	randomize()
 	OS.low_processor_usage_mode = true
 	OS.request_permissions()
@@ -67,7 +67,7 @@ func _export_image() -> void:
 	var img: Image = Image.create(new_size.x, new_size.y, false, Image.FORMAT_RGBA8)
 	var viewport_img: Image = viewport.get_texture().get_image()
 	img.blit_rect(viewport_img, Rect2(0, 0, new_size.x, new_size.y), Vector2(0, 0))
-	SaveSystem.save_image(img, generator.class_name)
+	SaveSystem.save_image(img, generator.name)
 
 
 func _on_seed_button_pressed() -> void:

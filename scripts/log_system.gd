@@ -2,11 +2,11 @@ class_name Log
 extends Node
 
 
-static func info(object: Object, msg: String) -> void:
+static func info(object_name: String, msg: String) -> void:
 	var line: String = "[{time}] {event} {object}: {message}".format(
 		{
 			"time": Time.get_datetime_string_from_system(),
-			"object": object.name,
+			"object": object_name,
 			"event": "INFO",
 			"message": msg,
 		},
@@ -17,11 +17,11 @@ static func info(object: Object, msg: String) -> void:
 		Debug.update_widget('LogView:DebugLog.add_log', line)
 
 
-static func warning(object: Object, msg: String) -> void:
+static func warning(object_name: String, msg: String) -> void:
 	var line: String = "[{time}] {event} {object}: {message}".format(
 		{
 			"time": Time.get_datetime_string_from_system(),
-			"object": object.name,
+			"object": object_name,
 			"event": "WARNING",
 			"message": msg,
 		},
@@ -31,11 +31,11 @@ static func warning(object: Object, msg: String) -> void:
 		Debug.update_widget('LogView:DebugLog.add_log', line)
 
 
-static func error(object: Object, msg: String) -> void:
+static func error(object_name: String, msg: String) -> void:
 	var line: String = "[{time}] {event} {object}: {message}".format(
 		{
 			"time": Time.get_datetime_string_from_system(),
-			"object": object.name,
+			"object": object_name,
 			"event": "ERROR",
 			"message": msg,
 		},

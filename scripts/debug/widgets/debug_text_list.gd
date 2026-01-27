@@ -15,7 +15,7 @@ func _callback(widget_keyword: String, data) -> void:
 		WIDGET_KEYWORDS.REMOVE_LABEL:
 			remove_label(data.name)
 		_:
-			Log.error(self, 'No callback has been defined. (' + widget_keyword + ', ' + data + ')')            
+			Log.error(name, 'No callback has been defined. (' + widget_keyword + ', ' + data + ')')            
 
 
 func get_widget_keywords() -> Array[String]:

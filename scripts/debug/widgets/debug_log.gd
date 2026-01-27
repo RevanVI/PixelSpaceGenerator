@@ -28,7 +28,7 @@ func _callback(widget_keyword: String, data) -> void:
 		WIDGET_KEYWORDS.CLEAR_LOG:
 			clear_log()
 		_:
-			Log.error(self, 'No callback has been defined. (' + widget_keyword + ', ' + data + ')')
+			Log.error(name, 'No callback has been defined. (' + widget_keyword + ', ' + data + ')')
 
 
 func _on_clear_log_pressed() -> void:

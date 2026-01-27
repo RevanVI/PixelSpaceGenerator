@@ -17,8 +17,7 @@ static func get_save_path() -> String:
 static func save_image(img: Image, prefix: String) -> int:
 	var date: String = Time.get_datetime_string_from_system(false, true)
 	date = date.replace_chars(" -:", "_".unicode_at(0))
-	var code: int = img.save_png(
-		SaveSystem.get_save_path() + "/" + prefix +
-		"_" + str(date) + ".png",
-	)
+	var save_path: String = SaveSystem.get_save_path() + "/" + prefix +	"_" + str(date) + ".png"
+	var code: int = img.save_png(save_path)
+	Log.info("SaveSystem", "export image for path " + save_path + " with code " + str(code))
 	return code

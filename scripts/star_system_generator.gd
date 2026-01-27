@@ -75,7 +75,7 @@ func update_color_palette(scheme: PackedColorArray) -> void:
 
 
 func generate_new(iseed: int) -> void:
-	Log.info(self, "generate_new. Seed: " + str(iseed))
+	Log.info(name, "generate_new. Seed: " + str(iseed))
 	background_generator.set_render_size(size)
 	background_generator.generate_new(iseed)
 	_rand_generator.seed = iseed

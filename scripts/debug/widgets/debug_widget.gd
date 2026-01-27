@@ -16,6 +16,6 @@ extends MarginContainer
 # Called by DebugContainer when one of its widget keywords has been invoked.
 func handle_callback(widget_keyword: String, data = null) -> void:
 	if data == null and not allow_null_data:
-		Log.error(self, "data is null")
+		Log.error(name, "data is null")
 		return
 	_callback(widget_keyword, data)
