@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://7pp4710wp86d"]
+
+[ext_resource type="Script" uid="uid://madsx2rofm2u" path="res://scenes/debug/debug_system.gd" id="1_57h1w"]
+[ext_resource type="Script" uid="uid://fwq6yquv5bps" path="res://scripts/debug/debug_container.gd" id="2_85a01"]
+[ext_resource type="PackedScene" uid="uid://duww70xdtwwh7" path="res://scenes/debug/widgets/debug_text_list.tscn" id="3_7dx1y"]
+
+[node name="DebugSystem" type="Node2D"]
+script = ExtResource("1_57h1w")
+
+[node name="Line2D" type="Line2D" parent="."]
+position = Vector2(508, 286)
+points = PackedVector2Array(-25, 0, -0.18652344, 0, 25, 0)
+default_color = Color(0, 0.31190467, 0.6539311, 1)
+
+[node name="TestDebugContainer" type="MarginContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_85a01")
+metadata/_custom_type_script = "uid://fwq6yquv5bps"
+
+[node name="TextList1" parent="TestDebugContainer" instance=ExtResource("3_7dx1y")]
+layout_mode = 2
+
+[node name="TestDebugContainer2" type="MarginContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_85a01")
+metadata/_custom_type_script = "uid://fwq6yquv5bps"
+
+[node name="TextList1" parent="TestDebugContainer2" instance=ExtResource("3_7dx1y")]
+layout_mode = 2
