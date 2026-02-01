@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://cc1qq1dp550bc" path="res://scripts/background_generator.gd" id="1"]
 [ext_resource type="Script" uid="uid://d2y6vfr1mvc1w" path="res://scripts/data/color_data.gd" id="2_kt06d"]
-[ext_resource type="Shader" uid="uid://b4k0cut1nduup" path="res://shaders/dust.gdshader" id="2_ncimm"]
+[ext_resource type="Shader" uid="uid://neokeyl35n4v" path="res://shaders/dust.gdshader" id="2_ncimm"]
 [ext_resource type="Script" uid="uid://dd20hylgwymld" path="res://scripts/data/color_data_array.gd" id="3_1iivr"]
-[ext_resource type="Shader" uid="uid://cq6greoxewybf" path="res://shaders/nebulae.gdshader" id="3_ncimm"]
+[ext_resource type="Shader" uid="uid://cu8wo0stut0x6" path="res://shaders/nebulae.gdshader" id="3_ncimm"]
 [ext_resource type="Script" uid="uid://cgjc7a1d2cyuk" path="res://scripts/object_pool.gd" id="4_ncimm"]
 [ext_resource type="PackedScene" uid="uid://c2pcy21xoga2l" path="res://scenes/planets/planet_common.tscn" id="4_sd8fh"]
 [ext_resource type="PackedScene" uid="uid://brjw15ql033cn" path="res://scenes/planets/planet_ice.tscn" id="5_vt50s"]

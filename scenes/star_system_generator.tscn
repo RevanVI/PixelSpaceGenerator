@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://b8m8sokdy2o1h" path="res://scenes/planets/planet_lava.tscn" id="5_eipdn"]
 [ext_resource type="PackedScene" uid="uid://dft7qb48id2hk" path="res://scenes/planets/planet_gas_layered.tscn" id="5_gu62f"]
 
+
 [sub_resource type="Gradient" id="1"]
 resource_local_to_scene = true
 interpolation_mode = 1
