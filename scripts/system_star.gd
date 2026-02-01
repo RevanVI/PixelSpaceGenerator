@@ -1,11 +1,10 @@
-extends Sprite2D
 class_name SystemStar
+extends Sprite2D
 
+@export var defined_colors: ColorDataArray
 
 var rand_generator: RandomNumberGenerator
-
-var color_mode: ColorHelpers.COLOR_MODE
-@export var defined_colors: ColorDataArray
+var color_mode: ColorHelpers.ColorMode
 var defined_colors_ind: int
 var rand_colors: PackedColorArray
 var color_palette: GradientTexture2D
@@ -16,7 +15,7 @@ func _ready() -> void:
 	rand_generator = RandomNumberGenerator.new()
 
 
-func set_values(iseed: int, icolor_mode: ColorHelpers.COLOR_MODE, ipalette: GradientTexture2D, pixel_scale: int) -> void:
+func set_values(iseed: int, icolor_mode: ColorHelpers.ColorMode, ipalette: GradientTexture2D, pixel_scale: int) -> void:
 	rand_generator.seed = iseed
 	material.set_shader_parameter("seed", iseed)
 	material.set_shader_parameter("pixels", calc_pixel_size())
@@ -63,11 +62,10 @@ func set_pixel_scale(value: int) -> void:
 	material.set_shader_parameter("pixel_scale", value)
 
 
-# Colors methods
-func set_color_mode(mode: ColorHelpers.COLOR_MODE) -> void:
-	print("SystemStar set_color_mode " + str(mode))
+func set_color_mode(mode: ColorHelpers.ColorMode) -> void:
+	Log.info(name, "set_color_mode " + str(mode))
 	color_mode = mode
-	if mode == ColorHelpers.COLOR_MODE.PALETTE:
+	if mode == ColorHelpers.ColorMode.PALETTE:
 		var points: PackedFloat32Array = material.get_shader_parameter("palette").gradient.offsets
 		var palette_colors: PackedColorArray = []
 		for i: float in points:
@@ -75,7 +73,7 @@ func set_color_mode(mode: ColorHelpers.COLOR_MODE) -> void:
 			palette_colors.append(color)
 		material.set_shader_parameter("use_defined_colors", false)
 		set_colors(palette_colors)
-	elif mode == ColorHelpers.COLOR_MODE.DEFINED:
+	elif mode == ColorHelpers.ColorMode.DEFINED:
 		material.set_shader_parameter("use_defined_colors", true)
 	else: # mode == ColorHelpers.COLOR_MODE.RANDOM
 		material.set_shader_parameter("use_defined_colors", false)
@@ -83,13 +81,12 @@ func set_color_mode(mode: ColorHelpers.COLOR_MODE) -> void:
 
 
 func set_colors(colors: PackedColorArray) -> void:
-	print("SystemStar set_colors")
+	Log.info(name, "set_colors")
 	var tex: GradientTexture2D = material.get_shader_parameter("palette")
 	tex.gradient.colors = colors
 
 
 func randomize_colors() -> void:
-	print("SystemStar randomize_colors")
 	var colors: PackedColorArray = ColorHelpers.generate_new_colors(8, rand_generator)
 
 	var new_colors: PackedColorArray = PackedColorArray()

@@ -1,9 +1,10 @@
 [gd_scene load_steps=9 format=3 uid="uid://bg3yaayjsbw0s"]
 
-[ext_resource type="Shader" uid="uid://bxh0gu2aq0u81" path="res://shaders/debug/Planet_test.gdshader" id="1_62qir"]
+[ext_resource type="Shader" uid="uid://bxh0gu2aq0u81" path="res://shaders/debug/planet_test.gdshader" id="1_62qir"]
 [ext_resource type="Texture2D" uid="uid://dctu01wei5sw0" path="res://sprites/100x100.png" id="2_spvks"]
-[ext_resource type="Script" uid="uid://dm16r5iv1mu22" path="res://scripts/planets/Planet_common.gd" id="3_pj2ij"]
-[ext_resource type="Shader" uid="uid://om015lokibe2" path="res://shaders/orbital_ring.gdshader" id="4_spvks"]
+[ext_resource type="Script" uid="uid://dm16r5iv1mu22" path="res://scripts/planets/planet_common.gd" id="3_pj2ij"]
+[ext_resource type="Shader" path="res://shaders/orbital_ring.gdshader" id="4_spvks"]
+
 
 [sub_resource type="Gradient" id="Gradient_62qir"]
 resource_local_to_scene = true

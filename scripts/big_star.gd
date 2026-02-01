@@ -1,6 +1,5 @@
+class_name BigStar
 extends Sprite2D
-class_name Star
-
 
 var rand_generator: RandomNumberGenerator
 
@@ -9,7 +8,7 @@ func _ready() -> void:
 	rand_generator = RandomNumberGenerator.new()
 
 
-func set_values(star_id: int, iseed: int, ipalette: GradientTexture2D, pixel_scale: int) -> void:
+func set_values(_star_id: int, iseed: int, ipalette: GradientTexture2D, pixel_scale: int) -> void:
 	rand_generator.seed = iseed
 
 	frame = rand_generator.randi_range(0, hframes - 1)

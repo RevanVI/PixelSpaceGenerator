@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://ceiuhjftbb23n"]
+[gd_scene load_steps=8 format=3 uid="uid://ceiuhjftbb23n"]
 
 [ext_resource type="Script" uid="uid://dywdyrr81impg" path="res://scripts/gui/main_gui.gd" id="1_3vhpy"]
 [ext_resource type="Theme" uid="uid://t7qc4m724rcq" path="res://themes/Theme.tres" id="1_m1x1q"]
-[ext_resource type="PackedScene" uid="uid://dsbb0okoxwu3o" path="res://scenes/gui/GUIBackgroundGenerator.tscn" id="2_3vhpy"]
-[ext_resource type="PackedScene" uid="uid://3rpabicjy07h" path="res://scenes/gui/GUISystemGenerator.tscn" id="3_m1x1q"]
+[ext_resource type="PackedScene" uid="uid://bgfdori8snp8h" path="res://scenes/gui/gui_background_generator.tscn" id="3_b5c01"]
+[ext_resource type="PackedScene" uid="uid://d3qcc7f3uhgux" path="res://scenes/gui/gui_system_generator.tscn" id="3_m1x1q"]
+[ext_resource type="Script" uid="uid://fwq6yquv5bps" path="res://scripts/debug/debug_container.gd" id="5_gxy2w"]
+[ext_resource type="PackedScene" uid="uid://cae1rr0alf8li" path="res://scenes/debug/widgets/debug_log.tscn" id="6_48x2s"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_3vhpy"]
 color = Color(0.21561998, 0.3198798, 0.67780745, 1)
@@ -73,11 +75,22 @@ theme_override_styles/separator = SubResource("StyleBoxLine_3vhpy")
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="BackgroundGUI" parent="VBoxContainer/Modes" instance=ExtResource("2_3vhpy")]
+[node name="BackgroundGUI" parent="VBoxContainer/Modes" instance=ExtResource("3_b5c01")]
 layout_mode = 2
 
 [node name="SystemGUI" parent="VBoxContainer/Modes" instance=ExtResource("3_m1x1q")]
 visible = false
+layout_mode = 2
+
+[node name="LogView" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_gxy2w")
+metadata/_custom_type_script = "uid://fwq6yquv5bps"
+
+[node name="DebugLog" parent="LogView" instance=ExtResource("6_48x2s")]
 layout_mode = 2
 
 [connection signal="item_selected" from="VBoxContainer/Menu/ColorRect/HBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]

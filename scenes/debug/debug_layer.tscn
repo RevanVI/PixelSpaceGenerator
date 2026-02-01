@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://def224c3lr0s"]
+
+[ext_resource type="Script" uid="uid://dt0kyyb5rf4xd" path="res://scripts/debug/debug_layer.gd" id="1_du3qp"]
+
+[node name="DebugLayer" type="CanvasLayer"]
+layer = 128
+script = ExtResource("1_du3qp")
+
+[node name="UiContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UiContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="DebugTabs" type="TabBar" parent="UiContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DebugContentContainer" type="MarginContainer" parent="UiContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2

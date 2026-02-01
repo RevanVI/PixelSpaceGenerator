@@ -1,19 +1,18 @@
-extends Node
 class_name ObjectPool
+extends Node
 
-enum OBJECT_POOL_MODE {
+enum ObjectPoolMode {
 	CONST_SIZE = 0,
 	GROWING_SIZE = 1,
 }
 
-
 var _objects: Array[Node] = []
 var _object_status: Array[bool] = []
-var _mode: OBJECT_POOL_MODE = OBJECT_POOL_MODE.CONST_SIZE
+var _mode: ObjectPoolMode = ObjectPoolMode.CONST_SIZE
 var _template: PackedScene
 
 
-func init(object_template: PackedScene, count: int, mode: OBJECT_POOL_MODE = OBJECT_POOL_MODE.CONST_SIZE) -> void:
+func init(object_template: PackedScene, count: int, mode: ObjectPoolMode = ObjectPoolMode.CONST_SIZE) -> void:
 	_template = object_template
 	_mode = mode
 	for i: int in range(count):
@@ -31,17 +30,17 @@ func get_object() -> Node:
 			_object_status[i] = false
 			_objects[i].set_process(true)
 			return _objects[i]
-	
-	if (_mode == OBJECT_POOL_MODE.GROWING_SIZE):
+
+	if (_mode == ObjectPoolMode.GROWING_SIZE):
 		var object: Node = _template.instantiate()
 		add_child(object)
 		object.hide()
 		_objects.append(object)
 		_object_status.append(false)
 		return object
-	else:
-		printerr("No free objects in pool")
-		return null
+
+	Log.error(name, "No free objects in pool")
+	return null
 
 
 func return_object(object: Node) -> void:

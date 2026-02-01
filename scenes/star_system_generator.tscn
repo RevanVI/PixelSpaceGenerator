@@ -1,13 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://bs3887pshh4c3"]
+[gd_scene load_steps=14 format=3 uid="uid://bs3887pshh4c3"]
 
-[ext_resource type="Script" uid="uid://cwq4wkgbnlge5" path="res://scripts/StarSystemGenerator.gd" id="1_3rxsl"]
-[ext_resource type="PackedScene" uid="uid://c44u5g0iuf311" path="res://scenes/BackgroundGenerator.tscn" id="1_ejbn0"]
-[ext_resource type="PackedScene" uid="uid://c2pcy21xoga2l" path="res://scenes/planets/Planet_common.tscn" id="2_y4phi"]
-[ext_resource type="Script" uid="uid://cgjc7a1d2cyuk" path="res://scripts/object_pool.gd" id="3_71n3f"]
-[ext_resource type="PackedScene" uid="uid://brjw15ql033cn" path="res://scenes/planets/Planet_ice.tscn" id="3_eipdn"]
-[ext_resource type="PackedScene" uid="uid://basdyd5js0buu" path="res://scenes/planets/Planet_barren.tscn" id="4_gu62f"]
-[ext_resource type="PackedScene" uid="uid://b8m8sokdy2o1h" path="res://scenes/planets/Planet_lava.tscn" id="5_eipdn"]
-[ext_resource type="PackedScene" uid="uid://dft7qb48id2hk" path="res://scenes/planets/Planet_gas_layered.tscn" id="5_gu62f"]
+[ext_resource type="Script" uid="uid://cwq4wkgbnlge5" path="res://scripts/star_system_generator.gd" id="1_3rxsl"]
+[ext_resource type="PackedScene" uid="uid://bvmq8f7bjnt63" path="res://scenes/background_generator.tscn" id="1_ejbn0"]
+[ext_resource type="PackedScene" uid="uid://c2pcy21xoga2l" path="res://scenes/planets/planet_common.tscn" id="2_y4phi"]
+[ext_resource type="PackedScene" uid="uid://brjw15ql033cn" path="res://scenes/planets/planet_ice.tscn" id="3_eipdn"]
+[ext_resource type="PackedScene" uid="uid://basdyd5js0buu" path="res://scenes/planets/planet_barren.tscn" id="4_gu62f"]
+[ext_resource type="PackedScene" uid="uid://b8m8sokdy2o1h" path="res://scenes/planets/planet_lava.tscn" id="5_eipdn"]
+[ext_resource type="PackedScene" uid="uid://dft7qb48id2hk" path="res://scenes/planets/planet_gas_layered.tscn" id="5_gu62f"]
 
 [sub_resource type="Gradient" id="1"]
 resource_local_to_scene = true
@@ -19,16 +18,6 @@ colors = PackedColorArray(0.12549, 0.133333, 0.0823529, 1, 0.227451, 0.156863, 0
 resource_local_to_scene = true
 gradient = SubResource("1")
 
-[sub_resource type="Gradient" id="Gradient_gu62f"]
-resource_local_to_scene = true
-interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.12371134, 0.28006873, 0.43127146, 0.58247423, 0.73195875, 0.857, 1)
-colors = PackedColorArray(0.12549, 0.133333, 0.0823529, 1, 0.227451, 0.156863, 0.00784314, 1, 0.588235, 0.235294, 0.235294, 1, 0.792157, 0.352941, 0.180392, 1, 1, 0.470588, 0.192157, 1, 0.952941, 0.6, 0.286275, 1, 0.921569, 0.760784, 0.458824, 1, 0.87451, 0.843137, 0.521569, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_lx7bg"]
-resource_local_to_scene = true
-gradient = SubResource("Gradient_gu62f")
-
 [sub_resource type="Gradient" id="Gradient_lx7bg"]
 resource_local_to_scene = true
 interpolation_mode = 1
@@ -38,6 +27,16 @@ colors = PackedColorArray(0.12549, 0.133333, 0.0823529, 1, 0.227451, 0.156863, 0
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_jpq07"]
 resource_local_to_scene = true
 gradient = SubResource("Gradient_lx7bg")
+
+[sub_resource type="Gradient" id="Gradient_gu62f"]
+resource_local_to_scene = true
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.12371134, 0.28006873, 0.43127146, 0.58247423, 0.73195875, 0.857, 1)
+colors = PackedColorArray(0.12549, 0.133333, 0.0823529, 1, 0.227451, 0.156863, 0.00784314, 1, 0.588235, 0.235294, 0.235294, 1, 0.792157, 0.352941, 0.180392, 1, 1, 0.470588, 0.192157, 1, 0.952941, 0.6, 0.286275, 1, 0.921569, 0.760784, 0.458824, 1, 0.87451, 0.843137, 0.521569, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lx7bg"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_gu62f")
 
 [node name="StarSystemGenerator" type="Control"]
 custom_minimum_size = Vector2(100, 100)
@@ -59,8 +58,7 @@ color_palette = SubResource("GradientTexture2D_ncimm")
 layout_mode = 0
 offset_right = 500.0
 offset_bottom = 500.0
-color_palette = SubResource("GradientTexture2D_lx7bg")
 star_palette = SubResource("GradientTexture2D_jpq07")
+color_palette = SubResource("GradientTexture2D_lx7bg")
 
 [node name="PlanetContainer" type="Node2D" parent="."]
-script = ExtResource("3_71n3f")

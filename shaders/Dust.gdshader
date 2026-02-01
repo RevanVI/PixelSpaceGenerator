@@ -13,7 +13,10 @@ uniform float size = 50.0;
 uniform int OCTAVES : hint_range(0, 20, 1);
 uniform float seed: hint_range(1, 10);
 
-uniform sampler2D palette;
+uniform bool use_defined_colors = true;
+uniform sampler2D defined_colors: filter_nearest;
+uniform sampler2D palette: filter_nearest;
+
 uniform float brightness_mod: hint_range(0.5, 2.0, 0.01) = 1.0;
 uniform float global_brightness: hint_range(0.5, 2.0, 0.01) = 1.0;
 
@@ -21,6 +24,18 @@ uniform bool dither_enabled = false;
 
 const int BAYER_LEVEL = 2;
 const float DITHER_COLOR_COUNT = 8.0;
+
+
+vec3 get_color(vec2 coords) {
+	vec3 color = vec3(0.0);
+	if (use_defined_colors) {
+		color = texture(defined_colors, coords).rgb;
+	}
+	else {
+		color = texture(palette, coords).rgb;
+	}
+	return color;
+}
 
 
 float cloud_alpha(vec2 uv) {
@@ -59,13 +74,13 @@ void fragment() {
 	n_dust_lerp = pow(n_dust_lerp, 3.2) * 8.0;
 	float final_brightness = brightness_mod * global_brightness;
 	n_dust_lerp = pow(n_dust_lerp, 1.0 / final_brightness) * final_brightness;
-	
+
 	if (dither_enabled) {
 		n_dust_lerp = dither_float(n_dust_lerp, DITHER_COLOR_COUNT, pix_id, 0.0,  BAYER_LEVEL);
 	}
-	
+
 	n_dust_lerp = floor(n_dust_lerp * 8.0) / 8.0;
-	vec3 col = texture(palette, vec2(n_dust_lerp, 0.0)).rgb;
+	vec3 col = get_color(vec2(n_dust_lerp, 0.0)).rgb;
 
 	COLOR = vec4(col, alpha);
 }

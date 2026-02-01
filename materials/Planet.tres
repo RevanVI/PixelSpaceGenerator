@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://c0le8xpg12qyt"]
 
-[ext_resource type="Shader" uid="uid://dfavydhaejgwb" path="res://shaders/Planet.gdshader" id="1_60bt7"]
+[ext_resource type="Shader" uid="uid://dfavydhaejgwb" path="res://shaders/planet.gdshader" id="1_60bt7"]
 [ext_resource type="Texture2D" uid="uid://khlkd5x01wx0" path="res://sprites/Colorscheme.tres" id="2_gjwm1"]
 
 [resource]

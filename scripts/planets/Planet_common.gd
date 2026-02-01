@@ -1,9 +1,8 @@
-extends PlanetBase
 class_name PlanetCommon
+extends PlanetBase
 
 
-func randomize_colors() -> void:
-	print("Planet id " + str(planet_id) + " randomize_colors")
+func _randomize_colors() -> void:
 	var colors: PackedColorArray = ColorHelpers.generate_new_colors(4, rand_generator)
 
 	var new_colors: PackedColorArray = PackedColorArray()
@@ -12,7 +11,7 @@ func randomize_colors() -> void:
 		col = col.lightened(i / 4.0)
 		new_colors.append(col)
 	rand_colors_1 = new_colors
-	
+
 	new_colors = PackedColorArray()
 	for i: int in 4:
 		var col: Color = colors[2].darkened(0.5)

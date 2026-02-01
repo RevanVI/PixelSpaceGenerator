@@ -1,5 +1,5 @@
-extends Resource
 class_name ColorData
+extends Resource
 
 @export var description: String
 @export var colors_1: GradientTexture2D
@@ -8,7 +8,7 @@ class_name ColorData
 
 
 func _init() -> void:
-    description = ""
-    colors_1 = null
-    colors_2 = null
-    weigth = 1.0
+	description = ""
+	colors_1 = null
+	colors_2 = null
+	weigth = 1.0
